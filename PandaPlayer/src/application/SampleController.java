@@ -3580,7 +3580,7 @@ Comparator<? super AudioParser> comparatorbyDate = new Comparator<AudioParser>()
     	while (read.hasNextLine())
     	{
 
-    		System.out.println(figure);
+    		//System.out.println(figure);
     	   title = read.next();
     	   filepath = read.next();
     	   imageInfo=read.next();;
@@ -6676,9 +6676,44 @@ searchimage.setOnMouseClicked(mousevent->{
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+public void checkFOrFIles() {
+	String flee[]= {"albums.txt","albumsdone.txt" , "artists.txt", "artistsdone.txt","dex.txt" , "folders.txt","mydb.txt" , "phase.txt"
+			, "phase.txt","repeat.txt" , "songs.txt", "songs.txt","songviewpos.txt" , "state.txt","toExtract.txt" ,  "totalSongs.txt" ,"volume.txt" ,"zzz.txt"  };
+	
+	for(String grar: flee) {
+		File dbcheck = new File(System.getProperty("user.home")+"/ilix/"+grar);
+		if(dbcheck.exists()) {
+			System.out.println("All Good");
+			
+		}else {
+			try {
+			dbcheck.createNewFile();
+			
+			}catch(IOException db) {
+				
+				System.out.println("Couldnt Create The File : "+System.getProperty("user.home")+"/ilix/"+grar+"\n"+db);
+			}
+			
+		}
+	}
+}
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		System.out.println("Ilix:Welcome =]");
+		System.out.println("Ilix: Welcome =]");
+		checkFOrFIles();
 
 
 
@@ -6930,7 +6965,7 @@ PauseTransition wait11 = new PauseTransition(Duration.seconds(100));
 wait11.setOnFinished((e) -> {
 
 
-	System.out.println("Garbage Collector");
+//	System.out.println("Garbage Collector");
 	System.gc();
 
 wait11.playFromStart();
