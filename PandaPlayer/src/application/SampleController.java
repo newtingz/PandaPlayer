@@ -500,7 +500,7 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 		//	Pane pane=new Pane();
 			Rectangle rect = new Rectangle();
 			HBox iconAndName = new HBox();
-			PauseTransition wait = new PauseTransition(Duration.seconds(0.180));
+			PauseTransition wait = new PauseTransition(Duration.seconds(0.155));
 		//	Snapshot snappy = new Snapshot()
 			//	Image referent ;
 		//	ReferenceQueue<Image> referenceQueue = new ReferenceQueue<>();
@@ -3260,11 +3260,11 @@ int irf=1;
   				 }
 			 System.out.println("Done! Reboot Advised,Otherwise all good");
 			// albums
-			 
-			  
-			 
-			 
-				
+
+
+
+
+
 			 ViewByAlbum();
 			 ViewByArtist();
 			 System.gc();
@@ -3610,7 +3610,7 @@ Comparator<? super AudioParser> comparatorbyDate = new Comparator<AudioParser>()
     	   //System.out.println("Song Name "+title + "    Locale" + filepath+"\n"); // just for debugging
     	}
     	read.close();
-    	
+
 
     	try {
     	ReturnNumbers("StartUp",figure);}catch(IOException far) {
@@ -4082,7 +4082,7 @@ pool.execute(createTask);*/
 	BufferedWriter kosh=null;
 	public void ViewByAlbum() {
 
-		 
+
 		  File temp = new File(System.getProperty("user.home")+"/ilix/albums.txt");
 			if (temp.exists()) {
 			   // @SuppressWarnings("resource");
@@ -4124,7 +4124,7 @@ pool.execute(createTask);*/
 
 
 */
-		
+
 
 		list.forEach((AudioParser)->{
 			String album=AudioParser.albumGet();
@@ -4157,7 +4157,7 @@ pool.execute(createTask);*/
 							} catch (IOException e) {
 							    //exception handling left as an exercise for the reader
 							}
-					  
+
 					  try(
 								//FileWriter fw = new FileWriter("mydb.txt", true);
 							    //BufferedWriter bw = new BufferedWriter(new FileWriter("mydb.txt", true));
@@ -4267,7 +4267,7 @@ pool.execute(createTask);*/
 							} catch (IOException e) {
 							    //exception handling left as an exercise for the reader
 							}
-					 
+
 					  try(
 								//FileWriter fw = new FileWriter("mydb.txt", true);
 							    //BufferedWriter bw = new BufferedWriter(new FileWriter("mydb.txt", true));
@@ -4318,7 +4318,7 @@ pool.execute(createTask);*/
 
 	    @FXML
 	    public  void Albumadder(){
-	        
+
 
          //  rootPane.setContent(null);
          //  filteredData = null;
@@ -4335,7 +4335,7 @@ pool.execute(createTask);*/
            gridView.setHorizontalCellSpacing(15);
            gridView.setCellHeight(75);
 
-           
+
            //gridView.setPadding(new Insets(0,0,5,0));
 if(podd==0) {
 
@@ -4452,7 +4452,7 @@ if(podd==0) {
 
 	                 	}};service_11.start();
 	                 	podd=1;
-}	
+}
 
            gridView.setItems(albums);
            rootPane.setContent(gridView);
@@ -4508,7 +4508,7 @@ if(podd==0) {
 	    		   System.out.println("Called");
 	    		   ViewByArtist();
 	           }
-	    	  
+
 
 		       gridView2.setPrefHeight(rootPane.getHeight());
 	           gridView2.setMaxWidth(rootPane.getWidth());
@@ -4637,7 +4637,7 @@ if(podd==0) {
 
 
 	    public void albumAndArtsit() {
-	    	  
+
 
 	    }
 
@@ -4653,7 +4653,7 @@ if(podd==0) {
 	            selectedLabel.setStyle("-fx-background-color: #32393D ;");
 	    }
 	    public void StateOfApp(String state,String stateCOnditon,String SongBeingPlayed) {
-	    	
+
 	    	if(Chosen1==0) {
 				Collections.sort(list, comparatorMyObject_byDay);}
 			//by name
@@ -4666,36 +4666,36 @@ if(podd==0) {
 			//by aritst
 			else if(Chosen1==3) {
 				Collections.sort(list, comparatorbyDate );}
-	    	
+
 	    	switch(state) {
-	    	
-	    	
-	    	
-	    	case "ALBUM": 
+
+
+
+	    	case "ALBUM":
 	    		goTOAlbum(stateCOnditon);
 	    		break;
 
-	    	
+
 	    	case "ALBUMs" :
 	    		Albumadder();
 	    		break;
-	    	
+
 
 	    	case "ARTIST":
 
 	    	    goTOArtist(stateCOnditon);
 	    	    break;
-	    	
-	    	case "ARTISTs": 
+
+	    	case "ARTISTs":
 	    		Artistadder();
 	    		break;
-	    	
-	    	case "MAIN": 
+
+	    	case "MAIN":
 	    		System.out.println("MAIN");
 	    		Platform.runLater(()->{
 	    			//list.addAll(listper);
 	    	  		Vpane(filteredData);
-	    			
+
 
 	    			System.out.println("Last Played "+listViewDex);
 	    			row=listViewDex;
@@ -4727,13 +4727,13 @@ if(podd==0) {
 	    	   	    	   });
 
 	    		break;
-	    	
-	    	default: 
+
+	    	default:
 	    		System.out.println("Reg");
 	    		Platform.runLater(()->{
 	    			//list.addAll(listper);
 	    	  		Vpane(filteredData);
-	    			
+
 	    			System.out.println("Last Played "+listViewDex);
 	    			row=listViewDex;
 	    			if(!filteredData.isEmpty()) {
@@ -4763,14 +4763,14 @@ if(podd==0) {
 
 	    	   	    	   });
 	    		break;
-	    	
-	    	
-	    	
-	    	
-	    	
+
+
+
+
+
 	    	}
-	    	
-	    	
+
+
 
 	    }
 	    public void goTOAlbum(String albumName) {
@@ -4817,7 +4817,7 @@ if(podd==0) {
 	    	try {
 			popover.hide();
 	    	}catch(NullPointerException gh){
-	    		
+
 	    	}
 
 			lazyLoad.clear();
@@ -6092,6 +6092,15 @@ public void setMin() {
 	rrss.setFill(Color.WHITE);
 	rrsss.setFill(Color.WHITE);
 	rrssss.setFill(Color.WHITE);
+//
+//	Image firstone = new Image("application/Image/oofRepeat.png",20,20,true,true,true);
+//
+//	Image firsttwo = new Image("application/Image/repeatList.png",20,20,true,true,true);
+//
+//	Image firstthree = new Image("application/Image/stopOnlast.png",20,20,true,true,true);
+	//repeatList
+	//stopOnlast
+
 
 	rrss.setOnMouseClicked(new EventHandler<MouseEvent>(){
 		  @Override
@@ -6147,7 +6156,7 @@ public void setMin() {
 		if(repeatList==true) {
 
 			repeatList=false;
-			repeatB.setImage(new Image("application/Image/oofRepeat.png"));
+			repeatB.setImage(new Image("application/Image/stopOnlast.png"));
 
 			try(
 
@@ -6173,7 +6182,7 @@ public void setMin() {
 
 			}
 			repeatList=true;
-			repeatB.setImage(new Image("application/Image/oNRepeat.png"));
+			repeatB.setImage(new Image("application/Image/repeatList.png"));
 			try(
 
 				    PrintWriter out4 = new PrintWriter(new BufferedWriter(new FileWriter(System.getProperty("user.home")+"/ilix/repeat.txt", false))))
@@ -6196,7 +6205,7 @@ public void setMin() {
 		if(playListToEnd==true) {
 
 			playListToEnd=false;
-			repeatB.setImage(new Image("application/Image/oofRepeat.png"));
+			repeatB.setImage(new Image("application/Image/repeatList.png"));
 
 			try(
 
@@ -6223,7 +6232,7 @@ public void setMin() {
 
 			}
 			playListToEnd=true;
-			repeatB.setImage(new Image("application/Image/oNRepeat.png"));
+			repeatB.setImage(new Image("application/Image/stopOnlast.png"));
 			try(
 
 				    PrintWriter out4 = new PrintWriter(new BufferedWriter(new FileWriter(System.getProperty("user.home")+"/ilix/repeat.txt", false))))
@@ -6239,13 +6248,17 @@ public void setMin() {
 	});
 	GridPane panela=new GridPane();
 
-	panela.setPrefHeight(90);
-	panela.setPrefWidth(100);
-	panela.setPadding(new Insets(10));
+	panela.setPrefHeight(100);
+	panela.setPrefWidth(110);
+	panela.setPadding(new Insets(15));
 	panela.setVgap(5);
-	panela.add(rrss, 0, 0);
-	panela.add(rrsss, 0, 1);
-	panela.add(rrssss, 0, 2);
+	panela.setHgap(8);
+	panela.add(new ImageView(new Image("application/Image/oNRepeat.png",20,20,true,true,true)) , 0, 0);
+	panela.add(rrss, 3, 0);
+	panela.add( new ImageView(new Image("application/Image/repeatList.png")), 0, 1);
+	panela.add(rrsss, 3, 1 );
+	panela.add( new ImageView(new Image("application/Image/stopOnlast.png")), 0, 2);
+	panela.add(rrssss, 3, 2 );
 	repeatB.setOnMouseClicked(eff->{
 
 
@@ -6671,11 +6684,11 @@ searchimage.setOnMouseClicked(mousevent->{
 
 
 		try {
-			
+
 		upway();//STATE,DEX,VOLUME,REPEAT
 		albumAndArtsit();
 		BringItON();
-		
+
 		phaser();
 		flowsy = VirtualFlow.createHorizontal(filteredData, audioparser ->new AudioParserCell2(audioparser,filteredData.indexOf(audioparser)) );
 		scrollt.setContent(flowsy);
@@ -6764,7 +6777,7 @@ searchimage.setOnMouseClicked(mousevent->{
 //
 //
 //	}
-    		System.out.println("Pressed: "+event.getCode().toString());
+    		//System.out.println("Pressed: "+event.getCode().toString());
     		if(event.getCode().toString().equalsIgnoreCase("P")||event.getCode().toString().equalsIgnoreCase("SPACE")||event.getCode().toString().equalsIgnoreCase("F11")||event.getCode()==event.getCode().PLAY||event.getCode()==event.getCode().PAUSE) {
     			//System.out.println("Here");
     			if(mp!=null) {
@@ -6875,8 +6888,8 @@ searchimage.setOnMouseClicked(mousevent->{
 				BringItONA();//BRING IN ALBUMS
 				BringItONAr();//BRING IN ARTISTS
 
-				
-				
+
+
 				BringItON4();//FOLDERS
 				//albumAndArtsit();
 
