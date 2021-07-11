@@ -1,5 +1,6 @@
 # PandaPlayer
 JavaFx Music Player
+Needs Java 8 to work,(for now)
 
 It Still Is In DeveloPment Stages
 otherwise To Launch
