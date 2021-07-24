@@ -17,3 +17,12 @@ CMD
 
 
 java -jar -Xms120m -Xmx550m -XX:+UseG1GC -Xminf0.1 -XX:MaxDirectMemorySize=300m -Dfile.encoding=UTF8 <Early_beta/file Name>.jar
+
+
+Looks 
+![image](https://user-images.githubusercontent.com/55005253/126874594-be3495bc-e17d-4fad-ae47-9bb0891d1134.png)
+
+![image](https://user-images.githubusercontent.com/55005253/126874612-cc8b5a0f-0933-4a2c-bdad-a121555af03a.png)
+
+![image](https://user-images.githubusercontent.com/55005253/126874641-735b82dd-3037-4ebe-9295-12ef8fc0161d.png)
+
