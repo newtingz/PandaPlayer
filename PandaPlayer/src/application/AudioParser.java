@@ -1,15 +1,5 @@
 package application;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Scanner;
-
-import javafx.concurrent.Task;
-import javafx.scene.image.ImageView;
-
 @SuppressWarnings("unused")
 
 
@@ -18,6 +8,7 @@ import javafx.scene.image.ImageView;
 public class AudioParser {
 
 	//private String titleC;
+	Long datemode;
 	private String artistC;
 	//private String composerC;
 	//private String GenreC;
@@ -93,7 +84,16 @@ public class AudioParser {
 
 	public Long getDatemodedlast(){
 		//System.out.println("get name =============="+namet );
+		//datemode=null;
+//		try {Long.parseLong(dateModifiedd);}catch(NumberFormatException majg) {
+//
+//
+//		}catch(NullPointerException majg) {
+//
+//			//continue;
+//		}
 
+	//	System.out.println(dateModifiedd);
     	return Long.parseLong(dateModifiedd);
 
     }
@@ -108,9 +108,22 @@ public class AudioParser {
 		lengthget=albumnun;
     	//System.out.println("set name =============="+name );
     }
-	public String AlbumnoGet(){
+
+	Long numerator=null;
+	String[] numbers= null;
+	public Long AlbumnoGet(){
 		//System.out.println("get name =============="+namet );
-    	return numberget;
+		if(numberget.contains("/")) {
+			numbers = numberget.split("/");
+			numerator =Long.parseLong(numbers[0]);
+		}else {
+			
+			numerator =Long.parseLong(numberget);
+		}
+		 
+
+		 //  numerator = Integer.parseInt(numbers[0]);
+    	return numerator ;
 
     }
 	public void AlbumNoSet(String name){
