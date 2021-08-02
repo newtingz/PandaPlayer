@@ -58,6 +58,10 @@ import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.mp3.MP3File;
 import org.jaudiotagger.tag.Tag;
+import org.jnativehook.GlobalScreen;
+import org.jnativehook.NativeHookException;
+import org.jnativehook.keyboard.NativeKeyEvent;
+import org.jnativehook.keyboard.NativeKeyListener;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -111,6 +115,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
@@ -133,9 +138,9 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
 
-
 @SuppressWarnings({ "unused" })
 public class SampleController extends ListCell <AudioParser> implements Initializable {
+
 
 
 
@@ -261,13 +266,14 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 	private Button refresh;
 
 	@FXML
-	private Button songss = new Button("Songs");
+	 Button songss = new Button("Songs");
 
 	@FXML
-	private Button albumss  = new Button("Albums");
+	 Button albumss  = new Button("Albums");
+
 
 	@FXML
-	private Button artists = new Button("Artists");
+	 Button artists = new Button("Artists");
 
 	@FXML
 	ImageView sorter = new ImageView();
@@ -299,6 +305,22 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 	//BlockingQueue<Image> imgur = new ArrayBlockingQueue<>(20000);
 	//BlockingQueue<Runnable> imgur2 = new ArrayBlockingQueue<Runnable>(2);
 	 private final ExecutorService executor=Executors.newFixedThreadPool(2);
+	 ThreadPoolExecutor pooler = new ThreadPoolExecutor(
+			    3,                                     // keep at least two thread ready,
+			                                           // even if no Runnables are executed
+			    8,                                     // at most five Runnables/Threads
+			                                           // executed in parallel
+			    20, TimeUnit.MINUTES,                   // idle Threads terminated after one
+			                                           // minute, when min Pool size exceeded
+			    new ArrayBlockingQueue<Runnable>(9),r ->{
+					Thread t=new Thread(r);
+					//r.
+					t.setName("AudiCell");
+				//	t.setDaemon(true);
+					return t;
+
+				},new ThreadPoolExecutor.DiscardPolicy());
+
 
 	 ThreadPoolExecutor pool = new ThreadPoolExecutor(
 			    3,                                     // keep at least two thread ready,
@@ -500,26 +522,27 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 		//	Pane pane=new Pane();
 			Rectangle rect = new Rectangle();
 			HBox iconAndName = new HBox();
-			PauseTransition wait = new PauseTransition(Duration.seconds(0.155));
+			PauseTransition wait = new PauseTransition(Duration.seconds(0.150));
 		//	Snapshot snappy = new Snapshot()
 			//	Image referent ;
 		//	ReferenceQueue<Image> referenceQueue = new ReferenceQueue<>();
 
 		//	WeakReference<Image> weakReference1  ;
 			{
-
+				 textFlowPane.setId("me");
 				iconAndName.setPadding(new Insets(0,16,0,0));
 				//textFlowPane.setPrefSize(530,30);
 				textFlowPane.setMinSize(530,30);
 				textFlowPane.setMaxSize(530,30);
 
 				//grid.com
+				//grid.setBorder(new Border());
 				grid.setMinSize(580,49);
 				grid.setMaxSize(580,49);
 		    	grid.setPadding(new Insets(2));
 		        grid.setHgap(3);
-		        grid.getStyleClass().add("border");
-		      //  grid.setStyle("-fx-border-color:#32393D");
+		        grid.getStyleClass().add("gborder");
+		      //  grid.setStyle(" -fx-border-width: 1 0 0 0; -fx-border-color: grey ; ");
 		   //     grid.setStyle(" -fx-background-color: -fx-control-inner-border,#191D1F");
 		       // grid.comp
 		        icon.setFitHeight(30);
@@ -538,6 +561,7 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 */
 
 		        SonfName2.setFill(Color.GRAY);
+
 		        SonfName2.getStyleClass().add("horder");
 		        lenght.setFill(Color.GREY);
 		        lenght.getStyleClass().add("horder");
@@ -571,13 +595,47 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 //	     			//grid.setStyle(" -fx-border-color: -fx-control-inner-border,#191D1F");
 //	     			 // hit.getCell().
 //	     		});
+				grid.setOnMouseClicked(event -> {
+					if(event.getButton()==MouseButton.PRIMARY) {
+					grid.setStyle("-fx-background-color: #39FF9F;");
+					}else {
+
+
+					}
+					//SonfName2.setFill(Color.GHOSTWHITE);
+					 //flows.getCell(--listViewDex).updateIndex(--listViewDex);;
+				});
+			/*	grid.setOnMouseEntered(event -> {
+					//grid.getStyle()
+
+					 //Platform.runLater(() -> {
+						// grid.setStyle("-fx-background-color: transparent;");
+						 grid.setStyle("-fx-background-color: #32393D;");
+				    //  });
+
+				});*/
+			/*	grid.setOnMouseExited(event -> {
+					if(audiop.fileLocationGet()==current) {
+						grid.setStyle("-fx-background-color: #39FF9F;");
+					}
+					else {
+				//	 Platform.runLater(() -> {
+						 grid.setStyle("-fx-background-color: transparent;");
+				 //     });
+					}
+				});*/
 			}
 
 //HBox.setMargin(Node, Insets)
+			//@Override
+
+
+
 		public AudioParserCell(AudioParser audioparser ,int posnum) {//,String artist,String album) {
 			this.audiop=audioparser;
 			//queue.add(0, new Image(new File(audioparser.ImageGet()).toURI().toString(),true));
 			//if()
+
 			 if(audioparser.fileLocationGet()==current) {
 				  Platform.runLater(() -> {
 					 // grid.setStyle("-fx-background-color: #39FF9F;");
@@ -594,6 +652,7 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 
 
 			}
+
 		//@Override
 		public void updateItem( AudioParser parser,int cellNo )
 		{
@@ -615,22 +674,36 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 //			} else {
 //			    System.out.println("EMPTied");
 //			}
-
-
-			SonfName.setText(parser.nameGet());
-			lenght.setText(parser.lengthGet());
-			SonfName2.setText("\r\n"+parser.artistGet());
-
 			wait.setOnFinished((e) -> {
 				//	filteredData.contains(parser);
 					if(flows.visibleCells().contains(this)) {
+					//	Platform.runLater(() -> {
 					icon.setImage(new Image(new File(parser.ImageGet()).toURI().toString() ,30 ,30,false ,false ,true));
-					}else {
+					//	});
+						}else {
 
 					}
 
 				});
-				wait.play();
+		 wait.play();
+
+			SonfName.setText(parser.nameGet());
+			lenght.setText(parser.lengthGet());
+			SonfName2.setText("\r\n"+parser.artistGet());
+			//if(this.)
+
+
+
+
+
+				/*		 pooler.execute(new Runnable(){
+							 @Override
+							 public void run(){
+
+					// Platform.runLater(() -> {
+
+						//return null;
+			}});*/
 //			 Task<Void> consumerTask = new Task<Void>() {
 //
 //
@@ -658,13 +731,7 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 //		 };
 //		 imageSetter.execute(consumerTask);
 
-//			 pool.execute(new Runnable(){
-//				 @Override
-//				 public void run(){
-//				// Platform.runLater(() -> {
-//					icon.setImage(new Image(new File(parser.ImageGet()).toURI().toString(),true));
-//					//return null;
-//	//		});
+
 //
 //
 //				 }
@@ -683,6 +750,7 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 
 
 		}
+
 		@Override
 		public Node getNode() {return
 			//	Cell filer=new Cell();
@@ -811,6 +879,13 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 						      ft.setToValue(1.0);
 						      ft.setAutoReverse(false);
 						      ft.play();
+//						      if(img1.isError()) {
+//
+//						    	  icon.setImage(img1);
+//								      ft.setNode(icon);
+//
+//								      ft.play();
+//						      }
 					        });
 
 
@@ -818,7 +893,7 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 					}else if (parser.ImageGet().contains("view")){
 
 						 Platform.runLater(() -> {
-					    	 icon.setImage(new Image(new File(parser.ImageGet()).toURI().toString()));
+					    	 icon.setImage(new Image(new File(parser.ImageGet()).toURI().toString(),190 ,190,false ,false ,true));
 						     FadeTransition ft = new FadeTransition();
 						      ft.setNode(icon);
 						      ft.setDuration(new Duration(125));
@@ -826,6 +901,7 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 						      ft.setToValue(1.0);
 						      ft.setAutoReverse(false);
 						      ft.play();
+
 					        });
 					}else {//image.setImage("Image/A5.png");
 
@@ -842,105 +918,6 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 
 	 };
 	 pooly.execute(consumerTask);
-		/*pool.execute(new Runnable() {
-
-
-				@Override
-				public void run() {
-
-
-			BufferedImage img= null;
-			WritableImage wr = null;
-			Mp3File song = null;
-			try {
-				song = new Mp3File(parser.fileLocationGet());
-			} catch (UnsupportedTagException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (InvalidDataException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			if (song.hasId3v2Tag()){
-			     ID3v2 id3v2tag = song.getId3v2Tag();
-			     byte[] imageData = id3v2tag.getAlbumImage();
-			     if(imageData!=null) {
-			     //converting the bytes to an image
-			     try {
-					img = ImageIO.read(new ByteArrayInputStream(imageData));
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			     //convertToFxImage(img);
-			   //  Image image2 = img;
-			   //  image.setImage(img);}
-			     Image img1 = SwingFXUtils.toFXImage(img,null);
-			    // image.setImage(new ImageView(img1).getImage());
-			     //FadeTransition ft = new FadeTransition(Duration.millis(3000), image);
-			    // Group group = new Group();
-			    // int width=(int)image.getFitWidth();
-			     //int height=(int)image.getFitHeight();
-
-
-			    // rect.ArcWidth(30.0);
-			     //group.getChildren().addAll(rect);
-			     Platform.runLater(() -> {
-			    	 icon.setImage(new ImageView(img1).getImage());
-			    //	 image.setFitWidth(190);
-			    	 icon.setFitHeight(190);
-			    	 icon.setFitWidth(190);
-			    	// icon.setPreserveRatio(true);
-			    	 icon.setEffect(new DropShadow());
-			    	 //rect=new Rectangle((int)image.getFitWidth(),(int)image.getFitHeight());
-				     FadeTransition ft = new FadeTransition();
-				      ft.setNode(icon);
-				      ft.setDuration(new Duration(800));
-				      ft.setFromValue(0.0);
-				      ft.setToValue(1.0);
-				      ft.setAutoReverse(false);
-				      ft.play();
-			        });
-
-
-
-
-//			     KeyFrame keyFrame1On = new KeyFrame(Duration.seconds(0), new KeyValue(image.imageProperty(), image1));
-//			     KeyFrame startFadeOut = new KeyFrame(Duration.seconds(0.2), new KeyValue(image.opacityProperty(), 1.0));
-//			     KeyFrame endFadeOut = new KeyFrame(Duration.seconds(0.5), new KeyValue(image.opacityProperty(), 0.0));
-//			     KeyFrame keyFrame2On = new KeyFrame(Duration.seconds(0.5), new KeyValue(image.imageProperty(), image2));
-//			     KeyFrame endFadeIn = new KeyFrame(Duration.seconds(0.8), new KeyValue(image.opacityProperty(), 1.0));
-//			     Timeline timelineOn = new Timeline(keyFrame1On, startFadeOut, endFadeOut, keyFrame2On, endFadeIn);
-
-
-
-
-			}else {//image.setImage("Image/A5.png");
-
-
-			//Platform.runLater(() -> {
-				icon.setImage(new ImageView("application/Image/A5.png").getImage());
-		     //   });
-			}
-
-//			if (img != null) {
-//		        wr = new WritableImage(img.getWidth(), img.getHeight());
-//		        PixelWriter pw = wr.getPixelWriter();
-//		        for (int x = 0; x < img.getWidth(); x++) {
-//		            for (int y = 0; y < img.getHeight(); y++) {
-//		                pw.setArgb(x, y, img.getRGB(x, y));
-//		            }
-//		        }
-			}}
-
-		    });*/
-
-
-
 
 	}
 	@Override
@@ -1282,7 +1259,15 @@ GridView<Artists> gridView2 =new GridView<>();
 	// Here we our play function depending on what status we act accordingly,Mostly Not Used
 	//@FXML
 	class play{
+		boolean somethingInCan = false;
+
+
 		{
+
+
+
+
+
 			//timeSlider.valueProperty().addListener(timchanging);
 			/*
 			timeSlider.valueProperty().addListener(timchanging);
@@ -1340,7 +1325,7 @@ GridView<Artists> gridView2 =new GridView<>();
 
 
 
-			mp.currentTimeProperty().addListener(mpTime);
+			
 			//mp.currentTimeProperty().addListener(upDateSlider);
 
 	/*	mp.currentTimeProperty().addListener(l->{
@@ -1367,33 +1352,12 @@ GridView<Artists> gridView2 =new GridView<>();
 */
 
 
-
-		mp.setOnPlaying(new Runnable() {
-			@Override
-			public void run() {
-				if (stopRequested) {
-					mp.pause();
-					stopRequested = false;
-				} else {
-					playB.setImage(new ImageView("application/Image/pause.png").getImage());
-
-
-				}
-			}
-		});
-
-		mp.setOnPaused(new Runnable() {
-			@Override
-			public void run() {
-				System.out.println("Paused");
-				playB.setImage(new ImageView("application/Image/Play.png").getImage());
-				//play.setStyle("Image/playbuttoninstance.png");
-				//play.setId("Image/playbuttoninstance.png");
-			}
-		});
+			
 		//mp.setCycleCount(MediaPlayer.INDEFINITE);
 		//mp.setCycleCount(repeat ? MediaPlayer.INDEFINITE : 1);
-		mp.setOnEndOfMedia(new Runnable() {
+
+
+		/*mp.setOnEndOfMedia(new Runnable() {
 		    @Override
 		    public void run() {
 		    	if(repeatIson==true) {
@@ -1423,13 +1387,39 @@ GridView<Artists> gridView2 =new GridView<>();
 				//mp.play();
 		    	}
 		    }
-		});
+		});*/
+
+		
 //		timeSlider.setSnapToTicks(true);
 //		timeSlider.setMinorTickCount(0);
 //		timeSlider.setMajorTickUnit(1000.0);
 //		timeSlider.setBlockIncrement(1.0);
 		//if (timeSlider != null) {
+			timeSlider.valueProperty().addListener(new InvalidationListener() {
+				@Override
+				public void invalidated(Observable ov) {
+//					if (!timeSlider.isValueChanging()) {
+////						// multiply duration by percentage calculated by slider
+////						// position
+//						ov.addListener(timchanging);
+//					//mp.seek(duration.multiply(timeSlider.getValue() / 100.0));
+//					}
+					if (timeSlider.isValueChanging()) {
+						mp.seek(duration.multiply(timeSlider.getValue() / 100.0));
 
+						//ov.removeListener(timchanging);
+					}
+
+//					if (duration.multiply(timeSlider.getValue() / 100.0)!=mp.currentTimeProperty().getValue()) {
+//						// multiply duration by percentage calculated by slider
+//						// position
+//					mp.seek(duration.multiply(timeSlider.getValue() / 100.0));
+		//			}
+					//Duration seekto = Duration.seconds(timeSlider.getValue());
+					// mp.seek(duration.multiply(timeSlider.getValue() / 100.0));
+
+				}
+			});
 			timeSlider.valueProperty().addListener(new InvalidationListener() {
 				@Override
 				public void invalidated(Observable ov) {
@@ -1496,7 +1486,7 @@ GridView<Artists> gridView2 =new GridView<>();
 			}
 
 		}
-		public void play() {
+		public void playPause() {
 		status = mp.getStatus();
 
 
@@ -1506,11 +1496,69 @@ GridView<Artists> gridView2 =new GridView<>();
 		}
 
 		if (status == Status.PAUSED || status == Status.READY || status == Status.STOPPED || mp.getRate() == 2.0) {
-			// rewind the song if we're sitting at the end
-			if (atEndOfMedia) {
-				//cycleCount(INDEFINITE);
 
-				atEndOfMedia = false;
+			mp.play();
+
+
+		} else {
+			mp.pause();
+		}
+
+
+
+
+
+		}
+		public  play() {
+			status = mp.getStatus();
+
+
+			if (status == Status.UNKNOWN || status == Status.HALTED) {
+				// don't do anything in these states
+				return;
+			}
+
+			if (status == Status.PAUSED || status == Status.READY || status == Status.STOPPED || mp.getRate() == 2.0) {
+
+				mp.play();
+
+
+			} else {
+				mp.pause();
+			}
+
+
+
+
+
+			}
+		public play(String song) {
+
+			somethingInCan =true;
+			
+			 System.gc();
+		     Thread Trackmaster =  new Thread(()-> {
+
+				 if(new File(song).getName().endsWith(".mp3")) {
+
+
+                mo = new Media(new File(song).toURI().toString());
+
+                try {
+    			if(somethingInCan) {
+
+    				mp.pause();
+    			    mp.dispose();
+    			    System.gc();
+
+    		}
+    			
+                }catch(NullPointerException e) {
+    			System.out.println(".");
+    			
+    		}
+
+				mp = new MediaPlayer(mo);
 				mp.setOnEndOfMedia(new Runnable() {
 				    @Override
 				    public void run() {
@@ -1530,6 +1578,9 @@ GridView<Artists> gridView2 =new GridView<>();
 				    	}else if(playListToEnd==true){
 				    		if(listViewDex+1==playing.size()) {
 				    			mp.seek(Duration.ZERO);
+				    		}else {
+				    			nextone();
+						    	playB.setImage(new ImageView("application/Image/pause.png").getImage());
 				    		}
 
 				    	}else {
@@ -1541,62 +1592,78 @@ GridView<Artists> gridView2 =new GridView<>();
 				    	}
 				    }
 				});
-			}
+				mp.currentTimeProperty().addListener(mpTime);
+				mp.setOnPlaying(new Runnable() {
+					@Override
+					public void run() {
+						if (stopRequested) {
+							mp.pause();
+							stopRequested = false;
+						} else {
+							playB.setImage(new ImageView("application/Image/pause.png").getImage());
 
 
-			//mp.setRate(1.0);
-			//mp.setRate(1.0);
-			mp.play();
+						}
+					}
+				});
+
+				mp.setOnPaused(new Runnable() {
+					@Override
+					public void run() {
+						System.out.println("Paused");
+						playB.setImage(new ImageView("application/Image/Play.png").getImage());
+						//play.setStyle("Image/playbuttoninstance.png");
+						//play.setId("Image/playbuttoninstance.png");
+					}
+				});
+				
+				if (mv != null)   {
+					mv.setMediaPlayer(mp);
+					duration = mp.getTotalDuration();
+					mp.setVolume(volumeSlider.getValue() / 100.0);
+					mp.play();
+				}
+								  }
+
+					});
+		     Trackmaster.setName("TrackMaster");
+		  //   Trackmaster.setPriority(10);
+		     Trackmaster.start();
+
+					try(
+							//FileWriter fw = new FileWriter("mydb.txt", true);
+						    //BufferedWriter bw = new BufferedWriter(new FileWriter("mydb.txt", true));
+						    PrintWriter out4 = new PrintWriter(new BufferedWriter(new FileWriter(System.getProperty("user.home")+"/ilix/state.txt", false))))
+
+						{
+
+						out4.println(Chosen1+"~"+current);
+//						PrintWriter out5 = new PrintWriter(new BufferedWriter(new FileWriter(System.getProperty("user.home")+"/ilix/dex.txt", false)));
+//						out5.println(listViewDex);
+//						out5.close();
+						//out4.close();
+					} catch (IOException e) {
+						    //exception handling left as an exercise for the reader
+						}
+					try
+						{
+					    PrintWriter out5 = new PrintWriter(new BufferedWriter(new FileWriter(System.getProperty("user.home")+"/ilix/dex.txt", false)));
+						out5.println(listViewDex);
+						out5.close();
+						//out4.close();
+					} catch (IOException j) {
 
 
-		} else {
-			mp.pause();
-		}
+					}
 
 
 
 
+			//trackMaster(song);
+
+					}
 
 
-
-
-//		if (volumeSlider != null) {
-//			volumeSlider.setValue((int) Math.round(mp.getVolume() * 100));
-//			volumeSlider.valueProperty().addListener(new InvalidationListener() {
-//				public void invalidated(Observable ov) {
-//					if (volumeSlider.isValueChanging()) {
-//						mp.setVolume(volumeSlider.getValue() / 100.0);
-//					}
-//				}
-//			});
-//		}
-//		if (timeSlider != null) {
-//			timeSlider.valueProperty().addListener(new InvalidationListener() {
-//				public void invalidated(Observable ov) {
-//					if (timeSlider.isValueChanging()) {
-//						// multiply duration by percentage calculated by slider
-//						// position
-//						mp.seek(duration.multiply(timeSlider.getValue() / 100.0));
-//					}
-//				}
-//			});
-//		}
-//
-
-
-
-	;
-		}
-
-		public void play1(){
-
-
-
-			status = mp.getStatus();
-
-
-
-		}
 
 	}
 
@@ -1609,7 +1676,7 @@ public void replacePlay()
 
 	if(mp!=null) {
 		play log=new play();
-		log.play();
+		//log.playPause();
 	}
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2811,7 +2878,7 @@ int irf=1;
 
 	                						     lengthy=formatTime2(Integer.parseInt(lengthy)/1000);
 
-	                						     if (nowNow==null) {
+	                						     if (id3v2tag.getTitle().getBytes()==null||id3v2tag.getTitle()==""||id3v2tag.getTitle()==" "||id3v2tag.getTitle().isEmpty()) {
 	                						    	 nowNow=django.getName().replaceAll(".mp3","");
 	                						    	 if (nowNow==null) {
 
@@ -2819,16 +2886,16 @@ int irf=1;
 	                						    	 }
 
 	                						     }
-	                						     if (id3v2tag.getAlbum()==null) {
+	                						     if (id3v2tag.getAlbum()==null||id3v2tag.getAlbum().isEmpty()) {
 	                						    	 album1="untitled";
 	                						     }
-	                						     if (id3v2tag.getArtist()==null) {
+	                						     if (id3v2tag.getArtist()==null||id3v2tag.getArtist().isEmpty()) {
 	                						    	 artissty="unkown";
 	                						     }
-	                						     if (id3v2tag.getTrack()==null) {
+	                						     if (id3v2tag.getTrack()==null||id3v2tag.getArtist().isEmpty()) {
 	                						    	 ablumNoo="0";
 	                						     }
-	                						     if (lengthy==null) {
+	                						     if (lengthy==null||id3v2tag.getArtist().isEmpty()) {
 	                						    	 lengthy="0";
 	                						     }
 	                						     byte[] imageData = id3v2tag.getAlbumImage();
@@ -2970,13 +3037,13 @@ int irf=1;
 
 	                						    // String bna =
 	                						    // Date d= new Date(dateModified);
-	                						     System.out.println(nowNow+" ## "+album1+" ## "+counter);
+	                						   //  System.out.println(nowNow+" ## "+album1+" ## "+counter);
 	                						     list.add(new AudioParser(nowNow, pathFInder, string, album1,artissty,ablumNoo,lengthy,Long.toString(dateModified)));
 	                						   try {
 
 
-	                							   fw=new FileWriter(System.getProperty("user.home")+"/ilix/songs.txt", true);
-	                			            	   out=new BufferedWriter(fw) ;
+	                							//   fw=new FileWriter(System.getProperty("user.home")+"/ilix/songs.txt", true);
+	                			            	 //  out=new BufferedWriter(fw) ;
 	                			            	    outing = new BufferedWriter(new OutputStreamWriter(
 		                    							    new FileOutputStream(System.getProperty("user.home")+"/ilix/songs.txt", true), "UTF-8"));
 
@@ -3010,8 +3077,8 @@ int irf=1;
 	                								}finally {
 
 	                									try {
-	                										out.close();
-	                										fw.close();
+	                									//	out.close();
+	                									//	fw.close();
 	                										outing.close();
 	                										}
 	                									catch(IOException fh) {
@@ -3258,6 +3325,8 @@ int irf=1;
   				 flows.setDisable(false);}catch(NullPointerException gr) {
   					 System.out.println("");
   				 }
+				Collections.sort(list, comparatorMyObject_byDay);
+				orderedSongs();
 			 System.out.println("Done! Reboot Advised,Otherwise all good");
 			// albums
 
@@ -3410,6 +3479,8 @@ Comparator<? super AudioParser> comparatorbyTrack = new Comparator<AudioParser>(
 Comparator<? super AudioParser> comparatorbyDate = new Comparator<AudioParser>() {
     @Override
     public int compare(AudioParser o1, AudioParser o2) {
+
+
         return (o1.getDatemodedlast()).compareTo(o2.getDatemodedlast());
     }
 };
@@ -3532,6 +3603,70 @@ Comparator<? super AudioParser> comparatorbyDate = new Comparator<AudioParser>()
 
 		list.add(g);
 	}
+
+
+
+
+	FileWriter	   forr=null;
+	 BufferedWriter   outter=null;
+	 synchronized void orderedSongs() {
+		File temp = new File(System.getProperty("user.home")+"\\ilix\\songs.txt");
+		if (temp.exists()) {
+		   // @SuppressWarnings("resource");
+			//temp.
+		    try {
+			RandomAccessFile raf = new RandomAccessFile(temp, "rw");
+
+		    raf.setLength(0);
+		    raf.close();
+		    } catch(IOException fj) {
+
+
+		    }
+		}
+		 BufferedWriter outing = null;
+	 filteredData.forEach((moch)->{
+
+
+
+		 try {
+
+		//	 (String name, String absolutePath,String image,String album,String artist,String albumnun,String Length,String datemod)//
+
+			    outter = new BufferedWriter(new OutputStreamWriter(
+					    new FileOutputStream(System.getProperty("user.home")+"/ilix/songs.txt", true), "UTF-8"));
+
+			    outter.write(moch.nameGet()+"(~)"+ moch.fileLocationGet()+"(~)"+moch.ImageGet()+"(~)"+moch.albumGet()+"(~)"+moch.artistGet()+"(~)"+moch.AlbumnoGet()+"(~)"+moch.lengthGet()+"(~)"+moch.getDatemodedlast()+"\n");
+			    System.out.println("opened");
+
+
+				}catch(IOException fg) {
+
+
+				}catch(NumberFormatException rar){
+
+
+				}finally {
+					 try {
+						 System.out.println("Closed");
+					outter.close();}catch(IOException fg) {
+
+
+					}
+				//	fw.close();
+				}
+
+
+
+	 });
+	 System.out.println("Copying done");
+
+
+	}
+
+
+
+
 	/////////////////////////////////////////////////////////////////////////
 	//........................PROTOTYPE....................................//
 	/////////////////////////////////////////////////////////////////////////
@@ -3582,6 +3717,7 @@ Comparator<? super AudioParser> comparatorbyDate = new Comparator<AudioParser>()
 
     		//System.out.println(figure);
     	   title = read.next();
+
     	   filepath = read.next();
     	   imageInfo=read.next();;
     	   finalAlbum = read.next();
@@ -4319,7 +4455,10 @@ pool.execute(createTask);*/
 	    @FXML
 	    public  void Albumadder(){
 
-
+//	    	artists
+//	    	songss
+//	    	albumss
+	    	albumss.setStyle(" -fx-border-width: 3; -fx-background-color: white ; ");	    //
          //  rootPane.setContent(null);
          //  filteredData = null;
          //  gridView.setItems(null);
@@ -4504,6 +4643,7 @@ if(podd==0) {
 	    public  void Artistadder(){
 	    	  // rootPane.setContent(null);
 	    	  // gridView2.setItems(null);
+	    	artists.setStyle(" -fx-border-width: 1; -fx-border-color: white ; ");
 	    	   if(artistry.size()<=0) {
 	    		   System.out.println("Called");
 	    		   ViewByArtist();
@@ -4655,7 +4795,8 @@ if(podd==0) {
 	    public void StateOfApp(String state,String stateCOnditon,String SongBeingPlayed) {
 
 	    	if(Chosen1==0) {
-				Collections.sort(list, comparatorMyObject_byDay);}
+				//Collections.sort(list, comparatorMyObject_byDay);
+				}
 			//by name
 			else if(Chosen1==1) {
 				Collections.sort(list, comparatorByArtist);}
@@ -4795,8 +4936,9 @@ if(podd==0) {
         		ReturnNumbers("StartUp",albumSongs);}catch(IOException fi){
 
         		}
-        		Collections.sort(lazyLoad, comparatorbyTrack);
+
         		filteredData=new FilteredList<>(lazyLoad,s->true);
+        		Collections.sort(lazyLoad, comparatorbyTrack);
         		mok=filteredData.size()-1;
         		Vpane2(filteredData,albumSongs);
         		try
@@ -4862,7 +5004,7 @@ if(podd==0) {
 		BorderPane BPane = new BorderPane();
 		int manogz=0;
 		BufferedWriter man=null;
-		Node nodee =null;
+		GridPane nodee =null;
 		MouseEvent he=null;
 		String thing=null;
 		AudioParser app = null;
@@ -4883,8 +5025,13 @@ if(podd==0) {
 
 			}
 	    		flows = VirtualFlow.createVertical(h, audioparser ->new AudioParserCell(audioparser,h.indexOf(audioparser)) );
+	    		//flows.setStyle("-fx-background-radius: 15 0 0 15;-fx-border-radius:15;");
+	    	//	grid.getStyleClass().add("border");
+
+	    		//rootPane.setStyle("-fx-background-radius: 15 0 0 15;-fx-border-radius: 15 0 0 15;");
 	    		listScrollPane=new VirtualizedScrollPane<>(flows);
-	    		listScrollPane.setPrefSize(606.0, 606.0);
+	    		//listScrollPane.setPrefSize(rootPane.getWidth(),rootPane.getHeight());
+	    		//listScrollPane.setStyle("-fx-background-radius: 15 0 0 15;-fx-border-radius: 15 0 0 15;");
 	    		listScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER );
 
      	     	Text gotAlbum=new Text("Go To Album");
@@ -5136,9 +5283,11 @@ if(podd==0) {
      			  row = hit.getCellIndex();
      			   app = h.get(row);
      			  String oldValue=app.fileLocationGet();
-     			  nodee=flows.getCell(row).getNode();
+     			  nodee=(GridPane)flows.getCell(row).getNode();
 
+     			// System.out.println(nodee.getChildren().get(2).);
      			if(ME.getButton()==MouseButton.PRIMARY /*& ME.getClickCount()==2*/) {
+     			//	flows.getCell(row).selectedCell(app);
      				if(manogz==0) {
      	     			flowsy = VirtualFlow.createHorizontal(h, audioparser ->new AudioParserCell2(audioparser,h.indexOf(audioparser)) );
      	     			scrollt.setContent(flowsy);
@@ -5203,7 +5352,8 @@ if(podd==0) {
         					// flowsy.showAtOffset(row,18);
         				});
      	     			Song(oldValue);
-     	     			trackMaster(oldValue);
+     	     			play jog=new play(oldValue);
+     	     		//	trackMaster(oldValue);
      	     			//trackMaster(oldValue);
 
 
@@ -5232,10 +5382,10 @@ if(podd==0) {
      			    //exception handling left as an exercise for the reader
      			}
      		  GridPane grid = (GridPane) nodee;
-     		  Platform.runLater(() -> {
-
-     			  grid.setStyle("-fx-background-color: #39FF9F;");
-     		      });
+//     		  Platform.runLater(() -> {
+//
+//     			  grid.setStyle("-fx-background-color: #39FF9F;");
+//     		      });
 
      		  current=oldValue;
 
@@ -5292,18 +5442,24 @@ if(podd==0) {
 	    Text albumArtists=new Text();
 	    public void Vpane2(ObservableList<AudioParser> h,int SongNumber) {
 	    	if(!(h.isEmpty())) {
-
+	    		albumYear=new Text("");
+	    		albumArtists=new Text("");
 	    		rootPane.setContent(BPane);
+	    		BPane.setPrefSize(rootPane.getWidth(), rootPane.getHeight());
 		    	// BPane.setPadding(new Insets(3, 0, 3, 0));
 		    	 flows = VirtualFlow.createVertical(h, audioparser ->new AudioParserCell(audioparser,0) );
 		    	 listScrollPane=new VirtualizedScrollPane<>(flows);
-	     	     listScrollPane.setPrefSize(606.0, 606.0);
+	     	     listScrollPane.setPrefSize(rootPane.getWidth(), rootPane.getHeight());
 
 	     	     listScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER );
+
+
+
 
 	    		manogz=0;
 	    		Rectangle rect = new Rectangle();
 	    		GridPane gridder = new GridPane();
+	    		gridder.setStyle("-fx-background-color: #32393D;");
 	    		gridder.setPrefSize(418, 125);
 	    		//gridder.setMaxSize(420, 100);
 	    		gridder.setMinSize(418, 125);
@@ -5312,8 +5468,142 @@ if(podd==0) {
 	    		ImageView icond = new ImageView();
 	    		icond.minHeight(100);
 	    		icond.minWidth(100);
+
+
+
 	    		TextFlow textFlowPane = new TextFlow();
 	    		HBox goner=new HBox();
+
+	    		Task<Void> consumerTask = new Task<Void>() {
+
+
+				    @Override
+
+				    protected Void call() throws Exception {
+
+
+
+
+				    	BufferedImage img= null;
+				    	WritableImage wr = null;
+						Mp3File song = null;
+
+
+				try {
+					song = new Mp3File(h.get(0).fileLocationGet());
+				} catch (UnsupportedTagException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvalidDataException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				if (song.hasId3v2Tag()){
+				     ID3v2 id3v2tag = song.getId3v2Tag();
+				     byte[] imageData = id3v2tag.getAlbumImage();
+
+				     albumYear.setText(" ("+id3v2tag.getYear()+")");
+				     if(id3v2tag.getDate()==null) {
+				    	 ID3v1 id3v1tag = song.getId3v2Tag();
+				    	 albumYear.setText(" ("+id3v1tag.getYear()+")");
+				     }
+				     albumArtists.setText("\n"+id3v2tag.getAlbumArtist());
+				     if(id3v2tag.getAlbumArtist()==null) {
+				    	 ID3v1 id3v1tag = song.getId3v2Tag();
+				    	 albumYear.setText("\n"+id3v1tag.getArtist());
+				    	 System.out.println("id3v1 -"+id3v1tag.getArtist());
+				     }
+				   //  System.out.println("id3v2 -"+id3v2tag.getAlbumArtist());
+				     albumYear.setFill(Color.WHITE);
+				     albumArtists.setFill(Color.GHOSTWHITE);
+				     if(imageData!=null) {
+				     //converting the bytes to an image
+				     try {
+						img = ImageIO.read(new ByteArrayInputStream(imageData));
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				     //convertToFxImage(img);
+				   //  Image image2 = img;
+				   //  image.setImage(img);}
+				     Image img1 = SwingFXUtils.toFXImage(img,null);
+
+				    // image.setImage(new ImageView(img1).getImage());
+				     //FadeTransition ft = new FadeTransition(Duration.millis(3000), image);
+				    // Group group = new Group();
+				    // int width=(int)image.getFitWidth();
+				     //int height=(int)image.getFitHeight();
+
+
+				    // rect.ArcWidth(30.0);
+				     //group.getChildren().addAll(rect);
+				     Platform.runLater(() -> {
+				    	 icond.setImage(img1);
+
+				    	 icond.setFitHeight(100);
+						 icond.setFitWidth(100);
+						 icond.setSmooth(true);
+						   // icond.setPreserveRatio(true);
+						 icond.setCache(false);
+
+				    //	 image.setFitWidth(190);
+
+				    	// icon.setPreserveRatio(true);
+
+				    	 //rect=new Rectangle((int)image.getFitWidth(),(int)image.getFitHeight());
+					     FadeTransition ft = new FadeTransition();
+					      ft.setNode(icond);
+					      ft.setDuration(new Duration(400));
+					      ft.setFromValue(0.0);
+					      ft.setToValue(1.0);
+					      ft.setAutoReverse(false);
+					      ft.play();
+				        });
+
+
+
+
+//				     KeyFrame keyFrame1On = new KeyFrame(Duration.seconds(0), new KeyValue(image.imageProperty(), image1));
+//				     KeyFrame startFadeOut = new KeyFrame(Duration.seconds(0.2), new KeyValue(image.opacityProperty(), 1.0));
+//				     KeyFrame endFadeOut = new KeyFrame(Duration.seconds(0.5), new KeyValue(image.opacityProperty(), 0.0));
+//				     KeyFrame keyFrame2On = new KeyFrame(Duration.seconds(0.5), new KeyValue(image.imageProperty(), image2));
+//				     KeyFrame endFadeIn = new KeyFrame(Duration.seconds(0.8), new KeyValue(image.opacityProperty(), 1.0));
+//				     Timeline timelineOn = new Timeline(keyFrame1On, startFadeOut, endFadeOut, keyFrame2On, endFadeIn);
+
+
+
+
+				}else {//image.setImage("Image/A5.png");
+
+
+				//Platform.runLater(() -> {
+					albumYear = new Text("\n");
+					albumArtists = new Text("\n");
+					icond.setImage(new ImageView("application/Image/A5.png").getImage());
+					icond.setFitHeight(100);
+				    icond.setFitWidth(100);
+				    icond.setSmooth(true);
+				   // icond.setPreserveRatio(true);
+				    icond.setCache(false);
+				    goner.getChildren().add(icond);
+			     //   });
+				}
+
+				}
+				return null;
+
+				    }
+
+
+
+				};
+				pooly.execute(consumerTask);
+
 	    		Text gotArtist=new Text("Go To Artist");
 	  		    Text songInfo=new Text("Song Info");
 	  		    Text fileLocale=new Text(/*thing+"\n"+*/" Mbs"/*+"\n "+new File(thing).lastModified()*/);
@@ -5345,135 +5635,7 @@ if(podd==0) {
 
 
 
-						Task<Void> consumerTask = new Task<Void>() {
 
-
-						    @Override
-
-						    protected Void call() throws Exception {
-
-
-
-
-						    	BufferedImage img= null;
-						    	WritableImage wr = null;
-								Mp3File song = null;
-
-
-						try {
-							song = new Mp3File(h.get(0).fileLocationGet());
-						} catch (UnsupportedTagException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (InvalidDataException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-
-						if (song.hasId3v2Tag()){
-						     ID3v2 id3v2tag = song.getId3v2Tag();
-						     byte[] imageData = id3v2tag.getAlbumImage();
-
-						     albumYear = new Text(" ("+id3v2tag.getYear()+")");
-						     if(id3v2tag.getDate()==null) {
-						    	 ID3v1 id3v1tag = song.getId3v2Tag();
-						    	 albumYear = new Text(" ("+id3v1tag.getYear()+")");
-						     }
-						     albumArtists = new Text("\n"+id3v2tag.getAlbumArtist());
-						     if(id3v2tag.getAlbumArtist()==null) {
-						    	 ID3v1 id3v1tag = song.getId3v2Tag();
-						    	 albumYear = new Text("\n"+id3v1tag.getArtist());
-						    	 System.out.println("id3v1 -"+id3v1tag.getArtist());
-						     }
-						     System.out.println("id3v2 -"+id3v2tag.getAlbumArtist());
-						     albumYear.setFill(Color.WHITE);
-						     albumArtists.setFill(Color.GHOSTWHITE);
-						     if(imageData!=null) {
-						     //converting the bytes to an image
-						     try {
-								img = ImageIO.read(new ByteArrayInputStream(imageData));
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						     //convertToFxImage(img);
-						   //  Image image2 = img;
-						   //  image.setImage(img);}
-						     Image img1 = SwingFXUtils.toFXImage(img,null);
-
-						    // image.setImage(new ImageView(img1).getImage());
-						     //FadeTransition ft = new FadeTransition(Duration.millis(3000), image);
-						    // Group group = new Group();
-						    // int width=(int)image.getFitWidth();
-						     //int height=(int)image.getFitHeight();
-
-
-						    // rect.ArcWidth(30.0);
-						     //group.getChildren().addAll(rect);
-						     Platform.runLater(() -> {
-						    	 icond.setImage(img1);
-
-						    	 icond.setFitHeight(100);
-								 icond.setFitWidth(100);
-								 icond.setSmooth(true);
-								   // icond.setPreserveRatio(true);
-								 icond.setCache(false);
-
-						    //	 image.setFitWidth(190);
-
-						    	// icon.setPreserveRatio(true);
-
-						    	 //rect=new Rectangle((int)image.getFitWidth(),(int)image.getFitHeight());
-							     FadeTransition ft = new FadeTransition();
-							      ft.setNode(icond);
-							      ft.setDuration(new Duration(400));
-							      ft.setFromValue(0.0);
-							      ft.setToValue(1.0);
-							      ft.setAutoReverse(false);
-							      ft.play();
-						        });
-
-
-
-
-//						     KeyFrame keyFrame1On = new KeyFrame(Duration.seconds(0), new KeyValue(image.imageProperty(), image1));
-//						     KeyFrame startFadeOut = new KeyFrame(Duration.seconds(0.2), new KeyValue(image.opacityProperty(), 1.0));
-//						     KeyFrame endFadeOut = new KeyFrame(Duration.seconds(0.5), new KeyValue(image.opacityProperty(), 0.0));
-//						     KeyFrame keyFrame2On = new KeyFrame(Duration.seconds(0.5), new KeyValue(image.imageProperty(), image2));
-//						     KeyFrame endFadeIn = new KeyFrame(Duration.seconds(0.8), new KeyValue(image.opacityProperty(), 1.0));
-//						     Timeline timelineOn = new Timeline(keyFrame1On, startFadeOut, endFadeOut, keyFrame2On, endFadeIn);
-
-
-
-
-						}else {//image.setImage("Image/A5.png");
-
-
-						//Platform.runLater(() -> {
-							albumYear = new Text("\n");
-							albumArtists = new Text("\n");
-							icond.setImage(new ImageView("application/Image/A5.png").getImage());
-							icond.setFitHeight(100);
-						    icond.setFitWidth(100);
-						    icond.setSmooth(true);
-						   // icond.setPreserveRatio(true);
-						    icond.setCache(false);
-						    goner.getChildren().add(icond);
-					     //   });
-						}
-
-						}
-						return null;
-
-						    }
-
-
-
-						};
-						pooly.execute(consumerTask);
 
 		 		textFlowPane.getChildren().addAll(Albumname,albumYear,albumArtists,SongNo );
       		    rect.setArcWidth(14);
@@ -5485,12 +5647,13 @@ if(podd==0) {
 				gridder.add(goner,0,0);
 				gridder.add(textFlowPane, 1, 0);
 				gridder.setPadding(new Insets(10,80,10,30));
-				gridder.setGridLinesVisible(true);
+				//gridder.setGridLinesVisible(true);
 				gridder.getStyleClass().add("kunfu");
 				System.gc();
 
 		//	BPane.setMinSize(606.0, 606.0);
-     	    BPane.setPrefSize(606.0, 606.0);
+
+
      	    BPane.setTop(gridder);
      	   //BPane.he
      	    BPane.setCenter(listScrollPane);
@@ -5557,8 +5720,11 @@ if(podd==0) {
      			  AudioParser ap = h.get(row);
      			  app=ap;
      			  String oldValue=ap.fileLocationGet();
-     			  Node node=flows.getCell(row).getNode();
+     			 GridPane node=(GridPane)flows.getCell(row).getNode();
 
+     			// SonfName.setText(parser.nameGet());
+     			//lenght.setText(parser.lengthGet());
+     			//SonfName2.setText("\r\n"+parser.artistGet());
      			 // AudioParser ap = h.get(number);
 
      			if(ME.getButton()==MouseButton.PRIMARY) {
@@ -6289,7 +6455,7 @@ public void setMin() {
 	});
 
 	ListView<String> tracklist=new ListView<String>();
-	tracklist.setPrefSize(102, 140);
+	tracklist.setPrefSize(102, 170);
 	tracklist.setPadding(new Insets(5));
 	tracklist.setCellFactory(new Callback<ListView<String>, ListCell<String>>(){
 
@@ -6334,6 +6500,7 @@ public void setMin() {
 		fig.add("Albums");
 		fig.add("Artists");
 		fig.add("Date");
+		fig.add("Track");
 		//tracklist.setItems(fig);
 		 popover=new PopOver();
 
@@ -6371,6 +6538,10 @@ public void setMin() {
 			dated();
 			popover.hide();
 			System.gc();
+}else if(tracklist.getSelectionModel().getSelectedIndex()==4) {
+	Collections.sort(lazyLoad ,comparatorbyTrack);
+	popover.hide();
+	System.gc();
 }
 
 	});
@@ -6690,32 +6861,98 @@ searchimage.setOnMouseClicked(mousevent->{
 
 
 public void checkFOrFIles() {
+	File folder = new File(System.getProperty("user.home")+"/ilix");
+	if(!folder.exists()) {
+		try {
+		folder.createNewFile();}catch(IOException meg) {
+
+
+		}
+
+	}
 	String flee[]= {"albums.txt","albumsdone.txt" , "artists.txt", "artistsdone.txt","dex.txt" , "folders.txt","mydb.txt" , "phase.txt"
 			, "phase.txt","repeat.txt" , "songs.txt", "songs.txt","songviewpos.txt" , "state.txt","toExtract.txt" ,  "totalSongs.txt" ,"volume.txt" ,"zzz.txt"  };
-	
+
 	for(String grar: flee) {
 		File dbcheck = new File(System.getProperty("user.home")+"/ilix/"+grar);
 		if(dbcheck.exists()) {
-			System.out.println("All Good");
-			
+			//System.out.println("All Good");
+
 		}else {
 			try {
 			dbcheck.createNewFile();
-			
+
 			}catch(IOException db) {
-				
+
 				System.out.println("Couldnt Create The File : "+System.getProperty("user.home")+"/ilix/"+grar+"\n"+db);
 			}
-			
+
 		}
 	}
 }
+
+public static void theme() {
+	boolean darkMode = false ;
+	boolean lightMode =false;
+
+}
+
+// INCREASE READABILTY ON BACKGORUND HOVER OR PLAYING
+//
+
+
+public static void MediaKeyForward() {
+
+	//GlobalScreen.postNativeEvent(new NativeKeyEvent(2401,0,176,57369,org.xvolks.jnative.))
+}
+
+public class GlobalListeners implements NativeKeyListener{
+
+	public void nativeKeyPressed(NativeKeyEvent e) {
+		// System.out.println("Key Pressed : " + NativeKeyEvent.getKeyText(e.getKeyCode()));
+		 if(NativeKeyEvent.getKeyText(e.getKeyCode()).equalsIgnoreCase("play")) {
+			 replacePlay();
+
+		 }else if(NativeKeyEvent.getKeyText(e.getKeyCode()).equalsIgnoreCase("previous")) {
+			 backone();
+
+			 }else if(NativeKeyEvent.getKeyText(e.getKeyCode()).equalsIgnoreCase("next")) {
+				 nextone();
+
+			 }
+			//GlobalScreen.postNativeEvent(new NativeKeyEvent(2401,0,176,57369,org.xvolks.jnative.))
+		}
+
+	 public void nativeKeyReleased(NativeKeyEvent e) {
+
+		//GlobalScreen.postNativeEvent(new NativeKeyEvent(2401,0,176,57369,org.xvolks.jnative.))
+	}
+
+	 public void nativeKeyTyped(NativeKeyEvent e) {
+
+			//GlobalScreen.postNativeEvent(new NativeKeyEvent(2401,0,176,57369,org.xvolks.jnative.))
+		}
+}
+
+
+
+int algea=0;
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+
 		System.out.println("Ilix: Welcome =]");
 		checkFOrFIles();
 
+		try {
+		GlobalScreen.registerNativeHook();
 
+		}catch(NativeHookException ex) {
+
+			System.err.println("there was a problem registering native hook");
+
+		}
+		GlobalScreen.addNativeKeyListener(new GlobalListeners());
 
 
 		try {
@@ -6800,6 +7037,19 @@ public void checkFOrFIles() {
 		buttonbar.setHgap(7);
 		buttonbar.getChildren().addAll(refresh,searchimage,addNewTrack,sorter);
 
+		buttonbar.setOnMouseClicked(arg0->{
+			if(arg0.getClickCount()>=2) {
+			if(!filteredData.isEmpty()&&algea==0) {
+				flows.show(filteredData.size()-1);
+				algea=1;
+				//System.out.println("Go To last");
+				}else {
+					flows.show(0);
+					algea=0;
+				}
+		}
+
+		});
 
 		home.addEventFilter(KeyEvent.KEY_RELEASED,event->{
 
@@ -6812,8 +7062,11 @@ public void checkFOrFIles() {
 //
 //
 //	}
-    		//System.out.println("Pressed: "+event.getCode().toString());
-    		if(event.getCode().toString().equalsIgnoreCase("P")||event.getCode().toString().equalsIgnoreCase("SPACE")||event.getCode().toString().equalsIgnoreCase("F11")||event.getCode()==event.getCode().PLAY||event.getCode()==event.getCode().PAUSE) {
+			//KeyEvent m =  KeyEvent(component ,);
+    	//	System.out.println("Pressed: "+event.);
+		//	 nativeKeyPressed(event);
+
+    		if(event.getCode().toString().equalsIgnoreCase("SPACE")||event.getCode().toString().equalsIgnoreCase("F11")||event.getCode()==event.getCode().PLAY||event.getCode()==event.getCode().PAUSE) {
     			//System.out.println("Here");
     			if(mp!=null) {
     			status = mp.getStatus();
@@ -6829,10 +7082,8 @@ public void checkFOrFIles() {
     	//	}
 
     	}
-    		if(event.getCode().toString().equalsIgnoreCase("TRACK_NEXT")) {
-    			nextone();
 
-	}
+
     		/*if(event.equals(KeyCode.TRACK_PREV.getName())) {
     			System.out.println("Media");
     			backone();
@@ -6840,6 +7091,7 @@ public void checkFOrFIles() {
     		}*/
 
     	});
+
 
 	/*	home.addEventFilter(KeyEvent.,event->{
 
@@ -7170,7 +7422,7 @@ Service<Void> service_ = new Service<Void>(){
 //
 //				}
 //			}
-			System.gc();
+			 System.gc();
 		     Thread Trackmaster =  new Thread(()-> {
 
 
@@ -7193,22 +7445,17 @@ Service<Void> service_ = new Service<Void>(){
 
     		}}catch(NullPointerException e) {
     			System.out.println("NullPonterException");
-    		}finally {
+    		}
+
 				mp = new MediaPlayer(mo);
 				if (mv != null)   {
 					mv.setMediaPlayer(mp);
 					duration = mp.getTotalDuration();
-					//System.out.println(mp.getAudioSpectrumNumBands()+ " "+mp.getAudioSpectrumThreshold()+" "+mp.getAudioSpectrumInterval());
-//					if(volumeSlider.getValue()==0) {
-				//	System.out.println(volumeSlider.getValue());
-						mp.setVolume(volumeSlider.getValue() / 100.0);
-
-//					}
-				//	System.out.println(mp.getVolume());
+					mp.setVolume(volumeSlider.getValue() / 100.0);
 					play jog=new play();
-					jog.play1();
+					
 					mp.play();
-				}}
+				}
 								  }
 
 					});
@@ -7280,9 +7527,9 @@ Service<Void> service_ = new Service<Void>(){
 //						}
 						//System.out.println(mp.getVolume());
 						play jog=new play();
-						jog.play1();
-						jog.play();
-						jog.play();
+					//	jog.play1();
+					//	jog.play();
+					//	jog.play();
 //						mp.play();
 //						mp.pause();
 
@@ -7329,7 +7576,8 @@ Service<Void> service_ = new Service<Void>(){
 
 		//newThread(Doug);
 		execute.submit(() -> 	Song(Doug));
-		execute.submit(() -> 	trackMaster(Doug));
+		//execute.submit(() -> 	trackMaster(Doug));
+		play jog = new play(Doug);
 
 	}
 
@@ -7343,6 +7591,7 @@ Service<Void> service_ = new Service<Void>(){
 
     			Song(song);
     			trackMaster(song);
+    			//play(song);
     			//trackMaster(oldValue);
 
 
