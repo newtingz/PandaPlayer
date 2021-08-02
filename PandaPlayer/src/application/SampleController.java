@@ -540,7 +540,8 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 				grid.setMinSize(580,49);
 				grid.setMaxSize(580,49);
 		    	grid.setPadding(new Insets(2));
-		        grid.setHgap(3);
+		    	//grid.setVgap(3);
+		      //  grid.setHgap(3);
 		        grid.getStyleClass().add("gborder");
 		      //  grid.setStyle(" -fx-border-width: 1 0 0 0; -fx-border-color: grey ; ");
 		   //     grid.setStyle(" -fx-background-color: -fx-control-inner-border,#191D1F");
@@ -597,7 +598,7 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 //	     		});
 				grid.setOnMouseClicked(event -> {
 					if(event.getButton()==MouseButton.PRIMARY) {
-					grid.setStyle("-fx-background-color: #39FF9F;");
+					grid.setStyle("-fx-background-color: #39FF9F;fx-background-radius: 3;"/*-fx-border-radius:2;-fx-border-width: 0.8 1 1.6 1;-fx-border-color: linear-gradient(to right,transparent , #32393D 50%, transparent ) transparent transparent transparent  ;"*/);
 					}else {
 
 
@@ -605,25 +606,34 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 					//SonfName2.setFill(Color.GHOSTWHITE);
 					 //flows.getCell(--listViewDex).updateIndex(--listViewDex);;
 				});
-			/*	grid.setOnMouseEntered(event -> {
+				grid.setOnMouseEntered(event -> {
 					//grid.getStyle()
 
 					 //Platform.runLater(() -> {
 						// grid.setStyle("-fx-background-color: transparent;");
-						 grid.setStyle("-fx-background-color: #32393D;");
+					if(audiop.fileLocationGet()==current) {
+						//grid.setStyle("-fx-border-color: transparent;");
+					}else {
+						 grid.setStyle("-fx-border-color: grey;");
+					}
+
 				    //  });
 
-				});*/
-			/*	grid.setOnMouseExited(event -> {
+				});
+				grid.setOnMouseExited(event -> {
 					if(audiop.fileLocationGet()==current) {
-						grid.setStyle("-fx-background-color: #39FF9F;");
+					//	grid.setStyle("-fx-border-color: transparent;");
 					}
 					else {
-				//	 Platform.runLater(() -> {
-						 grid.setStyle("-fx-background-color: transparent;");
+
+					//	grid.setStyle("-fx-background-color: transparent;"/*-fx-border-radius:2;-fx-border-width: 0.8 1 1.6 1;-fx-border-color: linear-gradient(to right,transparent , #32393D 50%, transparent ) transparent transparent transparent  ;*/);
+
+						grid.setStyle("-fx-border-color: linear-gradient(to right,transparent , #32393D 50%, transparent ) transparent transparent transparent  ;");
+
+						//grid.getStyleClass().add("gborder");
 				 //     });
 					}
-				});*/
+				});
 			}
 
 //HBox.setMargin(Node, Insets)
@@ -1325,7 +1335,7 @@ GridView<Artists> gridView2 =new GridView<>();
 
 
 
-			
+
 			//mp.currentTimeProperty().addListener(upDateSlider);
 
 	/*	mp.currentTimeProperty().addListener(l->{
@@ -1352,7 +1362,7 @@ GridView<Artists> gridView2 =new GridView<>();
 */
 
 
-			
+
 		//mp.setCycleCount(MediaPlayer.INDEFINITE);
 		//mp.setCycleCount(repeat ? MediaPlayer.INDEFINITE : 1);
 
@@ -1389,7 +1399,7 @@ GridView<Artists> gridView2 =new GridView<>();
 		    }
 		});*/
 
-		
+
 //		timeSlider.setSnapToTicks(true);
 //		timeSlider.setMinorTickCount(0);
 //		timeSlider.setMajorTickUnit(1000.0);
@@ -1535,7 +1545,7 @@ GridView<Artists> gridView2 =new GridView<>();
 		public play(String song) {
 
 			somethingInCan =true;
-			
+
 			 System.gc();
 		     Thread Trackmaster =  new Thread(()-> {
 
@@ -1552,10 +1562,10 @@ GridView<Artists> gridView2 =new GridView<>();
     			    System.gc();
 
     		}
-    			
+
                 }catch(NullPointerException e) {
     			System.out.println(".");
-    			
+
     		}
 
 				mp = new MediaPlayer(mo);
@@ -1616,7 +1626,7 @@ GridView<Artists> gridView2 =new GridView<>();
 						//play.setId("Image/playbuttoninstance.png");
 					}
 				});
-				
+
 				if (mv != null)   {
 					mv.setMediaPlayer(mp);
 					duration = mp.getTotalDuration();
@@ -5191,6 +5201,7 @@ if(podd==0) {
 						}});
 
 					GridPane info = new GridPane();
+					info.getStyleClass().add("optionsGrid");
  					info.setId("info");
  					info.setPadding(new Insets(10));
  					info.setCache(true);
@@ -5364,7 +5375,7 @@ if(podd==0) {
 
      				GridPane gridd = (GridPane) flows.getCell(listViewDex).getNode();
      				  Platform.runLater(() -> {
-     					  gridd.setStyle("-fx-background-color: transparent;");
+     					  gridd.setStyle("-fx-background-color: #191D1F;");
      				      });
      		   }
      		  listViewDex=row;
@@ -7453,7 +7464,7 @@ Service<Void> service_ = new Service<Void>(){
 					duration = mp.getTotalDuration();
 					mp.setVolume(volumeSlider.getValue() / 100.0);
 					play jog=new play();
-					
+
 					mp.play();
 				}
 								  }
