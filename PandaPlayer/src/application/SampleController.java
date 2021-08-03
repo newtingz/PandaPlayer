@@ -73,7 +73,9 @@ import com.mpatric.mp3agic.Mp3File;
 import com.mpatric.mp3agic.UnsupportedTagException;
 
 import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -95,6 +97,7 @@ import javafx.scene.CacheHint;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -115,7 +118,6 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
@@ -514,22 +516,24 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 		 //	Cell mangro =Cell.wrapNode(grid);
 		 	//Image imgurra=new Image(System.getProperty("user.home")+"/ilix/A5.png");
 		 	ImageView icon = new ImageView();
-		 	Image legg;
+		 	//Image legg;
 			Text SonfName=new Text();
 			Text SonfName2=new Text();
 			Text lenght=new Text("");
 			TextFlow textFlowPane = new TextFlow();
 		//	Pane pane=new Pane();
-			Rectangle rect = new Rectangle();
+		//	Rectangle rect = new Rectangle();
 			HBox iconAndName = new HBox();
 			PauseTransition wait = new PauseTransition(Duration.seconds(0.150));
+
+			Timeline timeline = new Timeline();
 		//	Snapshot snappy = new Snapshot()
 			//	Image referent ;
 		//	ReferenceQueue<Image> referenceQueue = new ReferenceQueue<>();
 
 		//	WeakReference<Image> weakReference1  ;
 			{
-				 textFlowPane.setId("me");
+				textFlowPane.setId("me");
 				iconAndName.setPadding(new Insets(0,16,0,0));
 				//textFlowPane.setPrefSize(530,30);
 				textFlowPane.setMinSize(530,30);
@@ -543,9 +547,6 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 		    	//grid.setVgap(3);
 		      //  grid.setHgap(3);
 		        grid.getStyleClass().add("gborder");
-		      //  grid.setStyle(" -fx-border-width: 1 0 0 0; -fx-border-color: grey ; ");
-		   //     grid.setStyle(" -fx-background-color: -fx-control-inner-border,#191D1F");
-		       // grid.comp
 		        icon.setFitHeight(30);
 		        icon.setFitWidth(30);
 		        icon.setCache(false);//icon.setCacheHint(CacheHint.SPEED);
@@ -553,6 +554,7 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 		        iconAndName.setAlignment(Pos.CENTER_LEFT);
 		        iconAndName.getChildren().add(icon);
 		        iconAndName.setPadding(new Insets(0,5,0,5));
+
 		      //  pane.setPrefHeight(35);
 
 		        /*
@@ -614,7 +616,9 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 					if(audiop.fileLocationGet()==current) {
 						//grid.setStyle("-fx-border-color: transparent;");
 					}else {
+						Platform.runLater(() -> {
 						 grid.setStyle("-fx-border-color: grey;");
+						});
 					}
 
 				    //  });
@@ -627,11 +631,11 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 					else {
 
 					//	grid.setStyle("-fx-background-color: transparent;"/*-fx-border-radius:2;-fx-border-width: 0.8 1 1.6 1;-fx-border-color: linear-gradient(to right,transparent , #32393D 50%, transparent ) transparent transparent transparent  ;*/);
-
+						Platform.runLater(() -> {
 						grid.setStyle("-fx-border-color: linear-gradient(to right,transparent , #32393D 50%, transparent ) transparent transparent transparent  ;");
 
-						//grid.getStyleClass().add("gborder");
-				 //     });
+
+				      });
 					}
 				});
 			}
@@ -684,7 +688,7 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 //			} else {
 //			    System.out.println("EMPTied");
 //			}
-			wait.setOnFinished((e) -> {
+			/*wait.setOnFinished((e) -> {
 				//	filteredData.contains(parser);
 					if(flows.visibleCells().contains(this)) {
 					//	Platform.runLater(() -> {
@@ -695,8 +699,19 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 					}
 
 				});
-		 wait.play();
+		  wait.play();*/
+			new Timeline(
+					new KeyFrame(
+							Duration.seconds(0.10),event ->{
 
+
+								if(flows.visibleCells().contains(this)) {
+									//	Platform.runLater(() -> {
+									icon.setImage(new Image(new File(parser.ImageGet()).toURI().toString() ,30 ,30,false ,false ,true));
+									//	});
+										}
+
+							})).play();
 			SonfName.setText(parser.nameGet());
 			lenght.setText(parser.lengthGet());
 			SonfName2.setText("\r\n"+parser.artistGet());
@@ -798,9 +813,9 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 	    	// icon.setFitWidth(190);
 
 	    //    icon.setEffect(new DropShadow());
-	        icon.setCache(true);
+	        icon.setCache(false);
 	        Rectangle rect = new Rectangle();
-	        icon.setCacheHint(CacheHint.SPEED);
+	        //icon.setCacheHint(CacheHint.SPEED);
 	        iconAndName.setAlignment(Pos.CENTER);
 	        iconAndName.getChildren().add(icon);
 	        grid.add(iconAndName, 0, 0);
@@ -1017,7 +1032,8 @@ GridView<Artists> gridView2 =new GridView<>();
 
 
     private void load()  {
-        AudioParser po = new AudioParser();
+       // AudioParser po = new AudioParser();
+
         searchbar.addEventFilter(KeyEvent.KEY_PRESSED,event->{
 
 
@@ -1025,7 +1041,68 @@ GridView<Artists> gridView2 =new GridView<>();
     		if(event.getCode().toString().equalsIgnoreCase("SHIFT")||event.getCode().toString().equalsIgnoreCase("ENTER"))
     		{
     		//	searchbar.textProperty().addListener(obs->{
-    	            filter(filteredData);
+    			switch(choicebox.getValue()) {
+    			//"Song Name","Artist Name","Album Name");
+    			case "Song Name":
+    				filteredData.setPredicate(songs -> {
+    	            	//songs.
+    	                // If all filters are empty then display all songs
+    	                if ((searchbar.getText() == null || searchbar.getText().isEmpty()) ) {
+    	                	//setterforSonfgs();
+    	                    return true;
+    	                }
+
+
+    	                //If fails any given criteria, fail completely
+    	                if(searchbar.getText().length()>0)
+    	                    if (songs.nameGet().toLowerCase().contains(searchbar.getText().toLowerCase()) == false/*||songs.artistGet().toLowerCase().contains(lowerCaseFilter) == false*/)
+    	                        return false;
+
+
+    	                return true; // Matches given criteria
+    	            });
+    				break;
+    			case "Album Name":
+    				filteredData.setPredicate(songs -> {
+    	            	//songs.
+    	                // If all filters are empty then display all songs
+    	                if ((searchbar.getText() == null || searchbar.getText().isEmpty()) ) {
+    	                	//setterforSonfgs();
+    	                    return true;
+    	                }
+
+
+    	                //If fails any given criteria, fail completely
+    	                if(searchbar.getText().length()>0)
+    	                    if (songs.albumGet().toLowerCase().contains(searchbar.getText().toLowerCase()) == false/*||songs.artistGet().toLowerCase().contains(lowerCaseFilter) == false*/)
+    	                        return false;
+
+
+    	                return true; // Matches given criteria
+    	            });
+    				break;
+    			case "Artist Name":
+    				filteredData.setPredicate(songs -> {
+    	            	//songs.
+    	                // If all filters are empty then display all songs
+    	                if ((searchbar.getText() == null || searchbar.getText().isEmpty()) ) {
+    	                	//setterforSonfgs();
+    	                    return true;
+    	                }
+
+
+
+    	                //If fails any given criteria, fail completely
+    	                if(searchbar.getText().length()>0)
+    	                    if (songs.artistGet().toLowerCase().contains(searchbar.getText().toLowerCase()) == false/*||songs.artistGet().toLowerCase().contains(lowerCaseFilter) == false*/)
+    	                        return false;
+
+
+    	                return true; // Matches given criteria
+    	            });
+    				break;
+    			}
+    	           // filter(filteredData);
     	            mok=filteredData.size()-1;
     	       // });
 
@@ -1050,6 +1127,7 @@ GridView<Artists> gridView2 =new GridView<>();
 
 
             filteredData.setPredicate(songs -> {
+            	//songs.
                 // If all filters are empty then display all songs
                 if ((searchbar.getText() == null || searchbar.getText().isEmpty()) ) {
                 	//setterforSonfgs();
@@ -6257,7 +6335,7 @@ public void SongsView() {
 
 }
 int roww=0;
-
+ChoiceBox<String> choicebox = new ChoiceBox();
 PopOver songInfor=null;
 public void setMin() {
 
@@ -6461,9 +6539,15 @@ public void setMin() {
             stage.setIconified(true);
         }
     });
-	searchbar.setOnMouseClicked(Me ->{
-		load();
-	});
+//	minimize.setOnMouseEntered(eg->{
+//
+//		minimize.setStyle("fx-background-color: orange ;fx-background-radius:40;fx-background-insets :3;fx-border-color : orange");
+//	});
+//	minimize.setOnMouseExited(eg->{
+//		minimize.setStyle("fx-background-color: #39FF9F ;fx-background-radius:40;fx-background-insets :3;fx-border-color : #39FF9F");
+//		//minimize.setStyle("fx-background-color: #39FF9F");
+//	});
+
 
 	ListView<String> tracklist=new ListView<String>();
 	tracklist.setPrefSize(102, 170);
@@ -6825,14 +6909,24 @@ albumy.setOnMouseClicked(mouseveent->{
 
 	});
 //prefHeight="24.0" prefWidth="128.0" promptText="Search" style="-fx-background-color: #191D1F; -fx-border-color: #39FF9F; -fx-border-radius: 6; -fx-background-radius: 7;"
+searchbar.setOnMouseClicked(Me ->{
+	load();
+});
+
+choicebox.setValue("Song Name");
 PopOver imageim=new PopOver();
+GridPane joey = new GridPane();
 searchimage.setOnMouseClicked(mousevent->{
+	if(mousevent.getButton()==MouseButton.PRIMARY) {
+		System.out.println("Here");
+
 	if(!imageim.isShowing()) {
 	load();
 	searchbar.setPrefHeight(24.0);
 	searchbar.setPrefWidth(128.0);
 	searchbar.setPromptText("Search");
-	searchbar.setStyle("-fx-background-color: #191D1F; -fx-border-radius: 6; -fx-background-radius: 6;");
+	//searchbar.setStyle("");
+	searchbar.setStyle("-fx-background-color: #191D1F; -fx-border-radius: 6; -fx-background-radius: 6;-fx-border-color:#39FF9F;");
 
 	Platform.runLater(()->{
 
@@ -6849,6 +6943,21 @@ searchimage.setOnMouseClicked(mousevent->{
 	}else {
 		imageim.hide();
 
+	}}else if(mousevent.getButton()==MouseButton.SECONDARY) {
+
+
+
+
+		Platform.runLater(()->{
+
+			//imageim.cornerRadiusProperty();
+			imageim.setContentNode(choicebox);
+			//imageim.setHeight(25);
+			imageim.arrowSizeProperty().set(1);
+			imageim.show(searchimage);
+			((Parent)imageim.getSkin().getNode()).getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+			imageim.show(searchimage);
+		});
 	}
 
 
@@ -6951,7 +7060,15 @@ int algea=0;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		choicebox.getItems().addAll("Song Name","Artist Name","Album Name");
+		choicebox.getSelectionModel().selectedItemProperty().addListener((obs,oldVal,newVal)->
+		{
+			if(newVal != null) {
+				searchbar.setText(" ");
 
+			}
+
+		});
 		System.out.println("Ilix: Welcome =]");
 		checkFOrFIles();
 
