@@ -3574,6 +3574,7 @@ Comparator<? super AudioParser> comparatorbyDate = new Comparator<AudioParser>()
 };
 
 
+
 	// Formats the elapsed and the total duration of the music file
 	private static String formatTime(Duration elapsed, Duration duration) {
 		int intElapsed = (int) Math.floor(elapsed.toSeconds());
@@ -4145,6 +4146,25 @@ pool.execute(createTask);*/
 //			public void run() {
 
 	        }
+
+	Comparator<? super Albums> albumsComparator = new Comparator<Albums>() {
+	    @Override
+	    public int compare(Albums o1, Albums o2) {
+
+
+	        return (o1.albumGet()).compareTo(o2.albumGet());
+	    }
+	};
+	Comparator<? super Artists> artistsComparator = new Comparator<Artists>() {
+	    @Override
+	    public int compare(Artists o1, Artists o2) {
+
+
+	        return (o1.artistGet()).compareTo(o2.artistGet());
+	    }
+	};
+
+	//Collections.sort(lazyLoad ,comparatorbyTrack);
 	public void BringItONA()throws IOException  {
 
 
@@ -4199,7 +4219,7 @@ pool.execute(createTask);*/
 	    				}
 	    				//setter();
 	    				in.close();
-
+	    				albums.sort(albumsComparator);
 
 	    		    	Scanner read1 = new Scanner (new BufferedReader(new FileReader(System.getProperty("user.home")+"/ilix/albumsdone.txt"), 16*1024));
 	    		    	//figure=0;
@@ -4211,6 +4231,7 @@ pool.execute(createTask);*/
 	    		    		//figure+=1;
 	    		    	}
 	    		    	read1.close();
+
 
 	/*	return null;}
 
@@ -4276,6 +4297,8 @@ pool.execute(createTask);*/
 		    		//figure+=1;
 		    	}
 		    	read1.close();
+
+		    	artistry.sort(artistsComparator);
 		    	/*return null;}
 	  //finally{
 
@@ -4531,18 +4554,18 @@ pool.execute(createTask);*/
 
 
 
-
+	int shown = 0;
 
 	    private GridPane selectedLabel;
 	    int i=0;
 	    GridView<Albums> gridView = new GridView<>();
 
-
+	    //int shown =0;
 	    int podd=0;
 
 	    @FXML
 	    public  void Albumadder(){
-
+	    //	List = new PopOver();
 //	    	artists
 //	    	songss
 //	    	albumss
@@ -4554,18 +4577,34 @@ pool.execute(createTask);*/
            if(albums.size()<=0) {
         	 //  System.out.println("Called");
         	   ViewByAlbum();
+
+        	   gridView.setItems(null);
+               gridView.setItems(albums);
+               rootPane.setContent(gridView);
+           }else {
+        	   //if(!gridView.isVisible()) {
+        	   gridView.setItems(null);
+               gridView.setItems(albums);
+               rootPane.setContent(gridView);
+        	  // }
            }
-           gridView.setPrefHeight(rootPane.getHeight());
-           gridView.setMaxWidth(rootPane.getWidth());
-           gridView.setCellWidth(75);
-           gridView.setVerticalCellSpacing(20);
-           gridView.setHorizontalCellSpacing(15);
-           gridView.setCellHeight(75);
 
 
            //gridView.setPadding(new Insets(0,0,5,0));
 if(podd==0) {
+	gridView.setPrefHeight(rootPane.getHeight());
+    gridView.setMaxWidth(rootPane.getWidth());
+    gridView.setCellWidth(75);
+    gridView.setVerticalCellSpacing(20);
+    gridView.setHorizontalCellSpacing(15);
+    gridView.setCellHeight(75);
+    //gridView.setOnMouseExited(value);
+ /*   gridView.setOnMouseExited(e -> {
 
+        	if(List.isShowing()){List.hide();}
+
+
+		});*/
 	       Service<Void> service_11 = new Service<Void>(){
 
 	           @Override
@@ -4625,6 +4664,7 @@ if(podd==0) {
 	                	    protected void updateItem(Albums item, boolean empty) {
 	                	        // TODO Auto-generated method stub
 	                	        super.updateItem(item, empty);
+	                	        icod.setImage(null);
 	                	        if (empty || item == null) {
 	                	            setText(null);
 	                	            setGraphic(null);
@@ -4636,7 +4676,21 @@ if(podd==0) {
 	               	        		fag.setText(item.albumGet());
 
 	               	        	}
-	                 		        	icod.setImage(new Image(new File(item.ImageGet()).toURI().toString(),true));
+
+	                	        	 new Timeline(
+	      		           					new KeyFrame(
+	      		           							Duration.seconds(0.0999),event ->{
+
+	      		           						//	gridView2.vi
+	      		           								if(this.isVisible()) {
+	      		           									//	Platform.runLater(() -> {
+	      		           								//icod.setImage(new Image(new File(item.ImageGet()).toURI().toString(),true));
+	      		           									icod.setImage(new Image(new File(item.ImageGet()).toURI().toString() ,75 ,75,false ,false ,true));
+	      		           									//	});
+	      		           										}
+
+	      		           							})).play();
+	                 		        	//icod.setImage(new Image(new File(item.ImageGet()).toURI().toString(),true));
 
 	                	            grid4.setClip(clip);
 
@@ -4661,7 +4715,52 @@ if(podd==0) {
 	                	                   clearSelection();
 	                	               }
 	                		        });
+	                	            Label mek = new Label(fag.getText());
 
+	                	          //  mek.setPrefHeight(10);
+	                	          /*  grid4.setOnMouseEntered(e -> {
+
+	 		               	        	if(List.isShowing()){List.hide();}
+	 		               	        	if(shown==0||grid4.isHover()) {
+	 		               	        Platform.runLater(()->{
+	 		               			List = new PopOver(mek);
+	 		               	       // List.setHeight(8);
+	 		               		//	List = new PopOver(mek);
+
+	 		               			//List.setContentNode(mek);
+	 		               			//List.setMaxHeight(10);
+	 		               		   List.setArrowSize(0);
+	 		               			//this.setAutoHide(true);
+	 		               		  // List.hide(Duration.millis(90));
+
+
+
+	 		               		   //List
+	 		               		//	List.setAutoFix(true);
+	 		               		  //  List.aut;
+	 		               		//	List.arrowSizeProperty().set(1);
+	 		               			//List.show(albumy);
+	 		               			List.show(albumy,  e.getScreenX(), e.getScreenY());
+	 		               			((Parent)List.getSkin().getNode()).getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+	 		               			List.show(albumy,  e.getScreenX(), e.getScreenY());
+	 		               		 new Timeline(
+	      		           					new KeyFrame(
+	      		           							Duration.seconds(2),event ->{
+	      		           								//if(List.)
+	      		           							List.hide();
+
+	      		           							})).play();
+	 		               			});
+
+	 		               	        shown =1;
+	 		               	        	} });*/
+
+	 		               	    grid4.setOnMouseExited(e -> {
+	 		               	  //  shown =0;
+	 		               	  //  if(List.isShowing()){List.hide();}
+
+
+			               		        });
 	                	          setGraphic(grid4);
 	                	        }
 	                	    }
@@ -4681,8 +4780,7 @@ if(podd==0) {
 	                 	podd=1;
 }
 
-           gridView.setItems(albums);
-           rootPane.setContent(gridView);
+
            try
    		{
    	    PrintWriter out5 = new PrintWriter(new BufferedWriter(new FileWriter(System.getProperty("user.home")+"/ilix/phase.txt", false)));
@@ -4731,22 +4829,30 @@ if(podd==0) {
 	    public  void Artistadder(){
 	    	  // rootPane.setContent(null);
 	    	  // gridView2.setItems(null);
-	    	artists.setStyle(" -fx-border-width: 1; -fx-border-color: white ; ");
+
+	    		artists.setStyle(" -fx-border-width: 1; -fx-border-color: white ; ");
 	    	   if(artistry.size()<=0) {
 	    		   System.out.println("Called");
 	    		   ViewByArtist();
+	           }else {
+	        	 //  if(!gridView2.isVisible()) {
+	        	   gridView2.setItems(null);
+		    	   gridView2.setItems(artistry);
+			       rootPane.setContent(gridView2);
+	        	   //}
 	           }
 
 
-		       gridView2.setPrefHeight(rootPane.getHeight());
-	           gridView2.setMaxWidth(rootPane.getWidth());
-	           gridView2.setCellWidth(75);
-	           gridView2.setVerticalCellSpacing(20);
-	           gridView2.setHorizontalCellSpacing(15);
-	           gridView2.setCellHeight(75);
-		       gridView2.setCache(false);
 
 		       if(kcheeerr==0) {
+		    	   gridView2.setPrefHeight(rootPane.getHeight());
+		           gridView2.setMaxWidth(rootPane.getWidth());
+		           gridView2.setCellWidth(80);
+		           gridView2.setVerticalCellSpacing(20);
+		           gridView2.setHorizontalCellSpacing(10);
+		           gridView2.setCellHeight(75);
+		           gridView2.setPadding(new Insets( 0,0,0,10));
+			       gridView2.setCache(false);
  		       gridView2.setCellFactory(new Callback<GridView<Artists>, GridCell<Artists>>() {
  		           public GridCell<Artists> call(GridView<Artists> gridView) {
  		           	 GridPane grid4 = new GridPane();
@@ -4764,13 +4870,13 @@ if(podd==0) {
  		           		  iconAndName.setPadding(new Insets(0,0,3,0));
  		           		  icod.setCache(false);
  		           		  iconAndName.getChildren().add(icod);
- 		           		  icod.setFitHeight(75);
- 		     		      icod.setFitWidth(75);
+ 		           		  icod.setFitHeight(80);
+ 		     		      icod.setFitWidth(80);
 
 
- 		     		      grid4.setPrefSize(75, 75);
- 		   	              grid4.maxHeight(75);
- 		   	              grid4.maxWidth(75);
+ 		     		      grid4.setPrefSize(80, 75);
+ 		   	             // grid4.setMinSize(75, 75);
+ 		   	              //grid4.setMaxSize(75, 75);
  		   	              grid4.getStyleClass().add("grid4");
  		     	    	  grid4.setPadding(new Insets(0,0,5,0));
  		   	              grid4.add(iconAndName, 0, 0);
@@ -4790,6 +4896,7 @@ if(podd==0) {
  		               	    protected void updateItem(Artists item, boolean empty) {
  		               	        // TODO Auto-generated method stub
  		               	        super.updateItem(item, empty);
+ 		               	    icod.setImage(null);
  		               	        if (empty || item == null) {
  		               	            setText(null);
  		               	            setGraphic(null);
@@ -4801,11 +4908,24 @@ if(podd==0) {
 
  		               	        	}
 
- 		               		        pool.execute(()->{
- 		               		        	icod.setImage(new Image(new File(item.ImageGet()).toURI().toString(),true));
+ 		               		        //pool.execute(()->{
+ 		               	        new Timeline(
+ 		           					new KeyFrame(
+ 		           							Duration.millis(1),event ->{
+
+ 		           						//	gridView2.vi
+ 		           								if(this.isVisible()) {
+ 		           									//	Platform.runLater(() -> {
+ 		           								//icod.setImage(new Image(new File(item.ImageGet()).toURI().toString(),true));
+ 		           									icod.setImage(new Image(new File(item.ImageGet()).toURI().toString() ,75 ,75,false ,false ,true));
+ 		           									//	});
+ 		           										}
+
+ 		           							})).play();
 
 
- 		               		        });
+
+ 		               		    //    });
 
 
 
@@ -4836,6 +4956,25 @@ if(podd==0) {
  		               	                    clearSelection();
  		               	                }
  		               		        });
+ 		               	            Label mek = new Label(fag.getText());
+ 		               	     /*   grid4.setOnMouseEntered(e -> {
+
+ 		               	        Platform.runLater(()->{
+ 		               		//	List = new PopOver(mek);
+ 		               	       // List.setHeight(50);
+ 		               			List.setContentNode(mek);
+ 		               			//List.setAutoFix(true);
+ 		               		  //  List.aut;
+ 		               			//List.arrowSizeProperty().set(1);
+ 		               			//List.show(albumy);
+ 		               			List.show(albumy,  e.getScreenX(), e.getScreenY());
+ 		               			((Parent)List.getSkin().getNode()).getStylesheets().add(getClass().getResource("application.css").toExternalForm());
+ 		               			List.show(albumy,  e.getScreenX(), e.getScreenY());
+
+ 		               			});
+
+
+		               		        });*/
  		               	            setGraphic(grid4);
 
  		               	        }
@@ -4847,8 +4986,9 @@ if(podd==0) {
  		       });
  		      kcheeerr=1;
 		       }
- 		      gridView2.setItems(artistry);
-		       rootPane.setContent(gridView2);
+
+
+
 		       try
 				{
 			    PrintWriter out5 = new PrintWriter(new BufferedWriter(new FileWriter(System.getProperty("user.home")+"/ilix/phase.txt", false)));
@@ -5896,14 +6036,16 @@ if(podd==0) {
 
      		    current=oldValue;
      			String thing= ap.fileLocationGet();
-     		  GridPane grid = (GridPane) node;
+     	/*	  GridPane grid = (GridPane) node;
      		  Platform.runLater(() -> {
      			  grid.setStyle("-fx-background-color: #39FF9F;");
-     		      });
+     		      });*/
 
 
-     		  handlemouseClickPane(oldValue,row);
-
+     		//  handlemouseClickPane(oldValue,row);
+     		 Song(oldValue);
+   			play jog=new play(oldValue);
+   			//listViewDex=Num;
      		  listViewDex=row;
 
      		  //System.out.println(row);
