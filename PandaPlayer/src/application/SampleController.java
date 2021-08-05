@@ -7179,6 +7179,7 @@ public class GlobalListeners implements NativeKeyListener{
 			 backone();
 
 			 }else if(NativeKeyEvent.getKeyText(e.getKeyCode()).equalsIgnoreCase("next")) {
+				 
 				 nextone();
 
 			 }
@@ -7887,7 +7888,7 @@ Service<Void> service_ = new Service<Void>(){
 		int number;
 		AudioParser ap =  null;
 		chokee();
-		System.out.println("Next Song");
+		//System.out.println("Next Song");
 		if(playing==filteredData) {
 		Node nodejs=flows.getCell(listViewDex).getNode();
 		GridPane griddade = (GridPane) nodejs;
@@ -7920,7 +7921,7 @@ Service<Void> service_ = new Service<Void>(){
 			  griddd.setStyle("-fx-background-color: #39FF9F;");
 		      });
 		 }
-		  Bounds bounds=image.getBoundsInParent();
+	//	  Bounds bounds=image.getBoundsInParent();
 
 		  flowsy.showAtOffset(number,24);
 
