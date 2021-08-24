@@ -71,6 +71,7 @@ import com.mpatric.mp3agic.ID3v2;
 import com.mpatric.mp3agic.InvalidDataException;
 import com.mpatric.mp3agic.Mp3File;
 import com.mpatric.mp3agic.UnsupportedTagException;
+import com.sun.javafx.scene.control.skin.ButtonSkin;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -93,7 +94,6 @@ import javafx.geometry.Bounds;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.geometry.VPos;
 import javafx.scene.CacheHint;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -269,14 +269,14 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 	private Button refresh;
 
 	@FXML
-	 Button songss = new Button("Songs");
+	Button songss = new Button("Songs");
 
 	@FXML
-	 Button albumss  = new Button("Albums");
+	Button albumss  = new Button("Albums");
 
 
 	@FXML
-	 Button artists = new Button("Artists");
+	Button artists = new Button("Artists");
 
 	@FXML
 	ImageView sorter = new ImageView();
@@ -6504,10 +6504,36 @@ public void SongsView() {
 
 
 }
+
+
+public class MyButtonSkin extends ButtonSkin {
+
+    public MyButtonSkin(Button control) {
+        super(control);
+
+        final FadeTransition fadeIn = new FadeTransition(Duration.millis(100));
+        fadeIn.setNode(control);
+        fadeIn.setToValue(1);
+        control.setOnMouseEntered(e -> fadeIn.playFromStart());
+
+        final FadeTransition fadeOut = new FadeTransition(Duration.millis(100));
+        fadeOut.setNode(control);
+        fadeOut.setToValue(0.5);
+        control.setOnMouseExited(e -> fadeOut.playFromStart());
+
+        control.setOpacity(0.5);
+    }
+
+}
+
+
 int roww=0;
 ChoiceBox<String> choicebox = new ChoiceBox();
 PopOver songInfor=null;
 public void setMin() {
+
+
+
 
 
 	//panela.setHgap(5);
@@ -7301,6 +7327,10 @@ int algea=0;
 		});
 
 
+		albumss.setSkin(new MyButtonSkin(albumss));
+		songss.setSkin(new MyButtonSkin(songss));
+		artists.setSkin(new MyButtonSkin(artists));
+
 
 //		rootPane.addEventFilter(KeyEvent.KEY_PRESSED,event->{
 //
@@ -7512,6 +7542,7 @@ int algea=0;
 				System.err.println("there was a problem registering native hook");
 
 			}
+		//NativeKeyListener.
 			GlobalScreen.addNativeKeyListener(new GlobalListeners());
 
 PauseTransition wait11 = new PauseTransition(Duration.seconds(100));
