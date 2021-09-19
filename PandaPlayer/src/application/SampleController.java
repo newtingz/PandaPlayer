@@ -90,7 +90,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Bounds;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -121,6 +120,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -546,8 +546,8 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 				grid.setMinSize(580,49);
 				grid.setMaxSize(580,49);
 		    	grid.setPadding(new Insets(2));
-		    	//grid.setVgap(3);
-		      //  grid.setHgap(3);
+		    	grid.setVgap(10);
+		       // grid.setHgap(10);
 		        grid.getStyleClass().add("gborder");
 		        icon.setFitHeight(30);
 		        icon.setFitWidth(30);
@@ -585,6 +585,7 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 		        //
 
 				grid.add(textFlowPane, 2, 0);
+			//	grid.setStyle("-fx-box-border: transparent;");
 				textFlowPane.getChildren().addAll(SonfName, SonfName2);
 //
 				//
@@ -601,9 +602,10 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 //	     			 // hit.getCell().
 //	     		});
 				grid.setOnMouseClicked(event -> {
+
 					if(event.getButton()==MouseButton.PRIMARY) {
 						Platform.runLater(() -> {
-					grid.setStyle("-fx-background-color: #39FF9F;fx-background-radius: 3;"/*-fx-border-radius:2;-fx-border-width: 0.8 1 1.6 1;-fx-border-color: linear-gradient(to right,transparent , #32393D 50%, transparent ) transparent transparent transparent  ;"*/);
+					grid.setStyle("-fx-background-color: #39FF9F;"/*-fx-border-radius:2;-fx-border-width: 0.8 1 1.6 1;-fx-border-color: linear-gradient(to right,transparent , #32393D 50%, transparent ) transparent transparent transparent  ;"*/);
 						});
 						}else {
 
@@ -612,16 +614,46 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 					//SonfName2.setFill(Color.GHOSTWHITE);
 					 //flows.getCell(--listViewDex).updateIndex(--listViewDex);;
 				});
+				grid.setOnMousePressed(event -> {
+					Platform.runLater(() -> {
+						grid.setScaleX(0.990);
+						grid.setScaleY(0.990);
+						grid.setScaleZ(0.990);
+							});
+					
+					//SonfName2.setFill(Color.GHOSTWHITE);
+					 //flows.getCell(--listViewDex).updateIndex(--listViewDex);;
+				});
+				grid.setOnMouseReleased(event -> {
+					Platform.runLater(() -> {
+						grid.setScaleX(1.0);
+						grid.setScaleY(1.0);
+						//grid.setScaleZ(1.0);
+							});
+
+					//SonfName2.setFill(Color.GHOSTWHITE);
+					 //flows.getCell(--listViewDex).updateIndex(--listViewDex);;
+				});
 				grid.setOnMouseEntered(event -> {
 					//grid.getStyle()
 
 					 //Platform.runLater(() -> {
 						// grid.setStyle("-fx-background-color: transparent;");
+//					.button:hover {
+//				    -fx-scale-x: 1.1;
+//				    -fx-scale-y: 1.1;
+//				    -fx-scale-z: 1.1;
+//				}
+					Platform.runLater(() -> {
+				     grid.setScaleX(1.01);
+				    grid.setScaleY(1.01);
+				//grid.setScaleZ(1.001);
+					});
 					if(audiop.fileLocationGet()==current) {
 						//grid.setStyle("-fx-border-color: transparent;");
 					}else {
 						Platform.runLater(() -> {
-						 grid.setStyle("-fx-border-color: grey;");
+						 grid.setStyle("-fx-background-color: #32393D ;");
 						});
 					}
 
@@ -629,6 +661,11 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 
 				});
 				grid.setOnMouseExited(event -> {
+					Platform.runLater(() -> {
+						grid.setScaleX(1.0);
+						grid.setScaleY(1.0);
+						grid.setScaleZ(1.0);
+							});
 					if(audiop.fileLocationGet()==current) {
 					//	grid.setStyle("-fx-border-color: transparent;");
 					}
@@ -636,7 +673,7 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 
 					//	grid.setStyle("-fx-background-color: transparent;"/*-fx-border-radius:2;-fx-border-width: 0.8 1 1.6 1;-fx-border-color: linear-gradient(to right,transparent , #32393D 50%, transparent ) transparent transparent transparent  ;*/);
 						Platform.runLater(() -> {
-						grid.setStyle("-fx-border-color: linear-gradient(to right,transparent , #32393D 50%, transparent ) transparent transparent transparent  ;");
+						grid.setStyle("-fx-background-color: #191D1F" /*linear-gradient(to right,transparent , #32393D 50%, transparent ) transparent transparent transparent  ;"*/);
 
 
 				      });
@@ -704,6 +741,10 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 
 				});
 		  wait.play();*/
+
+			SonfName.setText(parser.nameGet());
+			lenght.setText(parser.lengthGet());
+			SonfName2.setText("\r\n"+parser.artistGet());
 			new Timeline(
 					new KeyFrame(
 							Duration.seconds(0.0109),event ->{
@@ -721,9 +762,6 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 
 
 							})).play();
-			SonfName.setText(parser.nameGet());
-			lenght.setText(parser.lengthGet());
-			SonfName2.setText("\r\n"+parser.artistGet());
 			//if(this.)
 
 
@@ -807,7 +845,8 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 	 	ImageView icon = new ImageView();
 	 	BufferedImage img= null;
 	 	Mp3File song = null;
-		HBox iconAndName = new HBox(2);
+		HBox iconAndName = new HBox();
+		Rectangle rect = new Rectangle();
 		{
 
 
@@ -815,22 +854,34 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 			grid.setMaxSize(200,200);
 			grid.setPadding(new Insets(0,9,0,9));
 			//icon.setPreserveRatio(true);
-	        icon.setFitHeight(190);
-	        icon.setFitWidth(190);
+
 
 	        //icon.setFitHeight(190);
 	    	// icon.setFitWidth(190);
 
 	    //    icon.setEffect(new DropShadow());
+			icon.setPreserveRatio(true);
+			 icon.setFitHeight(190);
+			//icon.setFitHeight(190);
 	        icon.setCache(false);
-	        Rectangle rect = new Rectangle();
+	        rect.setArcWidth(14);
+  		    rect.setArcHeight(14);
+  		    rect.widthProperty().set(190);
+			rect.heightProperty().set(190);
+  		    //rect.setWidth(190);
+			//rect.setHeight(190);
 	        //icon.setCacheHint(CacheHint.SPEED);
 	        iconAndName.setAlignment(Pos.CENTER);
 	        iconAndName.getChildren().add(icon);
+	        iconAndName.setMaxHeight(190);
+	        iconAndName.setMinHeight(190);
+	        iconAndName.setMaxWidth(190);
+	        iconAndName.setMinWidth(190);
+	       // iconAndName.w
+
+
+	        iconAndName.setClip(rect);
 	        grid.add(iconAndName, 0, 0);
-	        //rect.widthProperty().set(190);
-			//rect.heightProperty().set(190);
-			//icon.setClip(rect);
 
 		}
 
@@ -904,8 +955,26 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 						}
 
 					     Image img1 = SwingFXUtils.toFXImage(img,null);
+					     if(img1.getHeight()>img1.getWidth()) {
+					    		// icon.setFitHeight(190);
+					    	// img1.
+					 	        icon.setFitWidth(190);
+					 	      // icon.setImage(img1);
+
+					    	 }
+//					     else if(img1.getHeight()<img1.getWidth()) {
+//
+//
+//
+//
+//					    	 }
+
 					     Platform.runLater(() -> {
+
 					    	 icon.setImage(img1);
+
+
+
 						     FadeTransition ft = new FadeTransition();
 						      ft.setNode(icon);
 						      ft.setDuration(new Duration(125));
@@ -928,7 +997,12 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 
 						 Platform.runLater(() -> {
 					    	 icon.setImage(new Image(new File(parser.ImageGet()).toURI().toString(),190 ,190,false ,false ,true));
-						     FadeTransition ft = new FadeTransition();
+
+
+
+						 	       // icon.setFitWidth(190);
+
+					    	 FadeTransition ft = new FadeTransition();
 						      ft.setNode(icon);
 						      ft.setDuration(new Duration(125));
 						      ft.setFromValue(0.0);
@@ -5087,7 +5161,9 @@ if(podd==0) {
 //	    			if(listViewDex!=0&&!filteredData.isEmpty()) {
 
 	    			executor.submit(() -> 	Song(alpo.absolutePatht));
-	    			executor.submit(() -> 	trackMaster2(alpo.absolutePatht));
+	    			//Song(oldValue);
+ 	     			play jog=new play(alpo.absolutePatht);
+	    			//executor.submit(() -> 	trackMaster2(alpo.absolutePatht));
 
 
 	    			//}
@@ -5124,7 +5200,9 @@ if(podd==0) {
 //	    			if(listViewDex!=0&&!filteredData.isEmpty()) {
 
 	    			executor.submit(() -> 	Song(alpo.absolutePatht));
-	    			executor.submit(() -> 	trackMaster2(alpo.absolutePatht));
+	    			play jog=new play(alpo.absolutePatht);
+
+	    			//executor.submit(() -> 	trackMaster2(alpo.absolutePatht));
 
 
 	    			//}
@@ -5667,7 +5745,7 @@ if(podd==0) {
      		rootPane.setContent(listScrollPane);
 
 
-	    	}
+	    	}else {Vpane(list);}
 	    }
 	    String year1 = null ;
 	    Text albumYear=new Text();
@@ -5688,24 +5766,21 @@ if(podd==0) {
 	     	     listScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER );
 
 
+	     	    ImageView icond = new ImageView();
 
-
-	    		manogz=0;
-	    		Rectangle rect = new Rectangle();
-	    		GridPane gridder = new GridPane();
-	    		gridder.setStyle("-fx-background-color: #32393D;");
-	    		gridder.setPrefSize(418, 125);
-	    		//gridder.setMaxSize(420, 100);
-	    		gridder.setMinSize(418, 125);
-	    		gridder.setHgap(20);
-
-	    		ImageView icond = new ImageView();
 	    		icond.minHeight(100);
 	    		icond.minWidth(100);
+	    		icond.maxHeight(100);
+	    		icond.maxWidth(100);
+	    		icond.setSmooth(true);
+				   // icond.setPreserveRatio(true);
+				icond.setCache(false);
+				icond.setFitHeight(100);
+				icond.setFitWidth(100);
+	    		icond.setImage(new ImageView("application/Image/A5.png").getImage());
 
 
 
-	    		TextFlow textFlowPane = new TextFlow();
 	    		HBox goner=new HBox();
 
 	    		Task<Void> consumerTask = new Task<Void>() {
@@ -5717,87 +5792,85 @@ if(podd==0) {
 
 
 
-
+				    	albumYear.setFill(Color.GRAY);
+					    albumArtists.setFill(Color.GHOSTWHITE);
 				    	BufferedImage img= null;
 				    	WritableImage wr = null;
 						Mp3File song = null;
 
 
 				try {
+					if(h.get(0)!=null) {
 					song = new Mp3File(h.get(0).fileLocationGet());
+					}
 				} catch (UnsupportedTagException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					//e.printStackTrace();
 				} catch (InvalidDataException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					//e.printStackTrace();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					//e.printStackTrace();
 				}
 
 				if (song.hasId3v2Tag()){
 				     ID3v2 id3v2tag = song.getId3v2Tag();
 				     byte[] imageData = id3v2tag.getAlbumImage();
+
+				     if(imageData!=null) {
+					     //converting the bytes to an image
+					     try {
+							img = ImageIO.read(new ByteArrayInputStream(imageData));
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							icond.setImage(new ImageView("application/Image/A5.png").getImage());
+							e.printStackTrace();
+						}
+
+					     Image img1 = SwingFXUtils.toFXImage(img,null);
+
+						    // image.setImage(new ImageView(img1).getImage());
+						     //FadeTransition ft = new FadeTransition(Duration.millis(3000), image);
+						    // Group group = new Group();
+						    // int width=(int)image.getFitWidth();
+						     //int height=(int)image.getFitHeight();
+
+
+						    // rect.ArcWidth(30.0);
+						     //group.getChildren().addAll(rect);
+						     Platform.runLater(() -> {
+						    	 icond.setImage(img1);
+							     FadeTransition ft = new FadeTransition();
+							      ft.setNode(icond);
+							      ft.setDuration(new Duration(400));
+							      ft.setFromValue(0.0);
+							      ft.setToValue(1.0);
+							      ft.setAutoReverse(false);
+							      ft.play();
+						        });
+
 				    String gggg = id3v2tag.getYear();
-				     albumYear.setText(" ("+gggg.toString()+")");
+				    albumArtists.setText(id3v2tag.getArtist().toString());
+				     albumYear.setText("("+gggg.toString()+")");
 				     if(gggg==null) {
 				    	 ID3v1 id3v1tag = song.getId3v2Tag();
-				    	 albumYear.setText(" ("+id3v1tag.getYear()+")");
+				    	 albumYear.setText("("+id3v1tag.getYear()+")");
 				     }
-				     albumArtists.setText(id3v2tag.getAlbumArtist());
-				     if(id3v2tag.getAlbumArtist()==null) {
+
+				     if(id3v2tag.getArtist()==null) {
 				    	 ID3v1 id3v1tag = song.getId3v2Tag();
-				    	 albumArtists.setText(id3v1tag.getArtist().toString());
+				    	 albumArtists.setText(id3v1tag.getArtist());
+				    	 albumArtists.setFill(Color.GHOSTWHITE);
 				    	// System.out.println("id3v1 -"+id3v1tag.getArtist());
 				     }
 				   //  System.out.println("id3v2 -"+id3v2tag.getAlbumArtist());
-				     albumYear.setFill(Color.WHITE);
-				     albumArtists.setFill(Color.GHOSTWHITE);
-				     if(imageData!=null) {
-				     //converting the bytes to an image
-				     try {
-						img = ImageIO.read(new ByteArrayInputStream(imageData));
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+
+
 				     //convertToFxImage(img);
 				   //  Image image2 = img;
 				   //  image.setImage(img);}
-				     Image img1 = SwingFXUtils.toFXImage(img,null);
 
-				    // image.setImage(new ImageView(img1).getImage());
-				     //FadeTransition ft = new FadeTransition(Duration.millis(3000), image);
-				    // Group group = new Group();
-				    // int width=(int)image.getFitWidth();
-				     //int height=(int)image.getFitHeight();
-
-
-				    // rect.ArcWidth(30.0);
-				     //group.getChildren().addAll(rect);
-				     Platform.runLater(() -> {
-				    	 icond.setImage(img1);
-
-				    	 icond.setFitHeight(100);
-						 icond.setFitWidth(100);
-						 icond.setSmooth(true);
-						   // icond.setPreserveRatio(true);
-						 icond.setCache(false);
-
-				    //	 image.setFitWidth(190);
-
-				    	// icon.setPreserveRatio(true);
-
-				    	 //rect=new Rectangle((int)image.getFitWidth(),(int)image.getFitHeight());
-					     FadeTransition ft = new FadeTransition();
-					      ft.setNode(icond);
-					      ft.setDuration(new Duration(400));
-					      ft.setFromValue(0.0);
-					      ft.setToValue(1.0);
-					      ft.setAutoReverse(false);
-					      ft.play();
-				        });
 
 
 
@@ -5816,20 +5889,38 @@ if(podd==0) {
 
 
 				//Platform.runLater(() -> {
-					albumYear = new Text("");
-					albumArtists = new Text("");
+				//	albumYear = new Text("");
+				//	albumArtists = new Text("");
 					//albumArtists.resize(width, height);
 					icond.setImage(new ImageView("application/Image/A5.png").getImage());
-					icond.setFitHeight(100);
-				    icond.setFitWidth(100);
-				    icond.setSmooth(true);
-				   // icond.setPreserveRatio(true);
-				    icond.setCache(false);
-				    goner.getChildren().add(icond);
+
+				   // goner.getChildren().add(icond);
 			     //   });
 				}
 
-				}
+				}else {//image.setImage("Image/A5.png");
+
+					Platform.runLater(() -> {
+				    	 icond.setImage(new ImageView(h.get(0).ImageGet()).getImage());
+
+
+
+
+				    //	 image.setFitWidth(190);
+
+				    	// icon.setPreserveRatio(true);
+
+				    	 //rect=new Rectangle((int)image.getFitWidth(),(int)image.getFitHeight());
+					     FadeTransition ft = new FadeTransition();
+					      ft.setNode(icond);
+					      ft.setDuration(new Duration(400));
+					      ft.setFromValue(0.0);
+					      ft.setToValue(1.0);
+					      ft.setAutoReverse(false);
+					      ft.play();
+				        });
+				     //   });
+					}
 				return null;
 
 				    }
@@ -5837,7 +5928,22 @@ if(podd==0) {
 
 
 				};
+
 				imageSetter.execute(consumerTask);
+
+	    		manogz=0;
+	    	//	albumYear = new Text("");
+				albumArtists = new Text("");
+	    		Rectangle rect = new Rectangle();
+	    		GridPane gridder = new GridPane();
+	    		TextFlow textFlowPane = new TextFlow();
+	    		//gridder.setStyle("-fx-background-color: #32393D;");
+	    		gridder.setPrefSize(418, 125);
+	    		//gridder.setMaxSize(420, 100);
+	    		gridder.setMinSize(418, 125);
+	    		gridder.setHgap(20);
+
+
 
 	    		Text gotArtist=new Text("Go To Artist");
 	  		    Text songInfo=new Text("Song Info");
@@ -5861,16 +5967,26 @@ if(podd==0) {
 	    	//	goner.setPadding(new Insets(0, 0, 0, 15));
 
 
-				textFlowPane.setPrefSize(275,15);
-				textFlowPane.setMinSize(275,15);
-				textFlowPane.setMaxSize(275,15);
+				//textFlowPane.setPrefSize(90,15);
+				textFlowPane.setMinSize(2,5);
+				textFlowPane.setMaxSize(90,5);
+
+				Albumname.maxWidth(90);
+				//albumArtists.maxHeight(10);
+
+				//Albumname
+			//	Albumname.maxWidth(90);
+				//Albumname.maxHeight(10);
+				//textFlowPane.
 				//textFlowPane.setPadding(new Insets(20,5,20,0));
 
 				GridPane joker =new GridPane();
+				//joker.setGridLinesVisible(true);
 				joker.setPrefSize(280,100);
 				joker.setMinSize(280,100);
 				joker.setMaxSize(280,100);
-				joker.setPadding(new Insets(20,5,20,0));
+				//joker.setVgap(4);
+				joker.setPadding(new Insets(20,5,0,0));
 
 				//joker.setGridLinesVisible(true);
 			 	//Image imgurra=new Image(System.getProperty("user.home")+"/ilix/A5.png");
@@ -5880,17 +5996,26 @@ if(podd==0) {
 
 
 				//textFlowPane.spa
-				textFlowPane.getChildren().add(0,Albumname);
-				textFlowPane.getChildren().add(1,albumYear);
+				//textFlowPane.getChildren().add(Albumname);
+				//textFlowPane.getChildren().add(1,albumYear);
 				//textFlowPane.getChildren().add(1, albumYear);
-				joker.add(textFlowPane, 0, 0);
+				FlowPane jake = new FlowPane();
+				//jake.
+				jake.setMaxSize(200, 5);
+				jake.setHgap(5);
+				jake.getChildren().addAll(Albumname,albumYear);
+				//jake.setMinSize(200, 5);
+
+				joker.add(jake, 0, 0);
+				//joker.add(albumYear, 1, 0);
+
 				//joker.setRowSpan(textFlowPane, 20);
 				//joker.setColumnSpan(Albumname, 20);
 				//joker.add(albumYear, 1, 0);
 				joker.add(albumArtists, 0, 1);
 				//joker.setValignment(albumArtists, VPos.TOP);
 				//joker.setRowSpan(albumArtists, 20);
-				joker.add(SongNo, 0, 2);
+				joker.add(SongNo, 0, 3);
 				//joker.setValignment(SongNo, VPos.TOP);
 
 				//joker.setRowSpan(SongNo, 20);
@@ -6419,8 +6544,9 @@ private void songPlaytime(String key) {
 
 			playListToEnd=true;
 			System.out.println("playListToEnd is oN");
-
-			repeatB.setImage(new Image("application/Image/oNRepeat.png"));
+			//repeatB.setImage(new Image("application/Image/oofRepeat.png"));
+			repeatB.setImage(new Image("application/Image/stopOnlast.png"));
+			//repeatB.setImage(new Image("application/Image/oNRepeat.png"));
 			break;
 
 	case "repeatList":
@@ -6428,8 +6554,9 @@ private void songPlaytime(String key) {
 
 			repeatList=true;
 			System.out.println("repeatList is oN");
-
-			repeatB.setImage(new Image("application/Image/oNRepeat.png"));
+			//repeatB.setImage(new Image("application/Image/oofRepeat.png"));
+			repeatB.setImage(new Image("application/Image/stopOnlast.png"));
+			//repeatB.setImage(new Image("application/Image/oNRepeat.png"));
 		break;
 
 	case "repeatSong":
@@ -6607,6 +6734,7 @@ public void setMin() {
 		if(repeatList==true) {
 
 			repeatList=false;
+
 			repeatB.setImage(new Image("application/Image/stopOnlast.png"));
 
 			try(
@@ -7327,11 +7455,16 @@ int algea=0;
 		});
 
 
-		albumss.setSkin(new MyButtonSkin(albumss));
-		songss.setSkin(new MyButtonSkin(songss));
-		artists.setSkin(new MyButtonSkin(artists));
+	//	albumss.setSkin(new MyButtonSkin(albumss));
+		//songss.setSkin(new MyButtonSkin(songss));
+		//artists.setSkin(new MyButtonSkin(artists));
+
+		/*albumss.setOnMouseEntered(e->{
 
 
+			albumss.setStyle("-fx-scale-x: 1.1;-fx-scale-y: 1.1;-fx-scale-z: 1.1;");
+
+		});*/
 //		rootPane.addEventFilter(KeyEvent.KEY_PRESSED,event->{
 //
 //
@@ -8072,7 +8205,7 @@ Service<Void> service_ = new Service<Void>(){
 			  griddd.setStyle("-fx-background-color: #39FF9F;");
 		      });
 		}
-		  Bounds bounds=image.getBoundsInParent();
+	///	  Bounds bounds=image.getBoundsInParent();
 		  Platform.runLater(()->{
 		  flowsy.showAtOffset(number,24);
 		//  flowsy.showAtOffset(number,18);

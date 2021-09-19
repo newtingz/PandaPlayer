@@ -16,6 +16,11 @@
 
     -fx-background-insets:  0, 1;
 }*/
+.button:hover {
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-scale-z: 1.1;
+}
 .border {
 		/*-fx-background-color :/* #191D1F-fx-border-color : #191D1F;*/
 
@@ -24,6 +29,15 @@
 
 
     }
+    .gborder {
+		-fx-background-color : #191D1F;
+		-fx-background-insets:  0.8;
+		-fx-border-radius:3;
+		-fx-border-width: 0.8 0.8 0.8 0.8;
+		-fx-border-color: transparent /* linear-gradient(to right,transparent , #32393D 50%, transparent ) transparent transparent transparent*/  ;
+
+    }
+
     .horder {
 
 
@@ -47,6 +61,12 @@
 #SonfName{
 
 	 -fx-text-fill: white;
+}
+#Albumname{
+
+	 -fx-font-smoothing-type: lcd ;
+	 -fx-font-weight: 5;
+	 -fx-font: 10px "System";
 }
 #griddy{
 	 -fx-max-height: 49;
@@ -80,12 +100,13 @@
 .grid4{
 
     -fx-border-radius: 4;
+
 	-fx-background-radius: 4;
-	-fx-background-color: #32393D;
+	-fx-background-color: #191D1F;
 	/*-fx-border-color : #39FF9F;
     -fx-border-width : 1;
     -fx-border-radius: 4;*/
-    -fx-font: 10px  "Arial " ;
+    -fx-font: 10.3px  "Arial " ;
 }
 
 
@@ -108,9 +129,19 @@
 .popover > .content > .label  {
     -fx-text-fill: white;
 }
+.scroll-pane {
+   -fx-padding:0;
+   -fx-background-insets: 0;
+     -fx-background-radius : 15 0 0 15;
+    -fx-border-radius : 15 0 0 15;
+}
+
 
 .scroll-pane > .viewport {
-   -fx-background-color: transparent;
+   -fx-background-color: #32393D;
+    -fx-background-radius : 15 0 0 15;
+    -fx-border-radius : 15 0 0 15;
+
 }
 .scroll-pane:horizontal .track {
    -fx-background-color: transparent;
@@ -362,7 +393,7 @@ Songname {
 .kunfu{
 
  -fx-background-color: transparent ;
- -fx-background-radius: 5;
+ -fx-background-radius: 10 0 0 0;
   -fx-border-color: null;
 }
 
