@@ -424,11 +424,13 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 
 	public  ArrayList<String> foldertoExtract = new ArrayList<String>();
 
+	//public  ArrayList<Double> songsWithHighli = new ArrayList<Double>();
+
 	 FilteredList<AudioParser> filteredData=new FilteredList<>(list,s->true);
 
 
 	 int beforeAlbum=0;
-//	  ObservableList<ImageQeue> queue = FXCollections.observableArrayList();
+	  ObservableList<Double> queue = FXCollections.observableArrayList();
 
 
 //	 private BlockingQueue<Runnable> imalink = new LinkedBlockingQueue <Runnable>(40);
@@ -437,7 +439,7 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 
 
 	// int ki=0;
-	/*	public void machin() {
+		public void machin() {
 		 Task<Void> consumerTask = new Task<Void>() {
 
 			    @Override
@@ -449,45 +451,28 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 			        //track sets of points that are plotted
 
 			        int plotCount = 0;
-			        ThreadPoolExecutor pool4 = new ThreadPoolExecutor(
-		     			    4,                                     // keep at least two thread ready,
-		     			                                           // even if no Runnables are executed
-		     			    5,                                     // at most five Runnables/Threads
-		     			                                           // executed in parallel
-		     			    20, TimeUnit.MINUTES,                   // idle Threads terminated after one
-		     			                                           // minute, when min Pool size exceeded
-		     			    imgur2,r ->{
-		     					Thread t=new Thread(r);
-		     					//r.
-		     					t.setName("Machine");
-		     				//	t.setDaemon(true);
-		     					return t;
 
-		     				},new ThreadPoolExecutor.DiscardOldestPolicy());
 			        while (true) {
 
 
 
-			        	if(!imalink.isEmpty()) {
+			        	if(!queue.isEmpty()) {
 
-			        		 for ( ki = 1; ki <= 15; ++ki) {
-			 		            try {
-			 		            	++ki;
-			 		            	pool4.execute(imalink.take());
-			 		            	//Thread.sleep(25);
-			 		            } catch (InterruptedException e) {
-			 		                e.printStackTrace();
-			 		            }
 
-			 		           if(imalink.size()==20) {
+			        		 for (int ki=queue.size(); ki <= 0; ki--) {
 
-					        		System.out.println("OverLoad");
-					        	}
-			 		          if(ki==14) {
-			 		        	 System.out.println("Finished Lump");
-			 		        	 ki=0;
-			 		            }
-			 		        }
+
+			        			 GridPane gridd = (GridPane) flows.getCell(queue.get(ki).intValue()).getNode();
+			      				TextFlow he = (TextFlow)gridd.getChildren().get(2);
+
+			 					Text her =(Text)he.getChildren().get(0);
+			 					Text herr =(Text)he.getChildren().get(1);
+			      				  Platform.runLater(() -> {
+			      					  gridd.setStyle("-fx-background-color: #191D1F;");
+			 						her.setFill(Color.WHITE);
+			 						herr.setFill(Color.GREY);
+			      				      });
+				 		        }Thread.sleep(2);
 
 
 			        	}
@@ -502,12 +487,13 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 			    }
 
 			 };
-			 pool.execute(consumerTask);
+			 pooler.execute(consumerTask);
 
-		}*/
+		}
 
 	// ImageQeue(ImageView icon,Image image)
 	 public int awareness=0;
+	 boolean TYming = false;
     @SuppressWarnings({ })
 	class AudioParserCell implements Cell{
 
@@ -605,6 +591,9 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 
 					if(event.getButton()==MouseButton.PRIMARY) {
 						Platform.runLater(() -> {
+							//flows.
+							SonfName2.setFill(Color.DARKSLATEGREY);
+							SonfName.setFill(Color.BLACK);
 					grid.setStyle("-fx-background-color: #39FF9F;"/*-fx-border-radius:2;-fx-border-width: 0.8 1 1.6 1;-fx-border-color: linear-gradient(to right,transparent , #32393D 50%, transparent ) transparent transparent transparent  ;"*/);
 						});
 						}else {
@@ -620,7 +609,7 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 						grid.setScaleY(0.990);
 						grid.setScaleZ(0.990);
 							});
-					
+
 					//SonfName2.setFill(Color.GHOSTWHITE);
 					 //flows.getCell(--listViewDex).updateIndex(--listViewDex);;
 				});
@@ -644,41 +633,94 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 //				    -fx-scale-y: 1.1;
 //				    -fx-scale-z: 1.1;
 //				}
-					Platform.runLater(() -> {
-				     grid.setScaleX(1.01);
-				    grid.setScaleY(1.01);
-				//grid.setScaleZ(1.001);
-					});
+
 					if(audiop.fileLocationGet()==current) {
 						//grid.setStyle("-fx-border-color: transparent;");
+
+
+						new Timeline(
+								new KeyFrame(
+										Duration.seconds(0.019),ggt ->{
+
+
+										//	if(flows.visibleCells().contains(this)) {
+											if(grid.isHover()) {
+												//	Platform.runLater(() -> {
+												Platform.runLater(() -> {
+													 grid.setScaleX(1.01);
+													 grid.setScaleY(1.01);
+													// grid.setStyle("-fx-background-color: #32393D ;");
+													});
+												//	});
+											}
+
+
+
+										})).play();
 					}else {
-						Platform.runLater(() -> {
-						 grid.setStyle("-fx-background-color: #32393D ;");
-						});
+						new Timeline(
+								new KeyFrame(
+										Duration.seconds(0.019),gg ->{
+
+
+
+
+												//	Platform.runLater(() -> {
+											if(grid.isHover()) {
+												Platform.runLater(() -> {
+													 grid.setScaleX(1.01);
+													 grid.setScaleY(1.01);
+													 grid.setStyle("-fx-background-color: #32393D ;");
+													});
+										}
+												//	});
+
+
+
+										})).play();
+
 					}
 
 				    //  });
 
 				});
 				grid.setOnMouseExited(event -> {
-					Platform.runLater(() -> {
-						grid.setScaleX(1.0);
-						grid.setScaleY(1.0);
-						grid.setScaleZ(1.0);
-							});
+
 					if(audiop.fileLocationGet()==current) {
+						Platform.runLater(() -> {
+							grid.setScaleX(1.0);
+							grid.setScaleY(1.0);
+							grid.setScaleZ(1.0);
+								});
 					//	grid.setStyle("-fx-border-color: transparent;");
 					}
 					else {
 
 					//	grid.setStyle("-fx-background-color: transparent;"/*-fx-border-radius:2;-fx-border-width: 0.8 1 1.6 1;-fx-border-color: linear-gradient(to right,transparent , #32393D 50%, transparent ) transparent transparent transparent  ;*/);
 						Platform.runLater(() -> {
-						grid.setStyle("-fx-background-color: #191D1F" /*linear-gradient(to right,transparent , #32393D 50%, transparent ) transparent transparent transparent  ;"*/);
+							grid.setScaleX(1.0);
+							grid.setScaleY(1.0);
+							grid.setScaleZ(1.0);
+						//	this.
+						    grid.setStyle("-fx-background-color: #191D1F" /*linear-gradient(to right,transparent , #32393D 50%, transparent ) transparent transparent transparent  ;"*/);
 
 
 				      });
 					}
 				});
+
+				// if (TYming = true) {
+						Platform.runLater(() -> {
+							grid.setScaleX(0.2);
+							grid.setScaleY(0.2);
+							grid.setScaleZ(0.2);
+
+							grid.setScaleX(1.0);
+							grid.setScaleY(1.0);
+							grid.setScaleZ(1.0);
+								});
+
+				//	}
 			}
 
 //HBox.setMargin(Node, Insets)
@@ -690,16 +732,58 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 			this.audiop=audioparser;
 			//queue.add(0, new Image(new File(audioparser.ImageGet()).toURI().toString(),true));
 			//if()
-
+			//new EventHandler<ScrollEvent>()
 			 if(audioparser.fileLocationGet()==current) {
 				  Platform.runLater(() -> {
 					 // grid.setStyle("-fx-background-color: #39FF9F;");
 					  grid.setStyle(" -fx-background-color: #39FF9F");
+					// grid.
+					/*  new Timeline(
+								new KeyFrame(
+										Duration.seconds(0.019),gg ->{
+
+
+
+
+												//	Platform.runLater(() -> {
+											if(audioparser.fileLocationGet()!=current) {
+												Platform.runLater(() -> {
+
+									      					  grid.setStyle("-fx-background-color: #191D1F;");
+									      					SonfName2.setFill(Color.WHITE);
+									      					SonfName.setFill(Color.GREY);
+									      				      });
+													}
+										}
+												//	});
+
+
+
+										)).play();*/
+
+					  SonfName2.setFill(Color.DARKSLATEGREY);
+					  SonfName.setFill(Color.BLACK);
 				      });
+				  wait.setOnFinished((e) -> {
+					  if(audioparser.fileLocationGet()!=current) {
+					  Platform.runLater(() -> {
+
+      					  grid.setStyle("-fx-background-color: #191D1F;");
+      					SonfName.setFill(Color.WHITE);
+      					SonfName2.setFill(Color.GREY);
+      					wait.stop();
+      				      });
+						System.gc();
+					  }
+					wait.playFromStart();
+					});
+					wait.play();
+				//  queue.add(new Double(posnum));
 				 awareness =posnum;
 			}
 
 			 //parser.
+
 		    updateItem(audioparser,posnum);
 		    //current
 
@@ -711,6 +795,7 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 		//@Override
 		public void updateItem( AudioParser parser,int cellNo )
 		{
+
 			//WeakReference<>(legg);
 
 		//	referent=new Image(new File(parser.ImageGet()).toURI().toString(),true);
@@ -762,6 +847,13 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 
 
 							})).play();
+//			while(true) {
+//				if(parser.fileLocationGet()!=current) {
+//
+//
+//				}
+//
+//			}
 			//if(this.)
 
 
@@ -1012,8 +1104,9 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 
 					        });
 					}else {//image.setImage("Image/A5.png");
-
+						 Platform.runLater(() -> {
 						icon.setImage(new Image("application/Image/A5.png",190,190,true,true,true));
+						 });
 
 					}
 
@@ -2066,7 +2159,7 @@ public void replacePlay()
 
 
 	@FXML
-	public void rest(MouseEvent arg0) {
+	public void rest() {
 
 
 		Service<Void> service = new Service<Void>() {
@@ -2077,10 +2170,31 @@ public void replacePlay()
 		                @Override
 					protected Void call() {
 	                    //Background work
+		System.out.println("Started Clearing");
+		//Array jack;
+		ArrayList<String> jack = new ArrayList<String>();
+		jack.add(System.getProperty("user.home")+"\\ilix\\songs.txt");
+		jack.add(System.getProperty("user.home")+"/ilix/mydb.txt");
+		jack.add(System.getProperty("user.home")+"/ilix/totalSongs.txt");
+		jack.add(System.getProperty("user.home")+"/ilix/folders.txt");
 
+		jack.forEach(mans->{
+			File temp = new File(mans);
+			if (temp.exists()) {
+			   // @SuppressWarnings("resource");
+			    try {
+				RandomAccessFile raf = new RandomAccessFile(temp, "rw");
 
+			    raf.setLength(0);
+			    raf.close();
+			    } catch(IOException fj) {
+			    	System.err.print("File Deleting Error");
 
-		File temp = new File(System.getProperty("user.home")+"\\ilix\\songs.txt");
+			    }
+			}
+             		});
+
+		/*File temp = new File(System.getProperty("user.home")+"\\ilix\\songs.txt");
 		if (temp.exists()) {
 		   // @SuppressWarnings("resource");
 		    try {
@@ -2131,7 +2245,7 @@ public void replacePlay()
 
 
 	    }
-		}
+		}*/
 
 		deleteFolder(new File(System.getProperty("user.home")+"\\ilix\\cache-images"));
 
@@ -2151,7 +2265,8 @@ public void replacePlay()
 				}
 				list.clear();
 				refreshList.clear();
-				mp=null;
+				filteredData.clear();
+				//mp=null;
 				System.out.println("Done Clearing");
 			});
 			service.start();
@@ -2816,7 +2931,7 @@ int irf=1;
 //	      //Adding the transformation to rectangle
 //	      refresh.getTransforms().addAll(rotate);
 
-		PauseTransition wait11 = new PauseTransition(Duration.millis(10));
+		/*PauseTransition wait11 = new PauseTransition(Duration.millis(10));
 		wait11.setOnFinished((e) -> {
 
 
@@ -2824,7 +2939,7 @@ int irf=1;
 			//irf++;
 			//wait11.playFromStart();
 		});
-		wait11.play();
+		wait11.play();*/
 
 		totalSongse=0;
 		counter=0;
@@ -2834,8 +2949,8 @@ int irf=1;
 
 	//	try {
 		//.close();
-		if(flows!=null) {
-		flows.setDisable(true);}
+		/*if(flows!=null) {
+		flows.setDisable(true);}*/
 		int numboid=foldertoExtract.size();
 		System.out.println(numboid+" This Is Our Size");
 		GridPane manJoe=new GridPane();
@@ -2919,6 +3034,7 @@ int irf=1;
                     					//	out4.flush();
         								} catch (IOException e) {
         									e.printStackTrace();
+        									continue;
         								    //exception handling left as an exercise for the reader
         								}finally {
 
@@ -2929,6 +3045,8 @@ int irf=1;
         	                    					//	out4.flush();
         	        								} catch (IOException e) {
         	        									e.printStackTrace();
+
+        	        									continue;
         	        								    //exception handling left as an exercise for the reader
         	        								}
         								}
@@ -2936,45 +3054,9 @@ int irf=1;
 
 
                 						int n = rand. nextInt(504000654);
-
-
-                						//Path pathy = Paths.get(pathFInder);
-                						//pathy.ge
-                						//pathFInder=new String(pathFInder.getBytes(StandardCharsets.ISO_8859_1));
-                						//song=new Mp3File(arg0, arg1)
-                						//
-                						//File file = new File(filer.getAbsolutePath());
-
-                						//String platformIndependentPath = new String(pathFInder.toString().getBytes(StandardCharsets.US_ASCII),   StandardCharsets.UTF_8);
-
-                						//URI uri = file.toURI();
-                						//pathFInder.to
-                						// Charsets."cp1252"
-                					//	String asciiURI =new String( pathFInder);
-                					//	String platformIndependentPath = new String(pathFInder);
-
-//                						if (asciiURI!=null) {
-//                					    	   StringBuilder sb= new StringBuilder(asciiURI);
-//                					    	   sb.delete(0, 6);
-//                					    	   asciiURI=sb.toString();
-//                					    	   }
-//                						File filer = new File(asciiURI);
-//                						System.out.println(filer.getCanonicalFile());
-                						//ByteBuffer byteBuffer = StandardCharsets.UTF_8.encode(pathFInder);
-
                 						File django  = new File(pathFInder);
-//                						try {
-//                						byte ptext[] = pathFInder.getBytes("UTF-8");
-//                						 value = new String(ptext, "UTF-8");
-//                						}catch(UnsupportedEncodingException gh) {
-//
-//                						}
 
-
-                					//	URL url = pathFInder;
-                						//Path scriptPath = new File(pathFInder).toPath();
-
-                						if(django.getName().endsWith(".mp3")&&pathFInder!=null/*&&new File(pathFInder).length()!=0*/) {
+                						if(django.getName().endsWith(".mp3")&&pathFInder!=null/*&&new File(pathFInder).length()!=0*/&&django.exists()) {
 										try {
 											song = new Mp3File(django) ;
 
@@ -2987,12 +3069,11 @@ int irf=1;
 											continue;
 
 										}catch (UnsupportedTagException e1) {
-											// TODO Auto-generated catch block
-										//	e1.printStackTrace();
-											//break;
+
 											System.out.println("TagException");
 											//continue;
 											continue;
+
 										} catch (InvalidDataException e1) {
 
 											System.out.println("InvalidDataException "+pathFInder);
@@ -3001,7 +3082,7 @@ int irf=1;
 
 										} catch (IOException e1) {
 
-											System.out.println("IOException\\ "+e1);
+											System.out.println("IOException \\ "+e1);
 										//	break;
 											continue;
 										//	continue;
@@ -3036,7 +3117,6 @@ int irf=1;
 	                						     //nowNow="empty";album1="empty";artissty="empty";ablumNoo = "empty";
 	                						     nowNow=id3v2tag.getTitle();
 	                						     album1=id3v2tag.getAlbum();
-
 	                						     artissty=id3v2tag.getArtist();
 	                						     ablumNoo = id3v2tag.getTrack();
 
@@ -3049,7 +3129,7 @@ int irf=1;
 
 	                						     lengthy=formatTime2(Integer.parseInt(lengthy)/1000);
 
-	                						     if (id3v2tag.getTitle().getBytes()==null||id3v2tag.getTitle()==""||id3v2tag.getTitle()==" "||id3v2tag.getTitle().isEmpty()) {
+	                						     if (nowNow==null||nowNow==""||nowNow==" "||nowNow.isEmpty()) {
 	                						    	 nowNow=django.getName().replaceAll(".mp3","");
 	                						    	 if (nowNow==null) {
 
@@ -3057,16 +3137,16 @@ int irf=1;
 	                						    	 }
 
 	                						     }
-	                						     if (id3v2tag.getAlbum()==null||id3v2tag.getAlbum().isEmpty()) {
+	                						     if (album1==null||album1.isEmpty()) {
 	                						    	 album1="untitled";
 	                						     }
-	                						     if (id3v2tag.getArtist()==null||id3v2tag.getArtist().isEmpty()) {
+	                						     if (artissty==null||artissty.isEmpty()) {
 	                						    	 artissty="unkown";
 	                						     }
-	                						     if (id3v2tag.getTrack()==null||id3v2tag.getArtist().isEmpty()) {
+	                						     if (ablumNoo==null||artissty.isEmpty()) {
 	                						    	 ablumNoo="0";
 	                						     }
-	                						     if (lengthy==null||id3v2tag.getArtist().isEmpty()) {
+	                						     if (lengthy==null||artissty.isEmpty()) {
 	                						    	 lengthy="0";
 	                						     }
 	                						     byte[] imageData = id3v2tag.getAlbumImage();
@@ -3078,8 +3158,8 @@ int irf=1;
 	                						     try {
 													img = ImageIO.read(new ByteArrayInputStream(imageData));
 												} catch (IOException e) {
-													// TODO Auto-generated catch block
-													//e.printStackTrace();
+
+													continue;
 												}
 
 	                						     @SuppressWarnings("rawtypes")
@@ -3101,9 +3181,11 @@ int irf=1;
 													} catch (FileNotFoundException e2) {
 														// TODO Auto-generated catch block
 														e2.printStackTrace();
+														continue;
 													} catch (IOException e2) {
 														// TODO Auto-generated catch block
 														e2.printStackTrace();
+														continue;
 													}finally {
 														 if(img!=null) {
 
@@ -3122,6 +3204,7 @@ int irf=1;
 		 												} catch (IOException e1) {
 		 													// TODO Auto-generated catch block
 		 													System.out.println("Failed To Close Output");
+		 													continue;
 		 													//e1.printStackTrace();
 		 												}}
 
@@ -3150,6 +3233,7 @@ int irf=1;
 												} catch (IOException e) {
 													// TODO Auto-generated catch block
 													//e.printStackTrace();
+													continue;
 												}
 
 	                						     @SuppressWarnings("rawtypes")
@@ -3171,9 +3255,11 @@ int irf=1;
 													} catch (FileNotFoundException e2) {
 														// TODO Auto-generated catch block
 														e2.printStackTrace();
+														continue;
 													} catch (IOException e2) {
 														// TODO Auto-generated catch block
 														e2.printStackTrace();
+														continue;
 													}finally {
 														 if(img!=null) {
 
@@ -3183,6 +3269,7 @@ int irf=1;
 														} catch (IOException e1) {
 															// TODO Auto-generated catch block
 															//e1.printStackTrace();
+															continue;
 														}finally {
 															writer.dispose();
 														}
@@ -3192,6 +3279,7 @@ int irf=1;
 		 												} catch (IOException e1) {
 		 													// TODO Auto-generated catch block
 		 													System.out.println("Failed To Close Output");
+		 													continue;
 		 													//e1.printStackTrace();
 		 												}}
 
@@ -3208,7 +3296,7 @@ int irf=1;
 
 	                						    // String bna =
 	                						    // Date d= new Date(dateModified);
-	                						   //  System.out.println(nowNow+" ## "+album1+" ## "+counter);
+	                						     System.out.println(nowNow+" ## "+album1+" ## "+counter);
 	                						     list.add(new AudioParser(nowNow, pathFInder, string, album1,artissty,ablumNoo,lengthy,Long.toString(dateModified)));
 	                						   try {
 
@@ -3220,23 +3308,7 @@ int irf=1;
 
 		                    					outing.write("\n"+nowNow+"(~)"+ pathFInder+"(~)"+string+"(~)"+album1+"(~)"+artissty+"(~)"+ablumNoo+"(~)"+lengthy+"(~)"+dateModified);
 
-
-
-
-	            								 //  BufferedWriter bw = new BufferedWriter();
-	                							  // out = new BufferedWriter(fw);
-	                							  // Path path="C:\\ProgramData\\ilix\\songs.txt"
-	                							  // if(nowNow!=null&&pathFInder!=null&&string!=null&&album!=null) {
-	                							//   out.write("\n"+nowNow+"~"+ pathFInder+"~"+string+"~"+album1+"~"+artissty+"~"+ablumNoo+"~"+lengthy);
-
-
-	                							//   out.close();
-
-	                								    //more code
-	                							//   }
-	                							   //System.out.println("Got TO The Second Buffer");
-
-	                								    totalSongse++;
+	                						totalSongse++;
 	                								    //System.out.println("One Done "+counter);
 
 
@@ -3244,7 +3316,9 @@ int irf=1;
 
 	                								}
 	                									 catch (IOException e) {
-	                										 e.printStackTrace();
+	                										 System.err.print( e.getMessage());
+
+	                										 continue;
 	                								}finally {
 
 	                									try {
@@ -3253,7 +3327,9 @@ int irf=1;
 	                										outing.close();
 	                										}
 	                									catch(IOException fh) {
-	                											fh.printStackTrace();
+	                										 System.err.print( fh.getMessage());
+	                											//fh.printStackTrace();
+	                											continue;
 	                										}
 
 	                								}
@@ -3430,7 +3506,8 @@ int irf=1;
                     						}*/
                 						//read1.close();
                 						}else {System.out.println("over");}
-            				    			updateProgress(ii,max);}
+            				    			updateProgress(ii,max);
+            				    			}
 
                 						//beta+=counter;
 
@@ -3492,13 +3569,13 @@ int irf=1;
 	    	rootPane.setContent(listScrollPane);
 			 refresh.setDisable(false);
 			 addNewTrack.setDisable(false);
-				try {
-  				 flows.setDisable(false);}catch(NullPointerException gr) {
-  					 System.out.println("");
-  				 }
+//				try {
+//  				 flows.setDisable(false);}catch(NullPointerException gr) {
+//  					 System.out.println("");
+//  				 }
 				Collections.sort(list, comparatorMyObject_byDay);
 				orderedSongs();
-			 System.out.println("Done! Reboot Advised,Otherwise all good");
+			 System.out.println("Done! Reboot Advised , Otherwise all good");
 			// albums
 
 
@@ -5185,13 +5262,24 @@ if(podd==0) {
 	    			System.out.println("Last Played "+listViewDex);
 	    			row=listViewDex;
 	    			if(!filteredData.isEmpty()) {
+	    				if(listViewDex<=filteredData.size()) {
 	    				AudioParser alpo=filteredData.get(listViewDex);
 	    	            current=alpo.fileLocationGet();
 	    				flows.show(listViewDex);
 	    				flowsy.showAtOffset(listViewDex,24);
 	    				OnClikedGrid(listViewDex);
-
-
+	    				executor.submit(() -> 	Song(alpo.absolutePatht));
+		    			play jog=new play(alpo.absolutePatht);
+	    				}else {
+	    					listViewDex=0;
+	    					AudioParser alpo=filteredData.get(0);
+		    	            current=alpo.fileLocationGet();
+		    				flows.show(0);
+		    				flowsy.showAtOffset(0,24);
+		    				OnClikedGrid(0);
+		    				executor.submit(() -> 	Song(alpo.absolutePatht));
+			    			play jog=new play(alpo.absolutePatht);
+	    				}
 
 	    			//	Bounds bounds=image.getBoundsInParent();
 
@@ -5199,8 +5287,7 @@ if(podd==0) {
 
 //	    			if(listViewDex!=0&&!filteredData.isEmpty()) {
 
-	    			executor.submit(() -> 	Song(alpo.absolutePatht));
-	    			play jog=new play(alpo.absolutePatht);
+
 
 	    			//executor.submit(() -> 	trackMaster2(alpo.absolutePatht));
 
@@ -5307,9 +5394,7 @@ if(podd==0) {
 
 	    String tittleIn=" ",albumIn=" ",artistIn=" ",year=" ";
 		Mp3File ssong=null ;
-		int bpm=0;
-		int albumSongs=0;
-		int lengthr=0;
+		int bpm=0,albumSongs=0,lengthr=0;
 		BorderPane BPane = new BorderPane();
 		int manogz=0;
 		BufferedWriter man=null;
@@ -5317,8 +5402,10 @@ if(podd==0) {
 		MouseEvent he=null;
 		String thing=null;
 		AudioParser app = null;
+		String holdValue=null;
 	    public void Vpane(ObservableList<AudioParser> h) {
 	    	if(!(h.isEmpty())) {
+	    		TYming = true;
 	    		manogz=0;
 	    		mok=h.size()-1;
 	    		totalSongs=h.size()-1;
@@ -5343,6 +5430,7 @@ if(podd==0) {
 	    		//listScrollPane.setStyle("-fx-background-radius: 15 0 0 15;-fx-border-radius: 15 0 0 15;");
 	    		listScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER );
 
+	    		GridPane information=new GridPane();
      	     	Text gotAlbum=new Text("Go To Album");
      	     	Text gotArtist=new Text("Go To Artist");
 				Text songInfo=new Text("Song Info");
@@ -5353,7 +5441,7 @@ if(podd==0) {
 
 
 
-				GridPane information=new GridPane();
+
      	     	information.setPrefHeight(110);
 			 	information.setPrefWidth(80);
 			 	information.setMaxWidth(80);
@@ -5469,7 +5557,7 @@ if(podd==0) {
 				deleteSong.setOnMouseClicked(event->{
 					if(app!=null) {
 						File deleteThis = new File(app.fileLocationGet());
-
+						//TODO add Confirmation and Undo for Delete
 						if(deleteThis.canWrite()) {
 							deleteThis.delete();
 							list.remove(app);
@@ -5582,7 +5670,7 @@ if(podd==0) {
      		flows.setOnMouseClicked( ME ->
      		{
 
-     			 he =ME;
+     			 he=ME;
      			//Albumadder();
      			getxx=ME.getX();
      			getyy=ME.getY();
@@ -5592,8 +5680,8 @@ if(podd==0) {
      			  if( !hit.isAfterCells()) {
      			  row = hit.getCellIndex();
      			   app = h.get(row);
-     			  String oldValue=app.fileLocationGet();
-     			  nodee=(GridPane)flows.getCell(row).getNode();
+     			   holdValue=app.fileLocationGet();
+     			   nodee=(GridPane)flows.getCell(row).getNode();
 
      			// System.out.println(nodee.getChildren().get(2).);
      			if(ME.getButton()==MouseButton.PRIMARY /*& ME.getClickCount()==2*/) {
@@ -5649,20 +5737,20 @@ if(podd==0) {
 
 
      				  }
-     				  else if(mp.getStatus()==Status.UNKNOWN||mp.getStatus()==Status.DISPOSED||mp.getStatus()==Status.STALLED){handlemouseClickPane(oldValue,row);
+     				  else if(mp.getStatus()==Status.UNKNOWN||mp.getStatus()==Status.DISPOSED||mp.getStatus()==Status.STALLED){handlemouseClickPane(holdValue,row);
      				  System.out.println("Mp Unknown -");
      				  }
      			  }else {
 
-     				if(oldValue!=null) {
+     				if(holdValue!=null) {
 
      					Platform.runLater(()->{
 
         					 flowsy.showAtOffset(row,24);
         					// flowsy.showAtOffset(row,18);
         				});
-     	     			Song(oldValue);
-     	     			play jog=new play(oldValue);
+     	     			Song(holdValue);
+     	     			play jog=new play(holdValue);
      	     		//	trackMaster(oldValue);
      	     			//trackMaster(oldValue);
 
@@ -5673,8 +5761,14 @@ if(podd==0) {
 
 
      				GridPane gridd = (GridPane) flows.getCell(listViewDex).getNode();
+     				TextFlow he = (TextFlow)gridd.getChildren().get(2);
+
+					Text her =(Text)he.getChildren().get(0);
+					Text herr =(Text)he.getChildren().get(1);
      				  Platform.runLater(() -> {
      					  gridd.setStyle("-fx-background-color: #191D1F;");
+						her.setFill(Color.WHITE);
+						herr.setFill(Color.GREY);
      				      });
      		   }
      		  listViewDex=row;
@@ -5691,13 +5785,13 @@ if(podd==0) {
      		} catch (IOException e) {
      			    //exception handling left as an exercise for the reader
      			}
-     		  GridPane grid = (GridPane) nodee;
+     		//  GridPane grid = (GridPane) nodee;
 //     		  Platform.runLater(() -> {
 //
 //     			  grid.setStyle("-fx-background-color: #39FF9F;");
 //     		      });
 
-     		  current=oldValue;
+     		  current=holdValue;
 
      			  }
      			}else if(ME.getButton()==MouseButton.SECONDARY) {
@@ -5716,15 +5810,15 @@ if(podd==0) {
 
 
 
-
+     					  popover=new PopOver(information);
+							//   popover.setContentNode(tracklist);
+							  // popover.setContentNode(shower);
+							   //popover.setPrefSize(100, 100);
+							   popover.setArrowSize(0);
      						Platform.runLater(()->{
 
 
-     							  popover=new PopOver(information);
-     							//   popover.setContentNode(tracklist);
-     							  // popover.setContentNode(shower);
-     							   //popover.setPrefSize(100, 100);
-     							   popover.setArrowSize(0);
+
      							   popover.show(sorter,ME.getScreenX(),ME.getScreenY());
      							   ((Parent)popover.getSkin().getNode()).getStylesheets().add(getClass().getResource("application.css").toExternalForm());
      							//	((Parent)popover.getSkin().getNode()).getStylesheets().add(getClass().getResource("application.css").toExternalForm());
@@ -5743,17 +5837,28 @@ if(podd==0) {
     	//rootPane.set
 
      		rootPane.setContent(listScrollPane);
+     		new Timeline(
+					new KeyFrame(
+							Duration.seconds(2),gg ->{
 
 
-	    	}else {Vpane(list);}
+
+								TYming = false ;
+
+
+
+							})).play();
+
+	    	}else {if(!list.isEmpty()) {Vpane(list);}}
 	    }
 	    String year1 = null ;
 	    Text albumYear=new Text();
 	    Text albumArtists=new Text();
 	    public void Vpane2(ObservableList<AudioParser> h,int SongNumber) {
 	    	if(!(h.isEmpty())) {
-	    		/*albumYear=new Text("");
-	    		albumArtists=new Text("");*/
+	    		TYming = true;
+	    		albumYear=new Text("");
+	    		albumArtists=new Text("");
 
 
 	    		rootPane.setContent(BPane);
@@ -5767,6 +5872,7 @@ if(podd==0) {
 
 
 	     	    ImageView icond = new ImageView();
+	     	   Text Albumname=new Text(h.get(0).albumGet());
 
 	    		icond.minHeight(100);
 	    		icond.minWidth(100);
@@ -5778,8 +5884,8 @@ if(podd==0) {
 				icond.setFitHeight(100);
 				icond.setFitWidth(100);
 	    		icond.setImage(new ImageView("application/Image/A5.png").getImage());
-
-
+	    		albumYear.getStyleClass().add("albumsNameAndYear");
+	    		Albumname.getStyleClass().add("albumsNameAndYear");
 
 	    		HBox goner=new HBox();
 
@@ -5792,7 +5898,7 @@ if(podd==0) {
 
 
 
-				    	albumYear.setFill(Color.GRAY);
+				    	albumYear.setFill(Color.SILVER);
 					    albumArtists.setFill(Color.GHOSTWHITE);
 				    	BufferedImage img= null;
 				    	WritableImage wr = null;
@@ -5936,7 +6042,7 @@ if(podd==0) {
 				albumArtists = new Text("");
 	    		Rectangle rect = new Rectangle();
 	    		GridPane gridder = new GridPane();
-	    		TextFlow textFlowPane = new TextFlow();
+	    		//TextFlow textFlowPane = new TextFlow();
 	    		//gridder.setStyle("-fx-background-color: #32393D;");
 	    		gridder.setPrefSize(418, 125);
 	    		//gridder.setMaxSize(420, 100);
@@ -5948,13 +6054,14 @@ if(podd==0) {
 	    		Text gotArtist=new Text("Go To Artist");
 	  		    Text songInfo=new Text("Song Info");
 	  		    Text fileLocale=new Text(/*thing+"\n"+*/" Mbs"/*+"\n "+new File(thing).lastModified()*/);
-	    		Text Albumname=new Text(h.get(0).albumGet());
-	    		Text SongNo=new Text(SongNumber+" Songs");
+
+	    		Text SongNo=new Text("\n"+SongNumber+" Songs");
 	    		if(SongNumber<=1) {
-	    			SongNo=new Text(SongNumber+" Track");
+	    			SongNo=new Text("\n"+SongNumber+" Track");
 	    		}
 
-	    		SongNo.setFill(Color.GREY);
+	    		SongNo.setFill(Color.SILVER);
+	    		//Albumname.getStyleClass().add("albumsNameAndYear");
 	    		SongNo.getStyleClass().add("lowerText");
 	    		Albumname.setFill(Color.WHITE);
 	    		//Albumname.getStyleClass().add("albumName");
@@ -5967,9 +6074,7 @@ if(podd==0) {
 	    	//	goner.setPadding(new Insets(0, 0, 0, 15));
 
 
-				//textFlowPane.setPrefSize(90,15);
-				textFlowPane.setMinSize(2,5);
-				textFlowPane.setMaxSize(90,5);
+
 
 				Albumname.maxWidth(90);
 				//albumArtists.maxHeight(10);
@@ -5982,11 +6087,11 @@ if(podd==0) {
 
 				GridPane joker =new GridPane();
 				//joker.setGridLinesVisible(true);
-				joker.setPrefSize(280,100);
+				joker.setPrefSize(280,150);
 				joker.setMinSize(280,100);
 				joker.setMaxSize(280,100);
 				//joker.setVgap(4);
-				joker.setPadding(new Insets(20,5,0,0));
+				joker.setPadding(new Insets(20,0,0,0));
 
 				//joker.setGridLinesVisible(true);
 			 	//Image imgurra=new Image(System.getProperty("user.home")+"/ilix/A5.png");
@@ -6001,11 +6106,12 @@ if(podd==0) {
 				//textFlowPane.getChildren().add(1, albumYear);
 				FlowPane jake = new FlowPane();
 				//jake.
-				jake.setMaxSize(200, 5);
+				//jake.setStyle("-fx-border-color:white;");
+				jake.setMaxSize(270, 5);
 				jake.setHgap(5);
 				jake.getChildren().addAll(Albumname,albumYear);
 				//jake.setMinSize(200, 5);
-
+				joker.setHgap(3);
 				joker.add(jake, 0, 0);
 				//joker.add(albumYear, 1, 0);
 
@@ -6015,7 +6121,7 @@ if(podd==0) {
 				joker.add(albumArtists, 0, 1);
 				//joker.setValignment(albumArtists, VPos.TOP);
 				//joker.setRowSpan(albumArtists, 20);
-				joker.add(SongNo, 0, 3);
+				joker.add(SongNo, 0, 2);
 				//joker.setValignment(SongNo, VPos.TOP);
 
 				//joker.setRowSpan(SongNo, 20);
@@ -6028,7 +6134,7 @@ if(podd==0) {
 
 				gridder.add(goner,0,0);
 				gridder.add(joker, 1, 0);
-				gridder.setPadding(new Insets(10,80,10,30));
+				gridder.setPadding(new Insets(12,80,10,30));
 				//gridder.setGridLinesVisible(true);
 				gridder.getStyleClass().add("kunfu");
 				System.gc();
@@ -6130,7 +6236,7 @@ if(podd==0) {
             	     			}
 
             	     		});
-
+            	     	beforeAlbum=0;
              			playing=h;
              			manogz++;
              			}
@@ -6170,21 +6276,35 @@ if(podd==0) {
      				  System.out.println("Mp Unknown -");
      				  }
      			  }else {
-     		   if((listViewDex<h.size())) {
+//     		   if((listViewDex<h.size())) {
+//
+//     			  // Node nodejs=;
+//     				GridPane gridd = (GridPane) flows.getCell(listViewDex).getNode();
+//     				  Platform.runLater(() -> {
+//     					  gridd.setStyle("-fx-background-color: #191D1F;");
+//     				      });
+//     		   }else if(awareness<=h.size()) {
+//
+//
+//   				GridPane gridd = (GridPane) flows.getCell(awareness).getNode();
+//   				  Platform.runLater(() -> {
+//   					  gridd.setStyle("-fx-background-color: #191D1F;");
+//   				      });
+//     		   }
+     				 if((listViewDex<h.size())) {
 
-     			  // Node nodejs=;
-     				GridPane gridd = (GridPane) flows.getCell(listViewDex).getNode();
-     				  Platform.runLater(() -> {
-     					  gridd.setStyle("-fx-background-color: #191D1F;");
-     				      });
-     		   }else if(awareness<=h.size()) {
 
+          				GridPane gridd = (GridPane) flows.getCell(listViewDex).getNode();
+          				TextFlow he = (TextFlow)gridd.getChildren().get(2);
 
-   				GridPane gridd = (GridPane) flows.getCell(awareness).getNode();
-   				  Platform.runLater(() -> {
-   					  gridd.setStyle("-fx-background-color: #191D1F;");
-   				      });
-     		   }
+     					Text her =(Text)he.getChildren().get(0);
+     					Text herr =(Text)he.getChildren().get(1);
+          				  Platform.runLater(() -> {
+          					  gridd.setStyle("-fx-background-color: #191D1F;");
+     						her.setFill(Color.WHITE);
+     						herr.setFill(Color.GREY);
+          				      });
+          		   }
 
 
      		    current=oldValue;
@@ -6581,18 +6701,7 @@ public void SongsView() {
 	 System.gc();
 	 Platform.runLater(()->{totalSngs.setText(String.valueOf(String.valueOf((list.size()+1)+" Songs")));});
 	 filteredData=new FilteredList<>(list,s->true);
-	 if(playing==filteredData) {
-
-		// flowsy.showAtOffset(listViewDex,18);
-		 if(beforeAlbum!=0) {
-			 flows.show(beforeAlbum);
-		 flowsy.showAtOffset(beforeAlbum,24);
-		 }else {
-
-			 flowsy.showAtOffset(listViewDex,24);
-		 }
-
-	 }/*else {
+	/*else {
 		 try {
 		;
 		 read4 = new Scanner (new BufferedReader(new FileReader(System.getProperty("user.home")+"/ilix/songviewpos.txt"), 16*1024));
@@ -6612,10 +6721,23 @@ public void SongsView() {
 
 
 	 Vpane(filteredData);
-	 if(!filteredData.isEmpty()&&listViewDex>=filteredData.size()) {
+
+	// if(playing==filteredData) {
+		 System.out.println("beforeAlbum - "+beforeAlbum);
+			// flowsy.showAtOffset(listViewDex,18);
+			 if(beforeAlbum!=0) {
+				 flows.show(beforeAlbum);
+			     flowsy.showAtOffset(beforeAlbum,24);
+			 }else {
+
+				 flowsy.showAtOffset(0,24);
+			 }
+
+		// }
+/*	 if(!filteredData.isEmpty()&&listViewDex>=filteredData.size()) {
 		 flows.show(listViewDex);
 
-	 }
+	 }*/
 
 	 try
 		{
@@ -7357,10 +7479,12 @@ public class GlobalListeners implements NativeKeyListener{
 		 if(NativeKeyEvent.getKeyText(e.getKeyCode()).equalsIgnoreCase("play")) {
 			 replacePlay();
 
-		 }else if(NativeKeyEvent.getKeyText(e.getKeyCode()).equalsIgnoreCase("previous")) {
+		 }
+		 if(NativeKeyEvent.getKeyText(e.getKeyCode()).equalsIgnoreCase("previous")) {
 			 backone();
 
-			 }else if(NativeKeyEvent.getKeyText(e.getKeyCode()).equalsIgnoreCase("next")) {
+			 }
+		 if(NativeKeyEvent.getKeyText(e.getKeyCode()).equalsIgnoreCase("next")) {
 
 				 nextone();
 
@@ -7666,7 +7790,7 @@ int algea=0;
 
 		});
 		wait5.play();
-
+/*
 		try {
 			GlobalScreen.registerNativeHook();
 
@@ -7677,7 +7801,7 @@ int algea=0;
 			}
 		//NativeKeyListener.
 			GlobalScreen.addNativeKeyListener(new GlobalListeners());
-
+*/
 PauseTransition wait11 = new PauseTransition(Duration.seconds(100));
 wait11.setOnFinished((e) -> {
 
@@ -8086,8 +8210,19 @@ Service<Void> service_ = new Service<Void>(){
 		if(playing==filteredData) {
 		Node nodejs=flows.getCell(listViewDex).getNode();
 		GridPane griddade = (GridPane) nodejs;
+		 TextFlow he = (TextFlow)griddade.getChildren().get(2);
+
+			Text her =(Text)he.getChildren().get(0);
+			Text herr =(Text)he.getChildren().get(1);
 		  Platform.runLater(() -> {
+			//  griddade.setStyle("-fx-background-color: #191D1F;");
 			  griddade.setStyle("-fx-background-color: #transparent;");
+
+
+
+					her.setFill(Color.WHITE);
+					herr.setFill(Color.GREY);
+
 		      });
 		}
 
@@ -8111,8 +8246,19 @@ Service<Void> service_ = new Service<Void>(){
 		 Node nodejss=flows.getCell(number).getNode();
 
 		 GridPane griddd = (GridPane) nodejss;
+		 TextFlow he = (TextFlow)griddd.getChildren().get(2);
+			Text her =(Text)he.getChildren().get(0);
+			Text herr =(Text)he.getChildren().get(1);
 		  Platform.runLater(() -> {
+			  System.gc();
+			//  griddade.setStyle("-fx-background-color: #191D1F;");
 			  griddd.setStyle("-fx-background-color: #39FF9F;");
+
+
+
+					her.setFill(Color.BLACK);
+					herr.setFill(Color.DARKSLATEGREY);
+
 		      });
 		 }
 	//	  Bounds bounds=image.getBoundsInParent();
@@ -8182,9 +8328,20 @@ Service<Void> service_ = new Service<Void>(){
 		if(playing==filteredData) {
 		Node nodejs=flows.getCell(listViewDex).getNode();
 		GridPane griddade = (GridPane) nodejs;
-		  Platform.runLater(() -> {
-			  griddade.setStyle("-fx-background-color: #191D1F;");
-		      });
+		TextFlow he = (TextFlow)griddade.getChildren().get(2);
+		Text her =(Text)he.getChildren().get(0);
+		Text herr =(Text)he.getChildren().get(1);
+	  Platform.runLater(() -> {
+		  System.gc();
+		//  griddade.setStyle("-fx-background-color: #191D1F;");
+		  griddade.setStyle("-fx-background-color: #transparent;");
+
+
+
+				her.setFill(Color.WHITE);
+				herr.setFill(Color.GREY);
+
+	      });
 	}
 
 
@@ -8201,9 +8358,21 @@ Service<Void> service_ = new Service<Void>(){
 		 Node nodejss=flows.getCell(number).getNode();
 
 		 GridPane griddd = (GridPane) nodejss;
+		 TextFlow he = (TextFlow)griddd.getChildren().get(2);
+			Text her =(Text)he.getChildren().get(0);
+			Text herr =(Text)he.getChildren().get(1);
 		  Platform.runLater(() -> {
+			  System.gc();
+			//  griddade.setStyle("-fx-background-color: #191D1F;");
 			  griddd.setStyle("-fx-background-color: #39FF9F;");
+
+
+
+					her.setFill(Color.BLACK);
+					herr.setFill(Color.DARKSLATEGREY);
+
 		      });
+
 		}
 	///	  Bounds bounds=image.getBoundsInParent();
 		  Platform.runLater(()->{
