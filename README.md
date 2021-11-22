@@ -29,3 +29,5 @@ Looks
 
 ![image](https://user-images.githubusercontent.com/55005253/126874641-735b82dd-3037-4ebe-9295-12ef8fc0161d.png)
 
+The telegram group for updates and enquiries -you can contact me there too.
+https://t.me/joinchat/ToQfPp09Ou2d1PPY
