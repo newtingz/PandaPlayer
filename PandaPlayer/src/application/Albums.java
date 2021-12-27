@@ -11,8 +11,10 @@ public class Albums {
 
 	public String namet ;
 	public String imaget;
+	public String songsNoT ;
+	public String yearT;
 
-    public Albums(String album, String image) {//,String artist,String album) {
+    public Albums(String album, String image ) {//,String artist,String album) {
 
 
 
@@ -21,6 +23,17 @@ public class Albums {
 
 
 	}
+    public Albums(String album, String image ,String songsNo ,String year) {//,String artist,String album) {
+
+
+
+        this.imaget=image;
+        this.AlbumC=album;
+    	this.songsNoT = songsNo;
+   	this.yearT = year;
+
+
+}
 
 
 
@@ -38,6 +51,24 @@ public class Albums {
     public void setImage(String image){
     	imaget=image;
     }
+
+    public String SongsGet(){
+    	//System.out.println("get location =============="+namet +absolutePatht);
+    	return songsNoT;
+    }
+    public void songsSet(String songs){
+    	songsNoT=songs;
+    }
+
+    public String yearGet(){
+    	//System.out.println("get location =============="+namet +absolutePatht);
+    	return yearT;
+    }
+    public void YearSet(String year){
+    	yearT=year;
+    }
+
+
 
 
 

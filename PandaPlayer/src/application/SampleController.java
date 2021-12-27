@@ -58,8 +58,6 @@ import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.jaudiotagger.audio.AudioFile;
 import org.jaudiotagger.audio.mp3.MP3File;
 import org.jaudiotagger.tag.Tag;
-import org.jnativehook.GlobalScreen;
-import org.jnativehook.NativeHookException;
 import org.jnativehook.keyboard.NativeKeyEvent;
 import org.jnativehook.keyboard.NativeKeyListener;
 import org.xml.sax.ContentHandler;
@@ -221,7 +219,8 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 	private Label album;
 
 	@FXML
-	private Label title;
+	private
+	Label title;
 
 	@FXML
 	private Label playTime;
@@ -254,7 +253,7 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 	private Button buttond;
 
 	@FXML
-	private  ImageView playB;
+	private ImageView playB;
 
 	@FXML
 	private Button details;
@@ -273,7 +272,6 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 
 	@FXML
 	Button albumss  = new Button("Albums");
-
 
 	@FXML
 	Button artists = new Button("Artists");
@@ -307,7 +305,7 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 
 	//BlockingQueue<Image> imgur = new ArrayBlockingQueue<>(20000);
 	//BlockingQueue<Runnable> imgur2 = new ArrayBlockingQueue<Runnable>(2);
-	 private final ExecutorService executor=Executors.newFixedThreadPool(2);
+	 private final ExecutorService executor=Executors.newFixedThreadPool(3);
 	 ThreadPoolExecutor pooler = new ThreadPoolExecutor(
 			    3,                                     // keep at least two thread ready,
 			                                           // even if no Runnables are executed
@@ -356,13 +354,13 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 
 				},new ThreadPoolExecutor.DiscardOldestPolicy());
 	 ThreadPoolExecutor imageSetter = new ThreadPoolExecutor(
-			    3,                                     // keep at least two thread ready,
+			    15,                                     // keep at least two thread ready,
 			                                           // even if no Runnables are executed
-			    8,                                     // at most five Runnables/Threads
+			    20,                                     // at most five Runnables/Threads
 			                                           // executed in parallel
 			    20, TimeUnit.MINUTES,                   // idle Threads terminated after one
 			                                           // minute, when min Pool size exceeded
-			    new ArrayBlockingQueue<Runnable>(10),r ->{
+			    new ArrayBlockingQueue<Runnable>(1),r ->{
 					Thread t=new Thread(r);
 					//r.
 					t.setName("imageSetter");
@@ -399,8 +397,10 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 	public ListView<String> tracklist=new ListView<String>();
 
 	ObservableList<String> lists = FXCollections.observableArrayList();
+
+	ObservableList<String> addedSongs = FXCollections.observableArrayList();
 //scrollpane
-	 ObservableList<Albums> albums= FXCollections.observableArrayList();
+	ObservableList<Albums> albums= FXCollections.observableArrayList();
 
 	ObservableList<Artists> artistry= FXCollections.observableArrayList();
 
@@ -434,6 +434,56 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 
 
 //	 private BlockingQueue<Runnable> imalink = new LinkedBlockingQueue <Runnable>(40);
+
+	//Comperators
+	  Comparator<? super AudioParser> comparatorMyObject_byDay = new Comparator<AudioParser>() {
+	      @Override
+	      public int compare(AudioParser o1, AudioParser o2) {
+	          return (o1.nameGet()).compareToIgnoreCase(o2.nameGet());
+	      }
+	  };
+	  Comparator<? super AudioParser> comparatorByArtist = new Comparator<AudioParser>() {
+	      @Override
+	      public int compare(AudioParser o1, AudioParser o2) {
+	          return (o1.albumGet()).compareToIgnoreCase(o2.albumGet());
+	      }
+	  };
+	  Comparator<? super AudioParser> comparatorBynamey = new Comparator<AudioParser>() {
+	      @Override
+	      public int compare(AudioParser o1, AudioParser o2) {
+	          return (o1.artistGet()).compareToIgnoreCase(o2.artistGet());
+	      }
+	  };
+	  Comparator<? super AudioParser> comparatorbyTrack = new Comparator<AudioParser>() {
+	      @Override
+	      public int compare(AudioParser o1, AudioParser o2) {
+	          return (o1.AlbumnoGet()).compareTo(o2.AlbumnoGet());
+	      }
+	  };
+	  Comparator<? super AudioParser> comparatorbyDate = new Comparator<AudioParser>() {
+	      @Override
+	      public int compare(AudioParser o1, AudioParser o2) {
+
+
+	          return (o1.getDatemodedlast()).compareTo(o2.getDatemodedlast());
+	      }
+	  };
+		Comparator<? super Albums> albumsComparator = new Comparator<Albums>() {
+		    @Override
+		    public int compare(Albums o1, Albums o2) {
+
+
+		        return (o1.albumGet()).compareTo(o2.albumGet());
+		    }
+		};
+		Comparator<? super Artists> artistsComparator = new Comparator<Artists>() {
+		    @Override
+		    public int compare(Artists o1, Artists o2) {
+
+
+		        return (o1.artistGet()).compareTo(o2.artistGet());
+		    }
+		};
 
 
 
@@ -492,13 +542,12 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 		}
 
 	// ImageQeue(ImageView icon,Image image)
-	 public int awareness=0;
+	// public int awareness=0;
 	 boolean TYming = false;
     @SuppressWarnings({ })
 	class AudioParserCell implements Cell{
 
 		    AudioParser audiop;
-
 		 	GridPane grid = new GridPane();
 		 //	Cell mangro =Cell.wrapNode(grid);
 		 	//Image imgurra=new Image(System.getProperty("user.home")+"/ilix/A5.png");
@@ -633,7 +682,7 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 //				    -fx-scale-y: 1.1;
 //				    -fx-scale-z: 1.1;
 //				}
-
+					if(audiop!=null) {
 					if(audiop.fileLocationGet()==current) {
 						//grid.setStyle("-fx-border-color: transparent;");
 
@@ -679,13 +728,14 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 
 										})).play();
 
-					}
+					}}
 
 				    //  });
 
 				});
-				grid.setOnMouseExited(event -> {
 
+				grid.setOnMouseExited(event -> {
+					if(audiop!=null) {
 					if(audiop.fileLocationGet()==current) {
 						Platform.runLater(() -> {
 							grid.setScaleX(1.0);
@@ -706,7 +756,7 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 
 
 				      });
-					}
+					}}
 				});
 
 				// if (TYming = true) {
@@ -729,6 +779,26 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 
 
 		public AudioParserCell(AudioParser audioparser ,int posnum) {//,String artist,String album) {
+			if(audioparser.nameGet() == "Album Header") {
+
+				Vpaen23 = false;
+				 Platform.runLater(() -> {
+					  grid.setStyle("-fx-background-color: #b;");
+					// grid.setMinSize(580,49);
+						grid.setMinSize(580,1000);
+					  grid.add(getGridder(), 0, 0);
+				System.out.println("YES");
+				grid.setOnMouseClicked(event -> {
+
+
+					//  SonfName2.setFill(Color.DARKSLATEGREY);
+					 // SonfName.setFill(Color.BLACK);
+					 // this.updateItem(getGridder());
+				      });
+				 });
+
+				// ();
+			}else {
 			this.audiop=audioparser;
 			//queue.add(0, new Image(new File(audioparser.ImageGet()).toURI().toString(),true));
 			//if()
@@ -779,7 +849,7 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 					});
 					wait.play();
 				//  queue.add(new Double(posnum));
-				 awareness =posnum;
+				 //awareness =posnum;
 			}
 
 			 //parser.
@@ -788,7 +858,7 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 		    //current
 
 
-
+			}
 
 			}
 
@@ -834,14 +904,14 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 					new KeyFrame(
 							Duration.seconds(0.0109),event ->{
 
-
+							//	flows.visibleCells().
 								if(flows.visibleCells().contains(this)) {
 
 									//	Platform.runLater(() -> {
 									icon.setImage(new Image(new File(parser.ImageGet()).toURI().toString() ,30 ,30,false ,false ,true));
 									//	});
 										}else {
-
+											//System.out.print("DIsposed");
 											this.dispose();
 										}
 
@@ -916,9 +986,17 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 		}
 
 		@Override
-		public Node getNode() {return
+		public Node getNode() {
+			/*if(Vpaen23 == true ) {
+				Vpaen23 = false;
+				return getGridder();
+	    		//Vpaen23 = true ;
+			}*/
+
+			return
 			//	Cell filer=new Cell();
 				//mangro.
+
 				grid
 				; };
 
@@ -928,6 +1006,7 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 
 
 	}
+    //Used to store value for , Current Playing Size
     int mok=0;
     class AudioParserCell2 implements Cell{
 
@@ -978,7 +1057,7 @@ public class SampleController extends ListCell <AudioParser> implements Initiali
 		}
 
 //HBox.setMargin(Node, Insets)
-	public AudioParserCell2(AudioParser audioparser,int posnum ) {//,String artist,String album) {
+	public AudioParserCell2(AudioParser audioparser , int posnum) { //,String artist,String album) {
 		this.audiop=audioparser;
 
 
@@ -1201,8 +1280,8 @@ GridView<Artists> gridView2 =new GridView<>();
     @FXML
     public VirtualizedScrollPane<VirtualFlow> listScrollPane;//=new VirtualizedScrollPane<> ();
 
-    @FXML
-    public VirtualizedScrollPane<VirtualFlow> SongsView;
+ //   @FXML
+ //   public VirtualizedScrollPane<VirtualFlow> SongsView;
 
    public VirtualFlowHit<Cell<AudioParser,?>> hit ;
 
@@ -1216,7 +1295,7 @@ GridView<Artists> gridView2 =new GridView<>();
     		System.out.println("Pressed: "+event.getCode().toString()+" ");
     		if(event.getCode().toString().equalsIgnoreCase("SHIFT")||event.getCode().toString().equalsIgnoreCase("ENTER"))
     		{
-    		//	searchbar.textProperty().addListener(obs->{
+
     			switch(choicebox.getValue()) {
     			//"Song Name","Artist Name","Album Name");
     			case "Song Name":
@@ -1262,7 +1341,7 @@ GridView<Artists> gridView2 =new GridView<>();
     	            	//songs.
     	                // If all filters are empty then display all songs
     	                if ((searchbar.getText() == null || searchbar.getText().isEmpty()) ) {
-    	                	//setterforSonfgs();
+
     	                    return true;
     	                }
 
@@ -1278,9 +1357,9 @@ GridView<Artists> gridView2 =new GridView<>();
     	            });
     				break;
     			}
-    	           // filter(filteredData);
+
     	            mok=filteredData.size()-1;
-    	       // });
+
 
     		}
 
@@ -1466,14 +1545,6 @@ GridView<Artists> gridView2 =new GridView<>();
 
 				 playTime.setText(theTime);
 				 timeSlider.setValue((mp.getCurrentTime().toMillis()/ mp.getTotalDuration().toMillis())*100);
-			//	timeSlider.setDisable(duration.isUnknown());
-//				if (!timeSlider.isDisabled() && duration.greaterThan(Duration.ZERO)
-//						&& !timeSlider.isValueChanging()) {
-//					// timeSlider.setValue((mp.getCurrentTime().toMillis()/ mp.getTotalDuration().toMillis())*100);
-//					// position=(mp.getCurrentTime().toMillis() /  mp.getTotalDuration().toMillis()) * 100.0;
-//				//	position=currentTime.toSeconds();
-//				}
-				//timeSlider.setValue((mp.getCurrentTime().toMillis()/ mp.getTotalDuration().toMillis())*100);
 
 
 
@@ -1508,135 +1579,6 @@ GridView<Artists> gridView2 =new GridView<>();
 
 
 
-
-
-			//timeSlider.valueProperty().addListener(timchanging);
-			/*
-			timeSlider.valueProperty().addListener(timchanging);
-			mp.currentTimeProperty().addListener(l->{
-				 Platform.runLater(() -> {
-
-					timeSlider.valueProperty().removeListener(timchanging);
-					//updateValues();
-					duration = mp.getTotalDuration();
-					currentTime = mp.currentTimeProperty().getValue();
-					 theTime = formatTime(currentTime, duration);
-					 playTime.setText(theTime);
-				//	timeSlider.setDisable(duration.isUnknown());
-//					if (!timeSlider.isDisabled() && duration.greaterThan(Duration.ZERO)
-//							&& !timeSlider.isValueChanging()) {
-//						// timeSlider.setValue((mp.getCurrentTime().toMillis()/ mp.getTotalDuration().toMillis())*100);
-//						// position=(mp.getCurrentTime().toMillis() /  mp.getTotalDuration().toMillis()) * 100.0;
-//					//	position=currentTime.toSeconds();
-//					}
-					timeSlider.setValue((mp.getCurrentTime().toMillis()/ mp.getTotalDuration().toMillis())*100);
-					//timeSlider.setValue((currentTime.toMillis() / duration.toMillis()) * 100.0);
-					timeSlider.valueProperty().addListener(timchanging);
-					});
-
-
-			});*/
-//			timeSlider.setOnMouseClicked(f->{
-//
-//	    		//timeSlider.valueProperty().removeListener(timchanging);
-//				timeSlider.setValue(timeSlider.getValue());
-//				//timeSlider.getValue()
-//				//mp.seek(duration.multiply(timeSlider.getValue() / 100.0));
-//	    		//Duration seekto = Duration.seconds((timeSlider.getValue()/100));
-//	    		System.out.println("CLicked "+timeSlider.getValue());
-//	    		//f.
-//	    		// mp.seek(duration.multiply(timeSlider.getValue()));
-//	    		//mp.seek(seekto);
-//	    		//timeSlider.valueProperty().addListener(timchanging);
-//			});
-
-//			(ScrollEvent.SCROLL,new EventHandler<ScrollEvent>(){
-//
-//      			@Override
-//      			public void handle(ScrollEvent event) {
-//
-//      				if(event.getDeltaX() != 0) {
-//
-//      					event.consume();
-//      				}
-//
-//      			}
-//
-//      		});
-
-
-
-
-
-			//mp.currentTimeProperty().addListener(upDateSlider);
-
-	/*	mp.currentTimeProperty().addListener(l->{
-				 Platform.runLater(() -> {
-
-
-					duration = mp.getTotalDuration();
-					currentTime = mp.currentTimeProperty().getValue();
-					 theTime = formatTime(currentTime, duration);
-					 playTime.setText(theTime);
-				//	timeSlider.setDisable(duration.isUnknown());
-//					if (!timeSlider.isDisabled() && duration.greaterThan(Duration.ZERO)
-//							&& !timeSlider.isValueChanging()) {
-//						// timeSlider.setValue((mp.getCurrentTime().toMillis()/ mp.getTotalDuration().toMillis())*100);
-//						// position=(mp.getCurrentTime().toMillis() /  mp.getTotalDuration().toMillis()) * 100.0;
-//					//	position=currentTime.toSeconds();
-//					}
-					timeSlider.setValue((mp.getCurrentTime().toMillis()/ mp.getTotalDuration().toMillis())*100);
-
-
-
-			});
-			});
-*/
-
-
-
-		//mp.setCycleCount(MediaPlayer.INDEFINITE);
-		//mp.setCycleCount(repeat ? MediaPlayer.INDEFINITE : 1);
-
-
-		/*mp.setOnEndOfMedia(new Runnable() {
-		    @Override
-		    public void run() {
-		    	if(repeatIson==true) {
-		    		mp.seek(Duration.ZERO);
-		    		mp.setRate(1.0);
-		    		mp.play();
-
-					playB.setImage(new ImageView("application/Image/pause.png").getImage());
-		    	}else if(repeatList==true){
-		    		//System.out.println("Basic2");
-		    		nextone();
-			    	playB.setImage(new ImageView("application/Image/pause.png").getImage());
-
-
-
-		    	}else if(playListToEnd==true){
-		    		if(listViewDex+1==playing.size()) {
-		    			mp.pause();
-		    			mp.seek(Duration.ZERO);
-		    		}
-
-		    	}else {
-		    		//System.out.println("Basic");
-		    	nextone();
-		    	playB.setImage(new ImageView("application/Image/pause.png").getImage());
-
-				//mp.play();
-		    	}
-		    }
-		});*/
-
-
-//		timeSlider.setSnapToTicks(true);
-//		timeSlider.setMinorTickCount(0);
-//		timeSlider.setMajorTickUnit(1000.0);
-//		timeSlider.setBlockIncrement(1.0);
-		//if (timeSlider != null) {
 			timeSlider.valueProperty().addListener(new InvalidationListener() {
 				@Override
 				public void invalidated(Observable ov) {
@@ -1895,8 +1837,7 @@ GridView<Artists> gridView2 =new GridView<>();
 					} catch (IOException e) {
 						    //exception handling left as an exercise for the reader
 						}
-					try
-						{
+				/*	try{
 					    PrintWriter out5 = new PrintWriter(new BufferedWriter(new FileWriter(System.getProperty("user.home")+"/ilix/dex.txt", false)));
 						out5.println(listViewDex);
 						out5.close();
@@ -1904,8 +1845,20 @@ GridView<Artists> gridView2 =new GridView<>();
 					} catch (IOException j) {
 
 
-					}
+					}*/
+					try(
+							//FileWriter fw = new FileWriter("mydb.txt", true);
+						    //BufferedWriter bw = new BufferedWriter(new FileWriter("mydb.txt", true));
+						    PrintWriter out4 = new PrintWriter(new BufferedWriter(new FileWriter(System.getProperty("user.home")+"/ilix/dex.txt", false))))
+						{
 
+						out4.println(listViewDex+"~"+position);
+
+
+						//out4.close();
+					} catch (IOException e) {
+						    //exception handling left as an exercise for the reader
+						}
 
 
 
@@ -2311,7 +2264,7 @@ public void replacePlay()
 
 
 
-
+	ArrayList<String> tempor = new ArrayList<String>();
 
 	Mp3File songsong=null;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2406,18 +2359,27 @@ public void replacePlay()
 		    	 if(dg.getClickCount()>=2) {
 		    		 listScrollPane=null;
 		    	    lazyLoad.clear();
+		    	    tempor.clear();
                  filteredData=new FilteredList<>(lazyLoad,g->true);
               //  System.out.println(fag.getText());
              		list.forEach(mans->{
              			if(id3v2tag.getAlbum().equalsIgnoreCase(mans.albumGet())) {
 
              				 lazyLoad.add(mans);
+             				 if(!tempor.contains(mans.artistGet())) {
+             					if(workhorse==0) {
+             				tempor.add(mans.artistGet());}else {
+             					
+             					tempor.add("/" +mans.artistGet());
+             				}
+             				 }
              				 workhorse++;
              			}
              		});
 //             		filteredData.clear();
 //             		filteredData = new FilteredList<>(lazyLoad, t -> true);
              		Vpane2(filteredData,workhorse);
+             		workhorse=0;
              	  //  gridView.setItems(null);
              	    System.gc();
 		    	 }
@@ -2882,14 +2844,13 @@ public void replacePlay()
 
 
 
-
+//Counter for extract foders
 int ii=0;
 
 
 
 BufferedImage img= null;
 WritableImage wr = null;
-
 Random rand = new Random();
 String string = null,nowNow = "",pathFInder,album1 = "",artissty = "",ablumNoo=null,lengthy=null;
 Mp3File song =null;
@@ -2897,10 +2858,8 @@ MP3File f=null;
 String gag;
 AudioFile l ;
 Tag tag ;
-int figuree=0;
 @FXML
 ProgressBar bar=new ProgressBar();
-int irf=1;
 	//@SuppressWarnings({ })
 	public synchronized void extractFolders(){
 		//Platform.runLater(() ->{
@@ -2946,6 +2905,7 @@ int irf=1;
  		manJoe.getChildren().add(bar);
 		manJoe.setAlignment(Pos.CENTER);
 
+		BPane.setCenter(manJoe);
 		/*rootPane.setContent(manJoe);
 		rootPane.setFitToHeight(true);
 		rootPane.setFitToWidth(true);*/
@@ -2979,15 +2939,9 @@ int irf=1;
 
 
 		                	Writer outing =null;
-
 		            		FileWriter fw =null;
-
 		            		FileWriter fww = null;
-
 		            		String value=null;
-
-
-
 		            		BufferedWriter out4 = null;
 
 
@@ -2995,7 +2949,7 @@ int irf=1;
 
 		                	       final int max=numboid;
             						//Path path=Paths.get(System.getProperty("user.home")+"/ilix/toExtract.txt");
-            						figuree=0;
+
             				    	while(read1.hasNextLine())
             				    	{
             				    		//read1.flush();
@@ -3551,7 +3505,8 @@ int irf=1;
 	    	//try {
 	    	countdown = 0;
 	    	//countdown =1;
-	    	rootPane.setContent(listScrollPane);
+	    	//rootPane.setContent(listScrollPane);
+	    	BPane.setCenter(listScrollPane);
 			 refresh.setDisable(false);
 			 addNewTrack.setDisable(false);
 //				try {
@@ -3561,6 +3516,7 @@ int irf=1;
 				Collections.sort(list, comparatorMyObject_byDay);
 				orderedSongs();
 			 System.out.println("Done! Reboot Advised , Otherwise all good");
+
 			// albums
 
 
@@ -3675,49 +3631,6 @@ public void sorterByDate() {
 
 
 }
-public void SortSongsbyAlbum() {
-
-
-
-
-
-
-}
-
-
-Comparator<? super AudioParser> comparatorMyObject_byDay = new Comparator<AudioParser>() {
-    @Override
-    public int compare(AudioParser o1, AudioParser o2) {
-        return (o1.nameGet()).compareToIgnoreCase(o2.nameGet());
-    }
-};
-Comparator<? super AudioParser> comparatorByArtist = new Comparator<AudioParser>() {
-    @Override
-    public int compare(AudioParser o1, AudioParser o2) {
-        return (o1.albumGet()).compareToIgnoreCase(o2.albumGet());
-    }
-};
-Comparator<? super AudioParser> comparatorBynamey = new Comparator<AudioParser>() {
-    @Override
-    public int compare(AudioParser o1, AudioParser o2) {
-        return (o1.artistGet()).compareToIgnoreCase(o2.artistGet());
-    }
-};
-Comparator<? super AudioParser> comparatorbyTrack = new Comparator<AudioParser>() {
-    @Override
-    public int compare(AudioParser o1, AudioParser o2) {
-        return (o1.AlbumnoGet()).compareTo(o2.AlbumnoGet());
-    }
-};
-Comparator<? super AudioParser> comparatorbyDate = new Comparator<AudioParser>() {
-    @Override
-    public int compare(AudioParser o1, AudioParser o2) {
-
-
-        return (o1.getDatemodedlast()).compareTo(o2.getDatemodedlast());
-    }
-};
-
 
 
 	// Formats the elapsed and the total duration of the music file
@@ -3770,6 +3683,7 @@ Comparator<? super AudioParser> comparatorbyDate = new Comparator<AudioParser>()
 
 	String titlee, filepathe,imageInfoe,albume,artee,albumgete,lengthe,finalAlbume=null,lastDatee;
 	public void BringItO(String file) throws IOException {
+
 		 Task<Void> createTask = new Task<Void>() {
 
 
@@ -3815,11 +3729,9 @@ Comparator<? super AudioParser> comparatorbyDate = new Comparator<AudioParser>()
 	    	}
 	    	read.close();
 	    	Vpane(refreshList);
+	    	titlee=null; filepathe=null;imageInfoe=null;albume=null;artee=null;albumgete=null;lengthe=null;finalAlbume=null;lastDatee=null;
 			}}
 
-    	//filteredData = new FilteredList<>(refreshList, t -> true);
-
-    //	ReturnNumbers("StartUp",figure);
     	return null;
      		};
 
@@ -3830,21 +3742,11 @@ Comparator<? super AudioParser> comparatorbyDate = new Comparator<AudioParser>()
 //}
 
 
-
-	public void addToList(AudioParser g){
-
-
-
-		list.add(g);
-	}
-
-
-
-
-	FileWriter	   forr=null;
-	 BufferedWriter   outter=null;
+	FileWriter forr=null;
+	 BufferedWriter outter=null;
 	 synchronized void orderedSongs() {
 		File temp = new File(System.getProperty("user.home")+"\\ilix\\songs.txt");
+		File temp3 = new File(System.getProperty("user.home")+"\\ilix\\songs.txt");
 		//temp.
 		//new File(System.getProperty("user.home")+"\\ilix\\songs_backup.txt")
 		if (temp.exists()) {
@@ -3857,11 +3759,11 @@ Comparator<? super AudioParser> comparatorbyDate = new Comparator<AudioParser>()
 		    if(temp.exists()) {
 
 		    	System.out.println("BACKUP SUCCESFUL");
-		    	temp = new File(System.getProperty("user.home")+"\\ilix\\songs.txt");
+		    	//temp = new File(System.getProperty("user.home")+"\\ilix\\songs.txt");
 		    	try {
-					temp.createNewFile();
+		    		temp3.createNewFile();
 					try {
-					RandomAccessFile raf = new RandomAccessFile(temp, "rw");
+					RandomAccessFile raf = new RandomAccessFile(temp3, "rw");
 
 				    raf.setLength(0);
 				    raf.close();
@@ -3923,7 +3825,7 @@ Comparator<? super AudioParser> comparatorbyDate = new Comparator<AudioParser>()
 	/////////////////////////////////////////////////////////////////////////
 	//........................PROTOTYPE....................................//
 	/////////////////////////////////////////////////////////////////////////
-
+	 String molly = null;
 	@SuppressWarnings("resource")
 	public void BringItON() throws IOException {
 	/*	Service<Void> service_1 = new Service<Void>(){
@@ -3944,6 +3846,7 @@ Comparator<? super AudioParser> comparatorbyDate = new Comparator<AudioParser>()
 			protected Void call() {*/
 
 		//Vpane(list);
+
 		int figure=0;
 		Scanner read = null, read1 = null;
 	//	System.out.println("Came Through!");
@@ -3983,24 +3886,43 @@ Comparator<? super AudioParser> comparatorbyDate = new Comparator<AudioParser>()
 			sb.delete(0, 3);
 			lastDate=sb.toString();
 			//System.out.println(arte);
+		//	molly = filepath ;
+
 		if(new File(filepath).exists()) {
+			if(addedSongs.contains(filepath)) {
+				//System.out.println("Repeat .skip. ");
+
+			}else {
+				addedSongs.add(filepath);
+				list.add(new AudioParser(title, filepath,imageInfo,finalAlbum,arte,albumget,length,lastDate));
+				figure+=1;
+			}
 			//lastDate.replaceAll("\\(~\\)", "");
 			//lastDate.replace("(", "");
 			//System.out.println(lastDate);
 		//	 Platform.runLater(()->{
+			/*list.forEach(e->{
 
-			list.add(new AudioParser(title, filepath,imageInfo,finalAlbum,arte,albumget,length,lastDate));
+				if(e.fileLocationGet()==filepath) {
+
+
+				}else {
+
+
+				}
+			});*/
+
 
 
 
 	    	  // });
-    	   figure+=1;
+
 		}
     	   //System.out.println("Song Name "+title + "    Locale" + filepath+"\n"); // just for debugging
     	}
     	read.close();
 
-
+    	addedSongs.clear();
     	try {
     	ReturnNumbers("StartUp",figure);}catch(IOException far) {
 
@@ -4329,22 +4251,6 @@ pool.execute(createTask);*/
 
 	        }
 
-	Comparator<? super Albums> albumsComparator = new Comparator<Albums>() {
-	    @Override
-	    public int compare(Albums o1, Albums o2) {
-
-
-	        return (o1.albumGet()).compareTo(o2.albumGet());
-	    }
-	};
-	Comparator<? super Artists> artistsComparator = new Comparator<Artists>() {
-	    @Override
-	    public int compare(Artists o1, Artists o2) {
-
-
-	        return (o1.artistGet()).compareTo(o2.artistGet());
-	    }
-	};
 
 	//Collections.sort(lazyLoad ,comparatorbyTrack);
 	public void BringItONA()throws IOException  {
@@ -4558,6 +4464,8 @@ pool.execute(createTask);*/
 		list.forEach((AudioParser)->{
 			String album=AudioParser.albumGet();
 			String imagepic=AudioParser.ImageGet();
+		/*	String yearry=AudioParser.;
+			String songsNO=AudioParser.ImageGet();*/
 			String text=null;
 			list.forEach((moch)->{
 
@@ -5217,7 +5125,53 @@ if(podd==0) {
 
 
 	    	case "ALBUM":
-	    		goTOAlbum(stateCOnditon);
+	    		//goTOAlbum(stateCOnditon);
+	    		System.out.println("Reg");
+	    		Platform.runLater(()->{
+	    			//list.addAll(listper);
+	    	  		Vpane(filteredData);
+
+	    			System.out.println("Last Played "+listViewDex);
+	    			row=listViewDex;
+	    			if(!filteredData.isEmpty()) {
+	    				if(listViewDex<=filteredData.size()) {
+	    				AudioParser alpo=filteredData.get(listViewDex);
+	    	            current=alpo.fileLocationGet();
+	    				flows.show(listViewDex);
+	    				flowsy.showAtOffset(listViewDex,24);
+
+	    				onHighLight(listViewDex);
+	    				executor.submit(() -> 	Song(alpo.absolutePatht));
+		    			play jog=new play(alpo.absolutePatht,false);
+	    				}else {
+	    					listViewDex=0;
+	    					AudioParser alpo=filteredData.get(0);
+		    	            current=alpo.fileLocationGet();
+		    				flows.show(0);
+		    				flowsy.showAtOffset(0,24);
+		    				onHighLight(0);
+		    				executor.submit(() -> 	Song(alpo.absolutePatht));
+			    			play jog=new play(alpo.absolutePatht,false);
+	    				}
+
+	    			//	Bounds bounds=image.getBoundsInParent();
+
+
+
+//	    			if(listViewDex!=0&&!filteredData.isEmpty()) {
+
+
+
+	    			//executor.submit(() -> 	trackMaster2(alpo.absolutePatht));
+
+
+	    			//}
+	    			}
+	    	   			//listper.add(new AudioParser(title, filepath,imageInfo,finalAlbum,arte,albumget,length,lastDate));
+
+
+
+	    	   	    	   });
 	    		break;
 
 
@@ -5228,7 +5182,53 @@ if(podd==0) {
 
 	    	case "ARTIST":
 
-	    	    goTOArtist(stateCOnditon);
+	    	 //   goTOArtist(stateCOnditon);
+	    		System.out.println("Reg");
+	    		Platform.runLater(()->{
+	    			//list.addAll(listper);
+	    	  		Vpane(filteredData);
+
+	    			System.out.println("Last Played "+listViewDex);
+	    			row=listViewDex;
+	    			if(!filteredData.isEmpty()) {
+	    				if(listViewDex<=filteredData.size()) {
+	    				AudioParser alpo=filteredData.get(listViewDex);
+	    	            current=alpo.fileLocationGet();
+	    				flows.show(listViewDex);
+	    				flowsy.showAtOffset(listViewDex,24);
+
+	    				onHighLight(listViewDex);
+	    				executor.submit(() -> 	Song(alpo.absolutePatht));
+		    			play jog=new play(alpo.absolutePatht,false);
+	    				}else {
+	    					listViewDex=0;
+	    					AudioParser alpo=filteredData.get(0);
+		    	            current=alpo.fileLocationGet();
+		    				flows.show(0);
+		    				flowsy.showAtOffset(0,24);
+		    				onHighLight(0);
+		    				executor.submit(() -> 	Song(alpo.absolutePatht));
+			    			play jog=new play(alpo.absolutePatht,false);
+	    				}
+
+	    			//	Bounds bounds=image.getBoundsInParent();
+
+
+
+//	    			if(listViewDex!=0&&!filteredData.isEmpty()) {
+
+
+
+	    			//executor.submit(() -> 	trackMaster2(alpo.absolutePatht));
+
+
+	    			//}
+	    			}
+	    	   			//listper.add(new AudioParser(title, filepath,imageInfo,finalAlbum,arte,albumget,length,lastDate));
+
+
+
+	    	   	    	   });
 	    	    break;
 
 	    	case "ARTISTs":
@@ -5338,16 +5338,24 @@ if(podd==0) {
 	    	albumSongs=0;
 			lazyLoad.clear();
 
+			tempor.clear();
 
 
         		list.forEach(mans->{
         			if(albumName.equalsIgnoreCase(mans.albumGet())) {
-        				albumSongs++;
-        				//lengthr+=Integer.parseInt(ap.lengthget);
         				 lazyLoad.add(mans);
+         				 if(!tempor.contains(mans.artistGet())) {
+         					if(albumSongs==0) {
+         				tempor.add(mans.artistGet());}else {
+         					
+         					tempor.add(mans.artistGet());
+         				}
+         				 }
+         				albumSongs++;
         			//i++;
         			}
         		});
+        	//	System.out.println(tempor);
 
         		//Collections.sort(lazyLoad, comparatorbyTrack);
 //        		filteredData.clear();
@@ -5383,13 +5391,21 @@ if(podd==0) {
 	    	}
 
 			lazyLoad.clear();
-
+			tempor.clear();
 
             filteredData=new FilteredList<>(lazyLoad,s->true);
         		list.forEach(mans->{
         			if(artsitName.equalsIgnoreCase(mans.artistGet())) {
-        				 albumSongs++;
+        				 
         				 lazyLoad.add(mans);
+         				 if(!tempor.contains(mans.artistGet())) {
+         					if(albumSongs==0) {
+         				tempor.add(mans.artistGet());}else {
+         					
+         					tempor.add("/" +mans.artistGet());
+         				}
+         				 }
+         				albumSongs++;
         			//i++;
         			}
         		});
@@ -5428,6 +5444,8 @@ if(podd==0) {
 		AudioParser app = null;
 		String holdValue=null;
 	    public void Vpane(ObservableList<AudioParser> h) {
+	    //	listScrollPane.setPrefSize(listScrollPane.getMaxWidth(), listScrollPane.getMaxHeight());
+
 	    	if(!(h.isEmpty())) {
 	    		TYming = true;
 	    		manogz=0;
@@ -5888,27 +5906,41 @@ if(podd==0) {
 	    	}else {if(!list.isEmpty()) {Vpane(list);}}
 	    }
 	    String year1 = null ;
+	    String year23 = null ;
 	    Text albumYear=new Text();
 	    Text albumArtists=new Text();
+
+	    public Node monroe ;
+	   // GridPane gridder = new GridPane();
+	    //Node
+
+	    public Boolean Vpaen23 = false ;
 	    public void Vpane2(ObservableList<AudioParser> h,int SongNumber) {
 	    	if(!(h.isEmpty())) {
+	    		//h.
+	    		lazyLoad.add(0,new AudioParser("Album Header","","","","","","",""));
+	    		Vpaen23 = true ;
 	    		TYming = true;
 	    		albumYear=new Text("");
 	    		albumArtists=new Text("");
 
 
 	    		rootPane.setContent(BPane);
-
+	    		//BPane.cen
 		    	// BPane.setPadding(new Insets(3, 0, 3, 0));
+	    		//flows.add
 		    	 flows = VirtualFlow.createVertical(h, audioparser ->new AudioParserCell(audioparser,0) );
-		    	 listScrollPane=new VirtualizedScrollPane<>(flows);
-	     	     listScrollPane.setPrefSize(rootPane.getWidth(), rootPane.getHeight());
 
-	     	     listScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER );
+		    	 listScrollPane=new VirtualizedScrollPane<>(flows);
+
+	     	  //   listScrollPane.setPrefSize(rootPane.getWidth(), rootPane.getHeight());
+	     	   // listScrollPane.setPrefSize(listScrollPane.getPrefWidth(), rootPane.getHeight()-125.0);
+	     	   listScrollPane.setPrefSize(rootPane.getWidth(), rootPane.getHeight()-125.0);
+	     	   listScrollPane.setHbarPolicy(ScrollBarPolicy.NEVER );
 
 
 	     	    ImageView icond = new ImageView();
-	     	   Text Albumname=new Text(h.get(0).albumGet());
+	     	   Text Albumname=new Text(h.get(1).albumGet());
 
 	    		icond.minHeight(100);
 	    		icond.minWidth(100);
@@ -5925,6 +5957,26 @@ if(podd==0) {
 
 	    		HBox goner=new HBox();
 
+	    		//////Artists
+	    		year23 = null;
+	    		if(!tempor.isEmpty()) {
+	    			year23=tempor.toString();
+	    		//	year23.re
+	    			//year23.replace("[", "");
+	    		/*for(int i=0 ;i <=tempor.size();i++) {
+	    			
+
+	    		//	if(year23==null) {
+	    				
+	    			/*}else {
+	    			year23.concat(artist);
+	    			
+    				System.out.print(year23);
+	    			}*/
+	    			
+	    		//}
+	    		
+	    		}
 	    		Task<Void> consumerTask = new Task<Void>() {
 
 
@@ -5942,8 +5994,8 @@ if(podd==0) {
 
 
 				try {
-					if(h.get(0)!=null) {
-					song = new Mp3File(h.get(0).fileLocationGet());
+					if(h.get(1)!=null) {
+					song = new Mp3File(h.get(1).fileLocationGet());
 					}
 				} catch (UnsupportedTagException e) {
 					// TODO Auto-generated catch block
@@ -5993,19 +6045,19 @@ if(podd==0) {
 						        });
 
 				    String gggg = id3v2tag.getYear();
-				    albumArtists.setText(id3v2tag.getArtist().toString());
+				    albumArtists.setText(year23);
 				     albumYear.setText("("+gggg.toString()+")");
 				     if(gggg==null) {
 				    	 ID3v1 id3v1tag = song.getId3v2Tag();
 				    	 albumYear.setText("("+id3v1tag.getYear()+")");
 				     }
 
-				     if(id3v2tag.getArtist()==null) {
+				 /*    if(id3v2tag.getArtist()==null) {
 				    	 ID3v1 id3v1tag = song.getId3v2Tag();
 				    	 albumArtists.setText(id3v1tag.getArtist());
 				    	 albumArtists.setFill(Color.GHOSTWHITE);
 				    	// System.out.println("id3v1 -"+id3v1tag.getArtist());
-				     }
+				     }*/
 				   //  System.out.println("id3v2 -"+id3v2tag.getAlbumArtist());
 
 
@@ -6043,7 +6095,7 @@ if(podd==0) {
 				}else {//image.setImage("Image/A5.png");
 
 					Platform.runLater(() -> {
-				    	 icond.setImage(new ImageView(h.get(0).ImageGet()).getImage());
+				    	 icond.setImage(new ImageView(h.get(1).ImageGet()).getImage());
 
 
 
@@ -6075,7 +6127,7 @@ if(podd==0) {
 
 	    		manogz=0;
 	    	//	albumYear = new Text("");
-				albumArtists = new Text("");
+			//	albumArtists = new Text("");
 	    		Rectangle rect = new Rectangle();
 	    		GridPane gridder = new GridPane();
 	    		//TextFlow textFlowPane = new TextFlow();
@@ -6174,13 +6226,14 @@ if(podd==0) {
 				//gridder.setGridLinesVisible(true);
 				gridder.getStyleClass().add("kunfu");
 				System.gc();
-
+				monroe =gridder;
 		//	BPane.setMinSize(606.0, 606.0);
 
 
-     	    BPane.setTop(gridder);
-     	   //BPane.he
+     	  //  BPane.setTop(gridder);
      	    BPane.setCenter(listScrollPane);
+
+     	    //BPane.setBottom(listScrollPane);
 
      	//   Text gotAlbum=new Text("Go To Album");
 
@@ -6251,8 +6304,10 @@ if(podd==0) {
      			//lenght.setText(parser.lengthGet());
      			//SonfName2.setText("\r\n"+parser.artistGet());
      			 // AudioParser ap = h.get(number);
+     			if(ap.nameGet() == "Album Header") {
 
-     			if(ME.getButton()==MouseButton.PRIMARY) {
+
+ 				}else if(ME.getButton()==MouseButton.PRIMARY) {
 
      				if(manogz==0) {
              			flowsy = VirtualFlow.createHorizontal(h, audioparser ->new AudioParserCell2(audioparser,h.indexOf(audioparser)) );
@@ -6495,6 +6550,7 @@ if(podd==0) {
 
 
    			}
+
      		} });
 
 
@@ -6503,9 +6559,14 @@ if(podd==0) {
 
 
 	    	}
+
 	    }
 
+	    public Node getGridder() {
 
+	    	return monroe;
+
+	    }
 	public void BringItON3() throws IOException {
 				String title;
 				BufferedReader in = null;
@@ -6823,6 +6884,61 @@ public void setMin() {
 //	Image firstthree = new Image("application/Image/stopOnlast.png",20,20,true,true,true);
 	//repeatList
 	//stopOnlast
+
+    songss.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+		@Override
+		public void handle(MouseEvent event) {
+			// TODO Auto-generated method stub
+			Platform.runLater(()->{
+			songss.setStyle("-fx-border-color:#39FF9F;");
+
+			//revert others to normal state  Border->#191D1F
+			albumss.setStyle("-fx-border-color:#191D1F;");
+			artists.setStyle("-fx-border-color:#191D1F;");
+
+			});
+		}
+
+
+    });
+
+
+	albumss.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+		@Override
+		public void handle(MouseEvent event) {
+			// TODO Auto-generated method stub
+			Platform.runLater(()->{
+			albumss.setStyle("-fx-border-color:#39FF9F;");
+
+			//revert others to normal state Border->#191D1F
+			songss.setStyle("-fx-border-color:#191D1F;");
+			artists.setStyle("-fx-border-color:#191D1F;");
+
+			});
+		}
+
+
+    });
+
+	artists.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+		@Override
+		public void handle(MouseEvent event) {
+			// TODO Auto-generated method stub
+			Platform.runLater(()->{
+			artists.setStyle("-fx-border-color:#39FF9F;-fx-border-width:2;");
+
+			//revert others to normal state Border->#191D1F
+			songss.setStyle("-fx-border-color:#191D1F;");
+			albumss.setStyle("-fx-border-color:#191D1F;");
+
+			});
+		}
+
+
+    });
 
 
 	rrss.setOnMouseClicked(new EventHandler<MouseEvent>(){
@@ -7532,6 +7648,9 @@ int algea=0;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+
+		System.out.println("Ilix: Welcome ");
+		checkFOrFIles();
 		choicebox.getItems().addAll("Song Name","Artist Name","Album Name");
 		choicebox.getSelectionModel().selectedItemProperty().addListener((obs,oldVal,newVal)->
 		{
@@ -7542,11 +7661,10 @@ int algea=0;
 
 		});
 		BPane.setPrefSize(rootPane.getWidth(), rootPane.getHeight());
+		BPane.setMinSize(rootPane.getWidth(), rootPane.getHeight());
 		BPane.setRight(buttonbar);
-		System.out.println("Ilix: Welcome =]");
-		checkFOrFIles();
-
-
+		rootPane.setContent(BPane);
+		//BPane.setCenter(buttonbar);
 
 
 		try {
@@ -8021,148 +8139,6 @@ Service<Void> service_ = new Service<Void>(){
 			break;
 		}
 	}
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	File Jason=null;
-//PLAY NEW SONG NEED STREALINING TOO
-	String[] lament=new String[2];
-		public synchronized void trackMaster(String oldValue){
-		   // private String oldValue;
-			current=oldValue;
-			Jason=new File(oldValue);
-//			File urlll=new File(System.getProperty("user.home")+"/ilix/OutFile.wav");
-//			if(!urlll.exists()) {
-//				try {
-//				urlll.createNewFile();
-//				}catch(IOException jg) {
-//
-//				}
-//			}
-			 System.gc();
-		     Thread Trackmaster =  new Thread(()-> {
-
-
-				//	Thread.currentThread().setName("Trackmaster");
-					//Thread.currentThread().setPriority(MAX_PRIORITY);
-					lament[0]=oldValue;
-				//	lament[1]=urlll.getAbsolutePath();
-
-
-
-				 if(Jason.getName().endsWith(".mp3")) {
-                mo = new Media(Jason.toURI().toString());
-                try {
-    			if(mp != null) {
-
-    				mp.pause();
-    			    mp.dispose();
-    			    //mp.
-    			    System.gc();
-
-    		}}catch(NullPointerException e) {
-    			System.out.println("NullPonterException");
-    		}
-
-				mp = new MediaPlayer(mo);
-				if (mv != null)   {
-					mv.setMediaPlayer(mp);
-					duration = mp.getTotalDuration();
-					mp.setVolume(volumeSlider.getValue() / 100.0);
-					play jog=new play();
-
-					mp.play();
-				}
-								  }
-
-					});
-		     Trackmaster.setName("TrackMaster");
-		  //   Trackmaster.setPriority(10);
-		     Trackmaster.start();
-
-					try(
-							//FileWriter fw = new FileWriter("mydb.txt", true);
-						    //BufferedWriter bw = new BufferedWriter(new FileWriter("mydb.txt", true));
-						    PrintWriter out4 = new PrintWriter(new BufferedWriter(new FileWriter(System.getProperty("user.home")+"/ilix/state.txt", false))))
-
-						{
-
-						out4.println(Chosen1+"~"+current);
-//						PrintWriter out5 = new PrintWriter(new BufferedWriter(new FileWriter(System.getProperty("user.home")+"/ilix/dex.txt", false)));
-//						out5.println(listViewDex);
-//						out5.close();
-						//out4.close();
-					} catch (IOException e) {
-						    //exception handling left as an exercise for the reader
-						}
-					try
-						{
-					    PrintWriter out5 = new PrintWriter(new BufferedWriter(new FileWriter(System.getProperty("user.home")+"/ilix/dex.txt", false)));
-						out5.println(listViewDex);
-						out5.close();
-						//out4.close();
-					} catch (IOException j) {
-
-
-					}
-
-
-												}
-
-
-
-		public synchronized void trackMaster2(String oldValue){
-			   // private String oldValue;
-
-
-				System.gc();
-			        new Thread() {
-					@Override
-					public void run() {
-
-					Thread.currentThread().setName("Trackmaster2");
-
-	                mo = new Media(new File(oldValue).toURI().toString());
-					mp = new MediaPlayer(mo);
-					if (mv != null)   {
-						mv.setMediaPlayer(mp);
-						duration = mp.getTotalDuration();
-
-
-						//.oldValuemediaPlayer.seek(Duration.millis(80000)
-						//mp.setStartTime(new Duration(position));
-						//mp.seek(Duration.);
-						//System.out.println(mp.getAudioSpectrumNumBands()+ " "+mp.getAudioSpectrumThreshold()+" "+mp.getAudioSpectrumInterval());
-					//	mp.seek(duration.multiply(timeSlider.getValue() / 100.0));
-
-
-						//System.out.println(mp.getAudioSpectrumNumBands()+ " "+mp.getAudioSpectrumThreshold()+" "+mp.getAudioSpectrumInterval());
-//						if(volumeSlider.getValue()==0) {
-					//	System.out.println(volumeSlider.getValue());
-							mp.setVolume(volumeSlider.getValue() / 100.0);
-
-//						}
-						//System.out.println(mp.getVolume());
-						play jog=new play();
-					//	jog.play1();
-					//	jog.play();
-					//	jog.play();
-//						mp.play();
-//						mp.pause();
-
-					 //   mp.setRate(1.0);
-					   // mp.seek(Duration.ONE);
-					   // mp.play();
-
-					   // timeSlider.setValue(position);
-					   // System.out.println(position);
-
-				//	mp.play();
-
-									  }
-									  }
-						}.start();
-
-
-}
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 //This Gets The Album Art Location From AudioParser And Converts its To ByteArray then to Image
@@ -8206,16 +8182,8 @@ Service<Void> service_ = new Service<Void>(){
 
 
     			Song(song);
-    			trackMaster(song);
-    			//play(song);
-    			//trackMaster(oldValue);
-
-
-
-
-//			if (song!= null) {
-
-    			//Song(oldValue);
+    		//	trackMaster(song);
+    			play jog = new play(song,true);
 
 
     		listViewDex=Num;
@@ -8227,7 +8195,7 @@ Service<Void> service_ = new Service<Void>(){
 
 	}
 
-	void reverttoorginal(int rar){
+	synchronized void reverttoorginal(int rar){
 
 
 		Node nodejs=flows.getCell(rar).getNode();
@@ -8249,7 +8217,7 @@ Service<Void> service_ = new Service<Void>(){
 
 	}
 
-	void  onHighLight(int digiter) {
+	synchronized void onHighLight(int digiter) {
 		Node nodejss=flows.getCell(digiter).getNode();
 
 		 GridPane griddd = (GridPane) nodejss;
@@ -8270,7 +8238,7 @@ Service<Void> service_ = new Service<Void>(){
 
 	}
 	@FXML
-	public void nextone() {
+	synchronized public void nextone() {
 		String oldValue=null;
 		int number;
 		AudioParser ap =  null;
@@ -8326,9 +8294,10 @@ Service<Void> service_ = new Service<Void>(){
 			 oldValue = ap.fileLocationGet();
 			 current=oldValue;
 
-			 if(oldValue!= null) {
+			 if(oldValue!= null&& ap.nameGet() != "Album Header") {
 
 				try {
+
 				all_and(oldValue); System.gc();}
 				catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -8350,7 +8319,7 @@ Service<Void> service_ = new Service<Void>(){
 						 }
 						 oldValue= ap.fileLocationGet();
 						 current=oldValue;
-						if (oldValue!= null) {
+						if (oldValue!= null && ap.nameGet() != "Album Header") {
 
 							try {
 							all_and(oldValue); System.gc();}
@@ -8369,7 +8338,7 @@ Service<Void> service_ = new Service<Void>(){
 
 	int number;
 	@FXML
-	public void backone() {
+	synchronized public void backone() {
 		if(!filteredData.isEmpty()) {
 		String oldValue=null;
 		chokee();
@@ -8422,7 +8391,7 @@ Service<Void> service_ = new Service<Void>(){
 
 		 oldValue= ap.fileLocationGet();
 		 current=oldValue;
-		if(oldValue!= null) {
+		if(oldValue!= null && ap.nameGet() != "Album Header") {
 
 			try {
 			all_and(oldValue); System.gc();}
@@ -8441,12 +8410,7 @@ Service<Void> service_ = new Service<Void>(){
    public void onEnteteExit() {
 
 
-//		Button griddd = (Button) exit;
-//		  Platform.runLater(() -> {
-//			  griddd.setBackground(new Background(new BackgroundFill(Color.RED, CornerRadii.EMPTY,Insets.EMPTY)));
-//		      });
-//		@FXML
-//		private Button minimize;
+
 
 
    }
@@ -8458,6 +8422,9 @@ Service<Void> service_ = new Service<Void>(){
 		  Platform.runLater(() -> {
 
 			  System.out.println("Song View Minimized");
+		//	  System.out.println("MAYENZIWE IS BREAKING MY BONES");
+			  System.out.println("Max native mem = " + sun.misc.VM.maxDirectMemory());
+			  //-verbose:gc
 			  System.gc();
 			 // System.console();
 			  //System.
