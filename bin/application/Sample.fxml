@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.effect.BoxBlur?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.media.MediaView?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="home" cache="true" depthTest="ENABLE" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="658.0" minWidth="987.0" prefHeight="658.0" prefWidth="987.0" style="-fx-background-color: #282f32; -fx-background-radius: 16; -fx-border-radius: 15; -fx-border-color: #39FF9F; -fx-border-width: 1;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.SampleController">
+   <children>
+      <MediaView fx:id="mv" fitHeight="500.0" fitWidth="700.0" mouseTransparent="true" opacity="0.0" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <AnchorPane cacheShape="false" layoutX="5.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="700.0" style="-fx-border-radius: 0; " AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="283.0" AnchorPane.topAnchor="4.0">
+         <children>
+            <ScrollPane fx:id="rootPane" cacheHint="SPEED" cacheShape="false" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" hmax="0.0" layoutX="2.0" layoutY="5.0" maxHeight="-Infinity" maxWidth="-Infinity" pickOnBounds="false" prefHeight="650.0" prefViewportHeight="648.0" prefViewportWidth="663.0" prefWidth="690.0" style="-fx-background-color: #282f32; -fx-border-width: 0; -fx-border-radius: 15 0 0 15; -fx-background-radius: 15 0 0 15;" stylesheets="@application.css" vbarPolicy="NEVER" vmax="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         </children>
+      </AnchorPane>
+      <Button id="extra" cacheShape="false" focusTraversable="false" layoutX="784.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#actionPerformed" onMouseEntered="#onEnteteExit" prefHeight="25.0" prefWidth="17.0" rotate="90.0" style="-fx-background-radius: 40; -fx-background-insets: 3; -fx-border-color: #39FF9F; -fx-border-radius: 40; -fx-background-color: #39FF9F;" AnchorPane.rightAnchor="37.0" AnchorPane.topAnchor="0.0">
+         <effect>
+            <BoxBlur height="0.0" width="0.0" />
+         </effect>
+         <tooltip>
+            <Tooltip text="Exit" />
+         </tooltip>
+      </Button>
+      <Label fx:id="totalSngs" alignment="CENTER" cache="true" contentDisplay="CENTER" layoutX="671.0" layoutY="11.0" mouseTransparent="true" text="totalSongs" textFill="#837a7a" AnchorPane.rightAnchor="128.0" AnchorPane.topAnchor="11.0">
+         <font>
+            <Font name="Segoe UI Emoji" size="8.5" />
+         </font>
+      </Label>
+      <Button id="mimize" fx:id="minimize" alignment="CENTER" cacheShape="false" focusTraversable="false" layoutX="750.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#minimze" onMousePressed="#onEnteteMinize" prefHeight="25.0" prefWidth="17.0" rotate="90.0" style="-fx-background-radius: 40; -fx-background-insets: 3; -fx-border-color: #39FF9F; -fx-border-radius: 40; -fx-background-color: #39FF9F;" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="0.0">
+         <effect>
+            <BoxBlur height="0.0" width="0.0" />
+         </effect>
+         <tooltip>
+            <Tooltip autoHide="true" text="MiniMize" />
+         </tooltip>
+      </Button>
+      <TilePane fx:id="buttonbar" cacheShape="false" layoutX="676.0" layoutY="12.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="644.0" prefWidth="32.0" style="-fx-background-color: #282f32;" />
+      <Pane fx:id="panecut" layoutX="569.0" layoutY="26.0" prefHeight="624.0" prefWidth="258.0" style="-fx-background-color: linear-gradient(to top,amber,transparent ); -fx-background-radius: 12; -fx-border-radius: 12;" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="25.0">
+         <children>
+            <Pane layoutX="33.0" layoutY="14.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="162.0" prefWidth="183.0" style="-fx-background-radius: 16;">
+               <children>
+                        <AnchorPane layoutX="-13.0" layoutY="4.0" prefHeight="150.0" prefWidth="229.0">
+                     <children>
+                        <Button id="cornerbox1" alignment="CENTER" contentDisplay="CENTER" layoutX="47.0" layoutY="81.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="61.0" scaleShape="false" style="-fx-background-color: #39FF9F; -fx-background-radius: 16; -fx-border-radius: 16;" textFill="WHITE" visible="false">
+                           <effect>
+                              <BoxBlur />
+                           </effect>
+                        </Button>
+                        <Button id="cornerbox2" alignment="CENTER" contentDisplay="CENTER" layoutX="123.0" layoutY="81.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="61.0" scaleShape="false" style="-fx-background-color: #39FF9F; -fx-background-radius: 16; -fx-border-radius: 16;" textFill="WHITE" visible="false">
+                           <effect>
+                              <BoxBlur />
+                           </effect>
+                        </Button>
+                        <Button id="cornerbox3" alignment="CENTER" contentDisplay="CENTER" layoutX="123.0" layoutY="11.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="61.0" scaleShape="false" style="-fx-background-color: #39FF9F; -fx-background-radius: 16; -fx-border-radius: 16;" textFill="WHITE" visible="false">
+                           <effect>
+                              <BoxBlur />
+                           </effect>
+                        </Button>
+                        <Button id="cornerbox4" alignment="CENTER" contentDisplay="CENTER" layoutX="47.0" layoutY="11.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="61.0" scaleShape="false" style="-fx-background-color: #39FF9F; -fx-background-radius: 16; -fx-border-radius: 16;" textFill="WHITE" visible="false">
+                           <effect>
+                              <BoxBlur />
+                           </effect>
+                        </Button>
+                        <Button id="cornerbox1" fx:id="albumy" alignment="CENTER" contentDisplay="CENTER" layoutX="36.0" layoutY="81.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" prefHeight="59.0" prefWidth="61.0" scaleShape="false" style="-fx-background-color: #191D1F; -fx-background-radius: 16; -fx-border-radius: 16;" text="Playlist" textFill="WHITE">
+                           <font>
+                              <Font size="11.0" />
+                           </font>
+                           <effect>
+                              <DropShadow blurType="ONE_PASS_BOX" color="#1a1919" radius="7.775" width="12.1" />
+                           </effect></Button>
+                        <Button id="cornerbox2" alignment="CENTER" contentDisplay="CENTER" layoutX="112.0" layoutY="81.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onMouseClicked="#Artistadder" prefHeight="59.0" prefWidth="61.0" scaleShape="false" style="-fx-background-color: #191D1F; -fx-background-radius: 16; -fx-border-radius: 16;" text="Artists" textFill="WHITE">
+                           <font>
+                              <Font size="11.0" />
+                           </font>
+                           <effect>
+                              <DropShadow blurType="ONE_PASS_BOX" color="#1a1919" radius="7.775" width="12.1" />
+                           </effect></Button>
+                        <Button id="cornerbox3" alignment="CENTER" contentDisplay="CENTER" layoutX="112.0" layoutY="11.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onMouseClicked="#SongsView" prefHeight="59.0" prefWidth="61.0" scaleShape="false" style="-fx-background-color: #191D1F; -fx-background-radius: 16; -fx-border-radius: 16;" text="Songs" textFill="WHITE">
+                           <font>
+                              <Font size="11.0" />
+                           </font>
+                           <effect>
+                              <DropShadow blurType="ONE_PASS_BOX" color="#1a1919" height="16.55" radius="6.6625" width="12.1" />
+                           </effect></Button>
+                        <Button id="cornerbox4" alignment="CENTER" contentDisplay="CENTER" layoutX="36.0" layoutY="11.0" minHeight="32.0" minWidth="32.0" mnemonicParsing="false" onMouseClicked="#Albumadder" prefHeight="59.0" prefWidth="61.0" scaleShape="false" style="-fx-background-color: #191D1F; -fx-background-radius: 16; -fx-border-radius: 16;" text="Albums" textFill="WHITE">
+                           <font>
+                              <Font size="11.0" />
+                           </font>
+                           <effect>
+                              <DropShadow blurType="ONE_PASS_BOX" color="#1a1919" height="1.65" radius="0.0" width="0.0" />
+                           </effect></Button>
+                        <Button id="extra" fx:id="reset" layoutX="214.0" layoutY="140.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#rest" prefHeight="9.0" prefWidth="10.0" style="-fx-background-radius: 40; -fx-border-color: #39FF9F; -fx-border-radius: 40; -fx-background-color: #39FF9F;">
+                           <effect>
+                              <BoxBlur height="0.0" width="0.0" />
+                           </effect>
+                        </Button>
+                        <ImageView fx:id="searchimage" fitHeight="18.0" fitWidth="24.0" layoutX="-4.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Image/2_objects.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </Pane>
+            <Label fx:id="title" alignment="CENTER" layoutX="9.0" layoutY="438.0" maxWidth="249.0" minWidth="53.0" prefHeight="25.0" prefWidth="238.0" text="Track" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Gill Sans MT Bold" size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="album" alignment="CENTER" layoutX="9.0" layoutY="463.0" maxWidth="249.0" minWidth="53.0" prefHeight="17.0" prefWidth="238.0" text="Album" textAlignment="CENTER" textFill="#979797">
+               <font>
+                  <Font name="Gill Sans MT" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="artist" alignment="CENTER" layoutX="9.0" layoutY="413.0" maxWidth="287.0" minWidth="66.0" prefHeight="25.0" prefWidth="238.0" text="Artist" textAlignment="CENTER" textFill="WHITE" textOverrun="CLIP">
+               <font>
+                  <Font name="Gill Sans MT" size="18.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="image" cache="true" cacheHint="QUALITY" disable="true" fitHeight="190.0" fitWidth="190.0" layoutX="23.0" layoutY="202.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true" style="-fx-background-radius: 16; -fx-border-radius: 16;" visible="false">
+               <effect>
+                  <DropShadow height="24.0" radius="11.5" width="24.0" />
+               </effect>
+               <image>
+                  <Image url="@Image/A5.png" />
+               </image>
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+            </ImageView>
+            <Slider fx:id="volumeSlider" blockIncrement="15.0" cache="true" focusTraversable="false" layoutX="212.0" layoutY="539.0" majorTickUnit="20.0" minorTickCount="5" prefHeight="14.0" prefWidth="29.0" rotate="-90.0" snapToTicks="true" stylesheets="@application.css" value="50.0" />
+            <Slider fx:id="timeSlider" cacheShape="false" layoutX="43.0" layoutY="561.0" maxWidth="1.7976931348623157E308" prefHeight="14.0" prefWidth="168.0" scaleShape="false" styleClass="musicslider" stylesheets="@application.css">
+               <padding>
+                  <Insets left="4.0" right="4.0" />
+               </padding>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Slider>
+            <Label fx:id="playTime" alignment="CENTER" contentDisplay="CENTER" layoutX="30.0" layoutY="577.0" prefHeight="14.0" prefWidth="200.0" text="Time" textFill="#cfffcd">
+               <font>
+                  <Font size="9.0" />
+               </font>
+            </Label>
+            <Button fx:id="play" alignment="CENTER" cache="true" cacheShape="false" contentDisplay="CENTER" layoutX="102.0" layoutY="499.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#replacePlay" prefHeight="50.0" prefWidth="50.0" scaleShape="false" style="-fx-background-radius: 30; -fx-border-radius: 30; -fx-border-color: #191D1F; -fx-background-color: #191D1F; -fx-border-insets: -1;">
+               <effect>
+                  <DropShadow color="#1e1d1d" offsetY="2.0" />
+               </effect>
+               <tooltip>
+                  <Tooltip text="Play/Pause" />
+               </tooltip></Button>
+            <ListView fx:id="trackListView" cache="true" cacheHint="SPEED" fixedCellSize="0.0" layoutY="234.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="false" prefHeight="606.0" prefWidth="534.0" style="-fx-background-color: #191D1F;" visible="false">
+               <cursor>
+                  <Cursor fx:constant="DEFAULT" />
+               </cursor>
+            </ListView>
+            <ImageView fx:id="playB" cache="true" fitHeight="20.0" fitWidth="18.0" layoutX="122.0" layoutY="514.0" mouseTransparent="true" preserveRatio="true" style="-fx-background-repeat: no-repeat;">
+               <image>
+                  <Image url="@Image/Play.png" />
+               </image>
+            </ImageView>
+            <Button id="backMusic" fx:id="Blur" disable="true" layoutX="71.0" layoutY="513.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" rotate="-90.0" styleClass="backMusic" stylesheets="@application.css" text="blur" visible="false">
+               <effect>
+                  <Shadow blurType="ONE_PASS_BOX" color="#308056" height="30.28" radius="14.545" width="29.9" />
+               </effect>
+            </Button>
+            <Button id="frontMusic" fx:id="backward" cache="true" layoutX="65.0" layoutY="513.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#backward1" prefHeight="19.0" prefWidth="20.0" rotate="-90.0" style="-fx-background-color: #39FF9F; -fx-background-insets: 2;" styleClass="backMusic" stylesheets="@application.css" text="top1">
+               <effect>
+                  <DropShadow blurType="TWO_PASS_BOX" color="#3fa16e" />
+               </effect></Button>
+            <Button id="backMusic" fx:id="Blur2" disable="true" layoutX="174.0" layoutY="513.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="16.0" prefWidth="18.0" rotate="90.0" styleClass="backMusic" stylesheets="@application.css" text="blur" visible="false">
+               <effect>
+                  <Shadow blurType="ONE_PASS_BOX" color="#308056" height="29.99" radius="14.4725" width="29.9" />
+               </effect>
+            </Button>
+            <Button id="frontMusic" fx:id="forward" cache="true" layoutX="168.0" layoutY="513.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#forward1" prefHeight="19.0" prefWidth="20.0" rotate="90.0" style="-fx-background-color: #39FF9F; -fx-background-insets: 2;" styleClass="backMusic" stylesheets="@application.css" text="top1">
+               <effect>
+                  <DropShadow blurType="TWO_PASS_BOX" color="#3fa16e" />
+               </effect></Button>
+            <Text fx:id="songKhz" fill="#a19e9e" fontSmoothingType="LCD" layoutX="8.0" layoutY="615.0" strokeType="OUTSIDE" strokeWidth="0.0" text="320kbps">
+               <font>
+                  <Font size="9.0" />
+               </font>
+            </Text>
+            <Text fx:id="songChannel" cache="true" fill="#a19e9e" fontSmoothingType="LCD" layoutX="201.0" layoutY="615.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Joint Stereo" textAlignment="RIGHT">
+               <font>
+                  <Font size="9.0" />
+               </font>
+            </Text>
+            <ScrollPane fx:id="scrollt" cache="true" cacheHint="SPEED" fitToHeight="true" fitToWidth="true" focusTraversable="false" hbarPolicy="NEVER" layoutY="187.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pickOnBounds="false" prefHeight="218.0" prefWidth="258.0" style="-fx-background-color: transparent; -fx-background-radius: 0; -fx-border-radius: 0; -fx-border-color: transparent;" stylesheets="@application2.css" vbarPolicy="NEVER">
+               <cursor>
+                  <Cursor fx:constant="DISAPPEAR" />
+               </cursor>
+            </ScrollPane>
+            <ImageView fx:id="repeatB" fitHeight="28.0" fitWidth="20.0" layoutX="117.0" layoutY="597.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Image/oofRepeat.png" />
+               </image>
+               <viewport>
+                  <Rectangle2D width="20.0" />
+               </viewport>
+            </ImageView>
+            <Button fx:id="refresh" alignment="CENTER" layoutX="5.0" layoutY="-7.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#refreshButton" prefHeight="20.0" prefWidth="19.0" stylesheets="@application.css" />
+            <Button fx:id="addNewTrack" alignment="CENTER" layoutX="32.0" layoutY="-7.0" minWidth="24.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="24.0" stylesheets="@application.css" />
+            <ImageView fx:id="sorter" fitHeight="25.0" fitWidth="25.0" layoutX="-3.0" layoutY="32.0" onMouseClicked="#SORT">
+               <image>
+                  <Image url="@Image/sorter.png" />
+               </image>
+            </ImageView>
+         </children>
+         <effect>
+            <DropShadow blurType="GAUSSIAN" offsetY="2.0" />
+         </effect></Pane>
+   </children>
+   <cursor>
+      <Cursor fx:constant="DEFAULT" />
+   </cursor>
+</AnchorPane>

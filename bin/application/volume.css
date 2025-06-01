@@ -1,0 +1,22 @@
+.volumeSlider > .track{
+ -fx-background-color: #219297;
+ -fx-control-inner-background: palegreen;
+ -fx-pref-height:5;
+
+
+}
+.volumeSlider > .thumb{
+ -fx-background-color: #191D1F;
+ -fx-control-inner-background: palegreen;
+ -fx-pref-height:2;
+  -fx-pref-width:2;
+
+
+}
+.volumeSlider > .background{
+ -fx-background-color: #219297;
+ -fx-control-inner-background: palegreen;
+ -fx-pref-height:5;
+
+
+}

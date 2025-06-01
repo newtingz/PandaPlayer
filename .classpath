@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="src/application/Image/|build/|playlist/|target/classes/application/|target/classes/|src/application/|target/|src/" kind="src" path=""/>
+	<classpathentry excluding="Image/" kind="src" path="src"/>
+	<classpathentry exported="true" kind="lib" path="controlsfx-8.40.18.jar"/>
+	<classpathentry exported="true" kind="lib" path="flowless-0.6.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="jaudiotagger-2.0.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="metadata-extractor-2.6.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="mp3agic-0.9.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="reactfx-2.0-M5.jar"/>
+	<classpathentry exported="true" kind="lib" path="tika-core-1.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="tika-parsers-1.4.jar"/>
+	<classpathentry kind="con" path="org.eclipse.fx.ide.jdt.core.JAVAFX_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="jnativehook-2.1.0.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

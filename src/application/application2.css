@@ -1,0 +1,387 @@
+.progress-bar > .track {
+  -fx-text-box-border: #191D1F;/*forestgreen */
+  -fx-control-inner-background: #191D1F 100%;
+  -fx-background-radius: 2;
+}
+.progress-bar > .bar {
+    -fx-background-color:#39FF9F;
+
+    /*-fx-background-radius: 0.583em; *//* 7 */
+    -fx-background-radius: 2;
+    -fx-padding: 0.75em;
+}
+/* .progress-bar .track {
+
+     -fx-background-color:#191D1F;
+
+    -fx-background-insets:  0, 1;
+}*/
+
+
+#SonfName{
+
+	 -fx-text-fill: white;
+}
+#griddy{
+	 -fx-max-height: 49;
+	 -fx-hgap: 10;
+	 -fx-padding: 3;
+
+}
+#lowerText{
+	  -fx-text-fill: white;
+}
+#refreshd{
+
+	 -fx-background-image: url("C:\\Users\\blank\\ilix\\A5.png");
+    -fx-background-color: transparent ;
+    -fx-background-repeat: no-repeat;
+}
+
+
+.grid4{
+
+    -fx-border-radius: 4;
+	-fx-background-radius: 4;
+	-fx-background-color: #32393D;
+	/*-fx-border-color : #39FF9F;
+    -fx-border-width : 1;
+    -fx-border-radius: 4;*/
+    -fx-font: 10px  "Arial " ;
+}
+
+
+
+.popover > .content > .title > .text  {
+    -fx-background-color: transparent;
+}
+.my-text {
+    -fx-fill: grey;
+    -fx-font: 11px  "Arial " ;
+}
+.my-text2 {
+
+
+     -fx-background-color: #191D1F;
+}
+.popover > .border {
+    -fx-fill:  #191D1F;
+}
+.popover > .content > .label  {
+    -fx-text-fill: white;
+}
+
+.scroll-pane > .viewport {
+   -fx-background-color: transparent;
+    -fx-background-radius: 0;
+}
+.list-view:horizontal .track {
+   -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-padding: -8px;
+    -fx-opacity:0.0 ;
+}
+.list-view:horizontal .thumb {
+    -fx-background-color :derive(black,90.0%);
+    -fx-background-insets : 4.0, 0.0, 0.0;
+    -fx-background-radius : 2.0em;
+}
+.list-view:horizontal .thumb:hover {
+    -fx-background-color :derive(#4D4C4F,10.0%);
+    -fx-background-insets : 4.2, 0.0, 0.0;
+    -fx-background-radius : 2.0em;
+}
+
+.list-cell:empty {
+    visibility:hidden;
+}
+.Listview {
+-fx-background-radius : 3;
+-fx-background-color : #39FF9F ;
+-fx-border-color : #191D1F;
+-fx-border-width : 0;
+-fx-background-radius : 3;
+}
+.Listviewh{
+
+-fx-background-color : transparent ;
+
+}
+.list-view > .viewport {
+   -fx-background-color: transparent;
+}
+.list-view:horizontal .track {
+   -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-padding: -8px;
+    -fx-opacity:0.0 ;
+}
+.Listview2 {
+-fx-background-radius : 3;
+-fx-background-color :  #191D1F;
+-fx-border-color : #39FF9F;
+-fx-border-width : 0;
+-fx-border-radius : 3;
+}
+
+/*
+.list-cell{ /* <=== changed to even
+	-fx-text-fill: white;
+       // -fx-font-size: 8;
+	-fx-background-color: #191D1F;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
+    -fx-padding: 0px;
+}*/
+
+
+
+.list-view {
+     -fx-background-color:transparent;
+
+}
+
+
+.scroll-pane .scroll-bar:horizontal {
+    -fx-unit-increment: 2000 ;
+    -fx-block-increment: 2000 ;
+}
+.list-view .scroll-bar:horizontal .thumb {
+    -fx-background-color :derive(black,90.0%);
+    -fx-background-insets : 4.0, 0.0, 0.0;
+    -fx-background-radius : 2.0em;
+}
+
+.list-view .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-padding: -8px;
+
+    -fx-opacity:0.0 ;
+
+}
+.list-view .scroll-bar:horizontal {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 0em;
+    -fx-padding: -8px;
+
+    -fx-opacity:0.0 ;
+
+}
+.scroll-bar:vertical .track-background,
+.scroll-bar:horizontal .track-background {
+ -fx-background-color: transparent;
+ -fx-background-insets: 0;
+ -fx-background-radius: 2em;
+-fx-padding: -8px;
+  -fx-opacity:0.0 ;
+
+}
+
+
+
+.scroll-bar:horizontal .increment-button ,
+.scroll-bar:horizontal .decrement-button {
+    -fx-background-color :transparent;
+    -fx-background-radius : 0.0em;
+    -fx-padding :0.0 0.0 10.0 0.0;
+
+}
+
+.scroll-bar:vertical .increment-button ,
+.scroll-bar:vertical .decrement-button {
+    -fx-background-color :transparent;
+    -fx-background-radius : 0.0em;
+    -fx-padding :0.0 10.0 0.0 0.0;
+
+}
+
+
+ .scroll-bar:vertical .increment-arrow,
+ .scroll-bar:vertical .decrement-arrow{
+    -fx-shape : " ";
+    -fx-padding :0.0 0.15em;
+}
+
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color :derive(black,90.0%);
+    -fx-background-insets : 4.0, 0.0, 0.0;
+    -fx-background-radius : 2.0em;
+}
+
+
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color :derive(#4D4C4F,10.0%);
+    -fx-background-insets : 4.2, 0.0, 0.0;
+    -fx-background-radius : 2.0em;
+}
+
+/* .list-cell:filled:selected {
+    -fx-text-fill: #0F555B;
+}*/
+
+
+
+.list-cell:filled:hover {
+    -fx-background-color:  #32393D;
+    -fx-text-fill: white
+}
+.list-cell:filled:selected
+ {
+    -fx-background-color: #1EB7AA 100%;
+    -fx-text-fill: white;
+    /*-fx-text-fill: blue;*/
+}
+
+.list-cell:filled:selected:focused{
+    /*-fx-background-color: linear-gradient(#1F201F 0%,#27CEA6 5% ,#39FF9F 25%, #39FF9F 75%,#27CEA6 95% ,#191D1F 100% );*/
+    -fx-background-color: #39FF9F;
+    -fx-text-fill: white;
+    /*-fx-text-fill: blue;*/
+}
+/* .list-cell {
+    -fx-padding: 0px;
+}*/
+#allbttn {
+      -fx-background-color: #39FF9F 100%;
+      -fx-border-color: null;
+    -fx-text-fill: grey;
+	-fx-font-weight: bold ;
+	-fx-font: 11px "Arial "
+
+
+
+
+}
+#bar{
+      -fx-background-color: #191D1F 100%;
+    /*-fx-border-color: black;*/
+
+
+
+
+
+}
+
+.songname {
+
+	-fx-text-fill: white;
+	-fx-font-weight: bold ;
+	-fx-font: 11px "Arial "
+}
+.songname2 {
+
+	-fx-text-fill:whitesmoke ;
+	-fx-font: 10px "Arial";
+}
+
+
+
+.GridPane4{
+
+	-fx-font-size: 8;
+	-fx-text-fill:white;
+
+
+}
+
+Songname {
+ -fx-text-fill:white;
+    -fx-font-size: 2;
+    -fx-font-weight: bold;
+}
+
+
+.songImg {
+    -fx-text-fill:white;
+    -fx-effect: dropshadow( three-pass-box, rgba(0,0,0,0.4), 3, 0.0, 1, 1);
+}
+
+.moredetails{
+    -fx-text-fill:white;
+}
+
+.musicslider .track{
+ -fx-background-color:  #39FF9F;
+ -fx-control-inner-background: palegreen;
+ -fx-pref-height:5;
+
+}
+
+.musicslider .thumb {
+
+    -fx-pref-height: 10;
+    -fx-pref-width: 10;
+
+   /*  -fx-background-color:transparent;*/
+}
+
+
+.volumeSlider .track{
+ -fx-background-color: #219297;
+ -fx-control-inner-background: palegreen;
+ -fx-pref-height:5;
+
+
+}
+
+
+#addNewTrack{
+	-fx-background-image: url("Image/62_objects.png");
+    -fx-background-color: transparent ;
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: contain ;
+    -fx-background-repeat: no-repeat;}
+
+.playy {
+	-fx-background-image: url("Image/Play.png");
+    -fx-background-color: transparent ;
+    -fx-background-repeat: no-repeat;
+}
+.pause {
+	-fx-background-image: url("Image/pause.png");
+    -fx-background-color: transparent ;
+    -fx-background-repeat: no-repeat;
+}
+
+.backMusic{
+	-fx-shape: "M 0,1 L 1,1 .5,0 Z";
+    -fx-background-color: -fx-body-color;
+    -fx-background-radius: 5;
+    -fx-border-color: null;
+
+}
+.options{
+	 -fx-background-image: url("Image/options.png");
+    -fx-background-color: transparent ;
+    -fx-background-repeat: no-repeat;
+
+}
+
+#caspian.demo-control {
+	-fx-shape: "M 0,1 L 1,1 .5,0 Z";
+    -fx-background-color: -fx-body-color;
+    -fx-background-radius: 5;
+    -fx-border-color: null;
+}
+#refresh{
+
+	 -fx-background-image: url("Image/refresh.png");
+    -fx-background-color: transparent ;
+    -fx-background-repeat: no-repeat;
+}
+
+/* #play {
+	-fx-background-image: url("Image/playbuttoninstance.png");
+	-fx-background-color: transparent ;
+	-fx-background-repeat: no-repeat;
+	-fx-border-color: transparent ;
+
+}*/
+
+
+
